@@ -1,33 +1,629 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import site from "../../data/site.json";
-import LeadForm from "../../components/LeadForm.astro";
 ---
 
-<BaseLayout title={`Калькулятор — ${site.company.name}`} description="Быстрый запрос расчёта по фасадным металлокассетам.">
-  <div class="grid cols-2">
-    <section class="surface card">
-      <div class="kicker">Калькулятор</div>
-      <h1 class="h1" style="margin-top: 8px">Быстрый расчёт</h1>
-      <p class="muted" style="margin-top: 10px">
-        Сейчас это быстрый сценарий: оставляете телефон — мы перезвоним и уточним параметры, чтобы выполнить расчёт корректно (ветровые нагрузки, узлы, формат кассет).
-      </p>
-      <ul class="muted" style="margin-top: 10px">
-        <li>тип объекта / адрес строительства</li>
-        <li>этажность / отметки</li>
-        <li>раскладка / форматы кассет (если есть)</li>
-      </ul>
-    </section>
+<BaseLayout title={`Калькулятор стоимости — ${site.company.name}`} description="Рассчитайте ориентировочную стоимость фасадных металлокассет онлайн. Площадь, тип, толщина, покрытие — результат мгновенно.">
 
-    <section class="surface card">
-      <div class="h2">Оставить телефон</div>
-      <div style="margin-top: 12px">
-        <LeadForm type="Расчёт" context="Калькулятор" variant="phoneOnly" />
+  <nav class="calc-breadcrumbs">
+    <a href="/">Главная</a>
+    <span>/</span>
+    <span>Калькулятор</span>
+  </nav>
+
+  <section class="calc-hero">
+    <div class="calc-hero-inner">
+      <h1>Калькулятор стоимости</h1>
+      <p>Рассчитайте ориентировочную стоимость фасадных металлокассет. Укажите параметры — результат мгновенно.</p>
+    </div>
+  </section>
+
+  <section class="calc-main">
+    <div class="calc-layout">
+
+      <!-- LEFT: INPUTS -->
+      <div class="calc-inputs">
+        <h2>Параметры</h2>
+
+        <div class="calc-field">
+          <label for="calcArea">Площадь фасада, м²</label>
+          <input type="number" id="calcArea" min="1" max="100000" value="500" step="10" class="calc-input" />
+          <span class="calc-hint">Общая площадь облицовки</span>
+        </div>
+
+        <div class="calc-field">
+          <label>Тип крепления</label>
+          <div class="calc-radio-group" id="calcType">
+            <label class="calc-radio active" data-value="open">
+              <input type="radio" name="calcType" value="open" checked />
+              <span class="calc-radio-box">
+                <strong>Открытый</strong>
+                <small>Видимое крепление, экономичный</small>
+              </span>
+            </label>
+            <label class="calc-radio" data-value="closed">
+              <input type="radio" name="calcType" value="closed" />
+              <span class="calc-radio-box">
+                <strong>Закрытый</strong>
+                <small>Скрытый крепёж, премиальный</small>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="calc-field">
+          <label for="calcThickness">Толщина металла</label>
+          <select id="calcThickness" class="calc-select">
+            <option value="0.45" data-open="790" data-closed="">0.45 мм</option>
+            <option value="0.5" data-open="890" data-closed="">0.5 мм</option>
+            <option value="0.7" selected data-open="1090" data-closed="1190">0.7 мм</option>
+            <option value="1.0" data-open="1390" data-closed="1490">1.0 мм</option>
+            <option value="1.2" data-open="1690" data-closed="1790">1.2 мм</option>
+            <option value="1.5" data-open="" data-closed="2090">1.5 мм</option>
+          </select>
+        </div>
+
+        <div class="calc-field">
+          <label for="calcCoating">Покрытие</label>
+          <select id="calcCoating" class="calc-select">
+            <option value="pe" data-mult="1.0">Полиэстер (стандарт)</option>
+            <option value="powder" data-mult="1.08">Порошковая окраска</option>
+            <option value="pvdf" data-mult="1.25">PVDF (премиум)</option>
+            <option value="hdp" data-mult="1.35">HDP (максимальная стойкость)</option>
+          </select>
+        </div>
+
+        <div class="calc-field">
+          <label for="calcColor">Цвет</label>
+          <select id="calcColor" class="calc-select">
+            <option value="standard">Стандартный RAL (в наличии)</option>
+            <option value="custom">Нестандартный RAL (под заказ, +5%)</option>
+            <option value="texture">Текстура (дерево/камень, +15%)</option>
+          </select>
+        </div>
+
+        <div class="calc-field">
+          <label class="calc-checkbox-label">
+            <input type="checkbox" id="calcSubsystem" />
+            <span>Добавить подсистему (кронштейны + направляющие)</span>
+          </label>
+        </div>
       </div>
-      <p class="muted" style="margin-top: 10px">
-        Нужна полная форма? <a href="/zayavka/">Перейти к заявке</a>.
-      </p>
-    </section>
-  </div>
+
+      <!-- RIGHT: RESULT -->
+      <div class="calc-result-panel">
+        <div class="calc-result-sticky">
+          <h2>Результат расчёта</h2>
+
+          <div class="calc-result-card">
+            <div class="calc-result-row">
+              <span>Площадь</span>
+              <strong id="resArea">500 м²</strong>
+            </div>
+            <div class="calc-result-row">
+              <span>Тип</span>
+              <strong id="resType">Открытый</strong>
+            </div>
+            <div class="calc-result-row">
+              <span>Толщина</span>
+              <strong id="resThickness">0.7 мм</strong>
+            </div>
+            <div class="calc-result-row">
+              <span>Покрытие</span>
+              <strong id="resCoating">Полиэстер</strong>
+            </div>
+            <div class="calc-result-row">
+              <span>Цвет</span>
+              <strong id="resColor">Стандартный RAL</strong>
+            </div>
+            <div class="calc-result-divider"></div>
+            <div class="calc-result-row">
+              <span>Цена за м²</span>
+              <strong id="resPriceM2" class="calc-accent">1 090 ₽</strong>
+            </div>
+            <div class="calc-result-row calc-result-sub" id="resSubsystemRow" style="display:none">
+              <span>Подсистема за м²</span>
+              <strong id="resSubPrice">+ 450 ₽</strong>
+            </div>
+            <div class="calc-result-divider"></div>
+            <div class="calc-result-total">
+              <span>Итого ориентировочно</span>
+              <strong id="resTotal">545 000 ₽</strong>
+            </div>
+          </div>
+
+          <p class="calc-disclaimer">* Расчёт носит информационный характер и не является публичной офертой. Точная стоимость зависит от объёма, сроков и технических условий объекта.</p>
+
+          <div class="calc-result-actions">
+            <button type="button" class="calc-btn-primary" id="calcSendBtn">Получить точный расчёт</button>
+            <a href="/kontakty/" class="calc-btn-ghost">Позвонить</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- LEAD FORM (hidden, shown on button click) -->
+  <section class="calc-form-section" id="calcFormSection" style="display:none">
+    <div class="calc-form-block">
+      <h2>Получить точный расчёт</h2>
+      <p>Мы подготовим детальное коммерческое предложение с учётом параметров вашего объекта за 1–3 рабочих дня.</p>
+      <form id="calcLeadForm">
+        <input type="hidden" name="type" value="Калькулятор" />
+        <input type="hidden" name="context" id="calcContext" value="" />
+        <div class="calc-form-grid">
+          <div class="calc-form-field">
+            <label>Имя</label>
+            <input type="text" name="name" placeholder="Ваше имя" class="calc-input" autocomplete="name" />
+          </div>
+          <div class="calc-form-field">
+            <label>Компания</label>
+            <input type="text" name="company" placeholder="Название компании" class="calc-input" />
+          </div>
+          <div class="calc-form-field">
+            <label>Телефон *</label>
+            <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" class="calc-input" required autocomplete="tel" />
+          </div>
+          <div class="calc-form-field">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="email@company.ru" class="calc-input" autocomplete="email" />
+          </div>
+        </div>
+        <div class="calc-form-field" style="margin-top:12px">
+          <label>Комментарий</label>
+          <textarea name="message" rows="3" placeholder="Адрес объекта, этажность, особые требования..." class="calc-input calc-textarea"></textarea>
+        </div>
+        <button type="submit" class="calc-btn-primary" style="margin-top:16px; width:100%">Отправить заявку</button>
+        <p class="calc-form-privacy">Нажимая кнопку, вы соглашаетесь с <a href="/politika-konfidencialnosti/">политикой конфиденциальности</a></p>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    const areaInput = document.getElementById('calcArea') as HTMLInputElement;
+    const typeRadios = document.querySelectorAll('input[name="calcType"]');
+    const thicknessSelect = document.getElementById('calcThickness') as HTMLSelectElement;
+    const coatingSelect = document.getElementById('calcCoating') as HTMLSelectElement;
+    const colorSelect = document.getElementById('calcColor') as HTMLSelectElement;
+    const subsystemCheck = document.getElementById('calcSubsystem') as HTMLInputElement;
+
+    const resArea = document.getElementById('resArea')!;
+    const resType = document.getElementById('resType')!;
+    const resThickness = document.getElementById('resThickness')!;
+    const resCoating = document.getElementById('resCoating')!;
+    const resColor = document.getElementById('resColor')!;
+    const resPriceM2 = document.getElementById('resPriceM2')!;
+    const resSubRow = document.getElementById('resSubsystemRow')!;
+    const resSubPrice = document.getElementById('resSubPrice')!;
+    const resTotal = document.getElementById('resTotal')!;
+    const calcContext = document.getElementById('calcContext') as HTMLInputElement;
+
+    const SUBSYSTEM_PRICE = 450;
+
+    function fmt(n: number): string {
+      return n.toLocaleString('ru-RU');
+    }
+
+    function getType(): string {
+      const checked = document.querySelector('input[name="calcType"]:checked') as HTMLInputElement;
+      return checked?.value || 'open';
+    }
+
+    function calculate() {
+      const area = Math.max(1, Number(areaInput.value) || 0);
+      const type = getType();
+      const typeName = type === 'open' ? 'Открытый' : 'Закрытый';
+
+      const opt = thicknessSelect.options[thicknessSelect.selectedIndex];
+      const basePrice = Number(opt.getAttribute(type === 'open' ? 'data-open' : 'data-closed')) || 0;
+      const thickness = opt.text;
+
+      const coatingOpt = coatingSelect.options[coatingSelect.selectedIndex];
+      const coatingMult = Number(coatingOpt.getAttribute('data-mult')) || 1;
+      const coatingName = coatingOpt.text.replace(/\s*\(.*\)/, '');
+
+      const colorOpt = colorSelect.options[colorSelect.selectedIndex];
+      const colorName = colorOpt.text.replace(/\s*\(.*\)/, '');
+      let colorMult = 1;
+      if (colorSelect.value === 'custom') colorMult = 1.05;
+      if (colorSelect.value === 'texture') colorMult = 1.15;
+
+      const addSub = subsystemCheck.checked;
+
+      if (basePrice === 0) {
+        resPriceM2.textContent = '—';
+        resTotal.textContent = 'Выберите другую толщину';
+        resArea.textContent = `${fmt(area)} м²`;
+        resType.textContent = typeName;
+        resThickness.textContent = thickness;
+        resCoating.textContent = coatingName;
+        resColor.textContent = colorName;
+        resSubRow.style.display = addSub ? '' : 'none';
+        return;
+      }
+
+      const priceM2 = Math.round(basePrice * coatingMult * colorMult);
+      const subTotal = addSub ? SUBSYSTEM_PRICE : 0;
+      const totalM2 = priceM2 + subTotal;
+      const total = totalM2 * area;
+
+      resArea.textContent = `${fmt(area)} м²`;
+      resType.textContent = typeName;
+      resThickness.textContent = thickness;
+      resCoating.textContent = coatingName;
+      resColor.textContent = colorName;
+      resPriceM2.textContent = `${fmt(priceM2)} ₽`;
+      resSubRow.style.display = addSub ? '' : 'none';
+      resSubPrice.textContent = `+ ${fmt(SUBSYSTEM_PRICE)} ₽`;
+      resTotal.textContent = `${fmt(total)} ₽`;
+
+      calcContext.value = `Площадь: ${area} м², Тип: ${typeName}, Толщина: ${thickness}, Покрытие: ${coatingName}, Цвет: ${colorName}, Подсистема: ${addSub ? 'да' : 'нет'}, Цена/м²: ${priceM2} ₽, Итого: ${fmt(total)} ₽`;
+
+      // Update radio visuals
+      document.querySelectorAll('.calc-radio').forEach(r => {
+        const inp = r.querySelector('input') as HTMLInputElement;
+        r.classList.toggle('active', inp.checked);
+      });
+
+      // Disable unavailable thicknesses
+      Array.from(thicknessSelect.options).forEach(o => {
+        const v = Number(o.getAttribute(type === 'open' ? 'data-open' : 'data-closed')) || 0;
+        o.disabled = v === 0;
+        if (o.selected && v === 0) {
+          // auto-select first available
+          const first = Array.from(thicknessSelect.options).find(x => {
+            return (Number(x.getAttribute(type === 'open' ? 'data-open' : 'data-closed')) || 0) > 0;
+          });
+          if (first) {
+            first.selected = true;
+            calculate();
+          }
+        }
+      });
+    }
+
+    [areaInput].forEach(el => el.addEventListener('input', calculate));
+    typeRadios.forEach(r => r.addEventListener('change', calculate));
+    [thicknessSelect, coatingSelect, colorSelect].forEach(el => el.addEventListener('change', calculate));
+    subsystemCheck.addEventListener('change', calculate);
+
+    // Send button
+    const sendBtn = document.getElementById('calcSendBtn');
+    const formSection = document.getElementById('calcFormSection');
+    sendBtn?.addEventListener('click', () => {
+      if (formSection) {
+        formSection.style.display = '';
+        formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+
+    calculate();
+  </script>
+
 </BaseLayout>
 
+<style>
+  .calc-breadcrumbs {
+    display: flex;
+    gap: 8px;
+    font-size: 13px;
+    color: #94a3b8;
+    margin-bottom: 24px;
+  }
+  .calc-breadcrumbs a {
+    color: #64748b;
+    text-decoration: none;
+  }
+  .calc-breadcrumbs a:hover { color: #b91c1c; }
+
+  .calc-hero {
+    background: linear-gradient(135deg, #1a0505 0%, #7f1d1d 100%);
+    border-radius: 20px;
+    padding: 48px 40px;
+    margin-bottom: 40px;
+    color: #fff;
+  }
+  .calc-hero h1 {
+    font-size: 36px;
+    font-weight: 800;
+    margin: 0 0 12px;
+    letter-spacing: -0.02em;
+  }
+  .calc-hero p {
+    font-size: 16px;
+    color: rgba(255,255,255,0.75);
+    margin: 0;
+    max-width: 600px;
+    line-height: 1.6;
+  }
+
+  .calc-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .calc-inputs h2,
+  .calc-result-panel h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 24px;
+    color: #1e293b;
+  }
+
+  .calc-field {
+    margin-bottom: 20px;
+  }
+  .calc-field > label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 8px;
+  }
+  .calc-hint {
+    display: block;
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 4px;
+  }
+
+  .calc-input, .calc-select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+    background: #fff;
+  }
+  .calc-input:focus, .calc-select:focus {
+    border-color: #b91c1c;
+  }
+  .calc-textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .calc-radio-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .calc-radio {
+    cursor: pointer;
+  }
+  .calc-radio input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .calc-radio-box {
+    display: block;
+    padding: 14px 16px;
+    border: 2px solid rgba(0,0,0,0.1);
+    border-radius: 12px;
+    transition: all 0.15s;
+  }
+  .calc-radio-box strong {
+    display: block;
+    font-size: 15px;
+    color: #1e293b;
+    margin-bottom: 2px;
+  }
+  .calc-radio-box small {
+    font-size: 12px;
+    color: #94a3b8;
+  }
+  .calc-radio.active .calc-radio-box {
+    border-color: #b91c1c;
+    background: #fef2f2;
+  }
+  .calc-radio.active .calc-radio-box strong {
+    color: #b91c1c;
+  }
+
+  .calc-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #475569;
+    cursor: pointer;
+  }
+  .calc-checkbox-label input {
+    width: 18px;
+    height: 18px;
+    accent-color: #b91c1c;
+  }
+
+  /* RESULT PANEL */
+  .calc-result-sticky {
+    position: sticky;
+    top: 24px;
+  }
+  .calc-result-card {
+    background: #f8fafc;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .calc-result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 14px;
+  }
+  .calc-result-row span {
+    color: #64748b;
+  }
+  .calc-result-row strong {
+    color: #1e293b;
+    font-weight: 600;
+  }
+  .calc-result-sub strong {
+    color: #64748b;
+    font-size: 13px;
+  }
+  .calc-accent {
+    color: #b91c1c !important;
+    font-weight: 700 !important;
+  }
+  .calc-result-divider {
+    height: 1px;
+    background: rgba(0,0,0,0.08);
+    margin: 8px 0;
+  }
+  .calc-result-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0 4px;
+  }
+  .calc-result-total span {
+    font-size: 14px;
+    color: #64748b;
+  }
+  .calc-result-total strong {
+    font-size: 24px;
+    font-weight: 800;
+    color: #b91c1c;
+  }
+
+  .calc-disclaimer {
+    font-size: 11px;
+    color: #94a3b8;
+    margin: 16px 0;
+    line-height: 1.6;
+  }
+
+  .calc-result-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .calc-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 24px;
+    border-radius: 12px;
+    background: #b91c1c;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    text-decoration: none !important;
+    font-family: inherit;
+    transition: background 0.2s;
+  }
+  .calc-btn-primary:hover {
+    background: #991b1b;
+  }
+  .calc-btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 24px;
+    border-radius: 12px;
+    background: transparent;
+    color: #1e293b;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid rgba(0,0,0,0.12);
+    cursor: pointer;
+    text-decoration: none !important;
+    transition: border-color 0.2s;
+  }
+  .calc-btn-ghost:hover {
+    border-color: #b91c1c;
+    color: #b91c1c;
+  }
+
+  /* FORM SECTION */
+  .calc-form-section {
+    margin-top: 48px;
+    margin-bottom: 24px;
+  }
+  .calc-form-block {
+    background: #f8fafc;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 20px;
+    padding: 40px;
+  }
+  .calc-form-block h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 8px;
+  }
+  .calc-form-block > p {
+    color: #64748b;
+    margin: 0 0 24px;
+    font-size: 15px;
+  }
+  .calc-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .calc-form-field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 6px;
+  }
+  .calc-form-privacy {
+    font-size: 12px;
+    color: #94a3b8;
+    margin: 12px 0 0;
+    text-align: center;
+  }
+  .calc-form-privacy a {
+    color: #b91c1c;
+    text-decoration: none;
+  }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    .calc-layout {
+      grid-template-columns: 1fr;
+    }
+    .calc-result-sticky {
+      position: static;
+    }
+    .calc-hero {
+      padding: 32px 24px;
+    }
+    .calc-hero h1 {
+      font-size: 28px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .calc-hero {
+      padding: 24px 16px;
+      border-radius: 14px;
+    }
+    .calc-hero h1 {
+      font-size: 24px;
+    }
+    .calc-radio-group {
+      grid-template-columns: 1fr;
+    }
+    .calc-form-grid {
+      grid-template-columns: 1fr;
+    }
+    .calc-form-block {
+      padding: 24px;
+    }
+  }
+</style>

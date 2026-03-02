@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import site from "../data/site.json";
-import LeadForm from "../components/LeadForm.astro";
 
 type Slide = {
 	title: string;
@@ -14,163 +13,329 @@ type Slide = {
 
 const slides = (site.media.heroSlides as Slide[]) ?? [];
 const home = site.home;
+const productGroups = (site.menus?.productGroups as any[]) ?? [];
 ---
 
 <BaseLayout title={site.seo.defaultTitle} description={site.seo.defaultDescription}>
-	<section class="fullbleed">
+
+	<!-- HERO SLIDER -->
+	<section class="hp-slider-section fullbleed">
+		<div class="hp-slider" id="hpSlider">
+			<div class="hp-slides" id="hpSlides">
+				{slides.map((s, idx) => (
+					<div class="hp-slide" data-idx={idx}>
+						<img src={s.image} alt={s.title} loading={idx === 0 ? "eager" : "lazy"} />
+						<div class="hp-slide-overlay"></div>
+						<div class="container hp-slide-content">
+							<span class="hp-slide-kicker">{site.company.region.baseCity} · B2B · по всей РФ</span>
+							<h2 class="hp-slide-title">{s.title}</h2>
+							<p class="hp-slide-subtitle">{s.subtitle}</p>
+							<ul class="hp-slide-bullets">
+								{s.bullets.map((b) => (
+									<li>{b}</li>
+								))}
+							</ul>
+							<div class="hp-slide-actions">
+								<a class="hp-btn hp-btn-primary" href={s.href}>{s.cta}</a>
+								<a class="hp-btn hp-btn-outline" href="/kontakty/">Консультация</a>
+							</div>
+						</div>
+					</div>
+				))}
+			</div>
+			<div class="hp-slider-nav">
+				<button type="button" class="hp-arrow" id="hpPrev" aria-label="Назад">
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+				</button>
+				<div class="hp-dots" id="hpDots">
+					{slides.map((_, idx) => (
+						<button type="button" class={`hp-dot ${idx === 0 ? 'active' : ''}`} data-dot={idx} aria-label={`Слайд ${idx + 1}`}></button>
+					))}
+				</div>
+				<button type="button" class="hp-arrow" id="hpNext" aria-label="Вперёд">
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+				</button>
+			</div>
+		</div>
+	</section>
+
+	<!-- ABOUT -->
+	<section class="hp-section">
+		<div class="hp-section-header">
+			<h2>{site.company.name} — проектирование и производство фасадных решений</h2>
+			<p class="hp-muted">Собственное производство рядом с Екатеринбургом. Работаем с застройщиками, подрядчиками и архитекторами.</p>
+		</div>
+		<div class="hp-about-grid">
+			<div class="hp-about-text">
+				<p>{site.company.about}</p>
+				<p><strong>Миссия:</strong> {home.mission}</p>
+				<div class="hp-about-actions">
+					<a class="hp-btn hp-btn-primary" href="/kalkulyator/">Рассчитать стоимость</a>
+					<a class="hp-btn hp-btn-ghost" href="/kompaniya/">О компании</a>
+				</div>
+			</div>
+			<div class="hp-about-stats">
+				<div class="hp-stat">
+					<span class="hp-stat-num">50+</span>
+					<span class="hp-stat-label">реализованных объектов</span>
+				</div>
+				<div class="hp-stat">
+					<span class="hp-stat-num">25+</span>
+					<span class="hp-stat-label">лет срок службы</span>
+				</div>
+				<div class="hp-stat">
+					<span class="hp-stat-num">RAL</span>
+					<span class="hp-stat-label">любой цвет</span>
+				</div>
+				<div class="hp-stat">
+					<span class="hp-stat-num">РФ</span>
+					<span class="hp-stat-label">доставка по России</span>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- PRODUCTS CATALOG -->
+	<section class="hp-section hp-products-section fullbleed">
 		<div class="container">
-			<section class="slider" aria-label="Витрина">
-				<div class="slides" id="slides">
-					<div class="slides-inner" id="slidesInner">
-						{slides.map((s, idx) => (
-							<section class="slide" id={`slide-${idx + 1}`}>
-								<img src={s.image} alt={s.title} loading={idx === 0 ? "eager" : "lazy"} />
-								<div class="content">
-									<div class="kicker">{site.company.region.baseCity} · работа по РФ · B2B</div>
-									<h1 class="h1" style="margin-top: 10px">{s.title}</h1>
-									<p class="muted" style="margin-top: 10px">{s.subtitle}</p>
-									<ul class="muted" style="margin-top: 12px">
-										{s.bullets.map((b) => (
-											<li>{b}</li>
-										))}
-									</ul>
-									<div style="display:flex; flex-wrap:wrap; gap:10px; margin-top: 14px">
-										<a class="btn primary" href={s.href}>{s.cta}</a>
-										<a class="btn ghost" href="/katalog/">Скачать каталог</a>
-										<a class="btn ghost" href="/#callback">Заказать звонок</a>
-									</div>
-								</div>
-							</section>
-						))}
-					</div>
-				</div>
-				<div class="slider-controls" aria-label="Управление слайдером">
-					<button class="arrow" type="button" id="prevSlide" aria-label="Предыдущий слайд">‹</button>
-					<button class="arrow" type="button" id="nextSlide" aria-label="Следующий слайд">›</button>
-				</div>
-			</section>
-		</div>
-	</section>
-
-	<section class="section">
-		<div class="h2">{site.company.name} — проектирование и производство фасадных решений</div>
-		<div class="grid cols-2" style="margin-top: 12px">
-			<div class="prose">
-				<p class="muted">{site.company.about}</p>
-				<p class="muted"><strong>Миссия:</strong> {home.mission}</p>
-				<ul class="muted">
-					<li>фасадные металлокассеты (открытый/закрытый тип)</li>
-					<li>комплект документации и поддержка проектирования</li>
-					<li>сертификаты и материалы для согласований</li>
-				</ul>
-				<div style="display:flex; flex-wrap:wrap; gap:10px; margin-top: 10px">
-					<a class="btn primary" href="/kalkulyator/">Калькулятор</a>
-					<a class="btn ghost" href="/obekty/">Проекты</a>
-					<a class="btn ghost" href="/tehnicheskij-razdel/">Технический раздел</a>
-				</div>
+			<div class="hp-section-header">
+				<h2>Продукция</h2>
+				<p class="hp-muted">Полный спектр фасадных и металлических изделий</p>
 			</div>
-			<figure class="figure">
-				<img src={site.media.productsImage} alt="Производство" loading="lazy" />
-			</figure>
-		</div>
-	</section>
-
-	<section class="section">
-		<div class="h2">Продукция</div>
-		<div class="strip cols-3" style="margin-top: 12px">
-			{home.products.map((p) => (
-				<a class="tile" href={p.href}>
-					<img class="thumb" src={p.image} alt={p.title} loading="lazy" />
-					<div class="body">
-						<div class="h3">{p.title}</div>
-						<ul>
-							{p.items.map((i) => (
-								<li>{i}</li>
-							))}
-						</ul>
-						<div style="margin-top: 12px">
-							<span class="btn ghost">В каталог</span>
+			<div class="hp-products-grid">
+				{productGroups.map((group) => (
+					<a href={group.href} class="hp-product-card">
+						<div class="hp-product-icon">
+							{group.title === 'Металлокассеты' && '◼'}
+							{group.title === 'Фасонные изделия' && '◢'}
+							{group.title === 'Решётки' && '▦'}
+							{group.title === 'Поддоны для бетонных дорожек' && '▬'}
+							{group.title === 'Короба для кондиционеров' && '▣'}
+							{group.title === 'Кровельные элементы' && '△'}
+							{group.title === 'Колпаки' && '▲'}
+							{group.title === 'Экраны для радиаторов' && '▤'}
 						</div>
-					</div>
-				</a>
-			))}
+						<h3 class="hp-product-title">{group.title}</h3>
+						<span class="hp-product-count">{group.items?.length || group.specs?.reduce((a: number, s: any) => a + s.items.length, 0) || 0} позиций</span>
+						<span class="hp-product-arrow">→</span>
+					</a>
+				))}
+			</div>
 		</div>
 	</section>
 
-	<section class="section">
-		<div class="h2">Услуги</div>
-		<div class="strip cols-3" style="margin-top: 12px">
-			{home.services.map((s) => (
-				<a class="tile" href={s.href}>
-					<img class="thumb" src={s.image} alt={s.title} loading="lazy" />
-					<div class="body">
-						<div class="h3">{s.title}</div>
-						<p class="muted" style="margin-top: 8px">
-							Подробнее о составе работ и документации.
-						</p>
-						<div style="margin-top: 12px">
-							<span class="btn ghost">Подробнее</span>
-						</div>
-					</div>
-				</a>
-			))}
+	<!-- ADVANTAGES -->
+	<section class="hp-section">
+		<div class="hp-section-header">
+			<h2>Почему выбирают нас</h2>
+			<p class="hp-muted">Преимущества работы с Steelfas</p>
 		</div>
-	</section>
-
-	<section class="section">
-		<div class="h2">Почему выбирают нас</div>
-		<div class="icon-grid" style="margin-top: 12px">
-			{home.advantages.map((a) => (
-				<div class="icon-card">
-					<div class="h3">{a.title}</div>
-					<p class="muted" style="margin-top: 8px">{a.text}</p>
+		<div class="hp-adv-grid">
+			{home.advantages.map((a, idx) => (
+				<div class="hp-adv-card">
+					<span class="hp-adv-num">{String(idx + 1).padStart(2, '0')}</span>
+					<h3>{a.title}</h3>
+					<p>{a.text}</p>
 				</div>
 			))}
 		</div>
 	</section>
 
-	<section class="section">
-		<div class="h2">Область применения</div>
-		<div class="grid cols-2" style="margin-top: 12px">
-			{home.application.map((a) => (
-				<a class="surface card" href={a.href} style="border-radius: 14px">
-					<div class="h3">{a.title}</div>
-					<p class="muted" style="margin-top: 6px">Перейти в раздел</p>
-				</a>
-			))}
-		</div>
-		<div style="margin-top: 12px">
-			<a class="btn ghost" href="/obekty/">Перейти в галерею объектов</a>
+	<!-- APPLICATION -->
+	<section class="hp-section hp-app-section fullbleed">
+		<div class="container">
+			<div class="hp-section-header">
+				<h2>Область применения</h2>
+				<p class="hp-muted">Подходят для любых типов зданий и климатических условий</p>
+			</div>
+			<div class="hp-app-grid">
+				{home.application.map((a) => (
+					<a class="hp-app-card" href={a.href}>
+						<h3>{a.title}</h3>
+						<span class="hp-app-arrow">→</span>
+					</a>
+				))}
+			</div>
+			<div class="hp-app-link">
+				<a class="hp-btn hp-btn-ghost" href="/obekty/">Перейти в галерею объектов</a>
+			</div>
 		</div>
 	</section>
 
-	<section class="section">
-		<div class="h2">Наши партнёры</div>
-		<div class="logo-grid" style="margin-top: 12px">
+	<!-- GALLERY -->
+	<section class="hp-section">
+		<div class="hp-section-header">
+			<h2>Реализованные объекты</h2>
+			<p class="hp-muted">Наши фасадные решения на реальных зданиях</p>
+		</div>
+		<div class="hp-gallery-grid">
+			<a href="/obekty/" class="hp-gallery-card hp-gallery-large">
+				<div class="hp-gallery-img">
+					<span>Фото объекта 1</span>
+				</div>
+				<div class="hp-gallery-info">
+					<span class="hp-gallery-tag">Бизнес-центр</span>
+					<h3>Бизнес-центр, Екатеринбург</h3>
+					<p>Металлокассеты закрытого типа, PVDF</p>
+				</div>
+			</a>
+			<a href="/obekty/" class="hp-gallery-card">
+				<div class="hp-gallery-img">
+					<span>Фото объекта 2</span>
+				</div>
+				<div class="hp-gallery-info">
+					<span class="hp-gallery-tag">Жилой комплекс</span>
+					<h3>ЖК, Свердловская обл.</h3>
+				</div>
+			</a>
+			<a href="/obekty/" class="hp-gallery-card">
+				<div class="hp-gallery-img">
+					<span>Фото объекта 3</span>
+				</div>
+				<div class="hp-gallery-info">
+					<span class="hp-gallery-tag">Промышленный</span>
+					<h3>Производственное здание</h3>
+				</div>
+			</a>
+			<a href="/obekty/" class="hp-gallery-card">
+				<div class="hp-gallery-img">
+					<span>Фото объекта 4</span>
+				</div>
+				<div class="hp-gallery-info">
+					<span class="hp-gallery-tag">Торговый центр</span>
+					<h3>ТРЦ, Тюмень</h3>
+				</div>
+			</a>
+		</div>
+		<div class="hp-gallery-link">
+			<a class="hp-btn hp-btn-primary" href="/obekty/">Все объекты →</a>
+		</div>
+	</section>
+
+	<!-- PARTNERS -->
+	<section class="hp-section">
+		<div class="hp-section-header">
+			<h2>Наши партнёры</h2>
+		</div>
+		<div class="hp-partners-grid">
 			{home.partners.map((p) => (
-				<div class="logo">{p.name}</div>
+				<div class="hp-partner">{p.name}</div>
 			))}
 		</div>
 	</section>
 
-	<section id="callback" class="section">
-		<div class="grid cols-2">
-			<div class="surface card">
-				<div class="h2">Заказать обратный звонок</div>
-				<p class="muted" style="margin-top: 10px">
-					Оставьте номер — свяжемся в ближайшее время и уточним параметры. Можно без ТЗ.
-				</p>
-				<div style="margin-top: 12px">
-					<LeadForm type="Консультация" context="Главная: обратный звонок" variant="phoneOnly" />
+	<!-- CERTIFICATES -->
+	<section class="hp-section hp-certs-section fullbleed">
+		<div class="container">
+			<div class="hp-section-header">
+				<h2>Сертификаты и документация</h2>
+				<p class="hp-muted">Полный пакет документов для согласования и прохождения экспертизы</p>
+			</div>
+			<div class="hp-certs-grid">
+				<div class="hp-cert-card">
+					<div class="hp-cert-img">
+						<span>Сертификат<br/>соответствия</span>
+					</div>
+					<h3>Сертификат соответствия</h3>
+					<p>Подтверждение соответствия продукции требованиям технических регламентов РФ</p>
+				</div>
+				<div class="hp-cert-card">
+					<div class="hp-cert-img">
+						<span>Пожарный<br/>сертификат</span>
+					</div>
+					<h3>Пожарный сертификат</h3>
+					<p>Класс пожарной безопасности НГ — негорючий материал</p>
+				</div>
+				<div class="hp-cert-card">
+					<div class="hp-cert-img">
+						<span>Паспорт<br/>качества</span>
+					</div>
+					<h3>Паспорт качества</h3>
+					<p>Протоколы испытаний и контроль качества каждой партии</p>
 				</div>
 			</div>
-			<div class="surface card">
-				<div class="h2">Форма обратной связи</div>
-				<p class="muted" style="margin-top: 10px">
-					Если удобнее — напишите задачу и приложите файлы.
-				</p>
-				<div style="margin-top: 12px">
-					<LeadForm type="Обратная связь" context="Главная: сообщение" variant="full" />
+			<div class="hp-certs-link">
+				<a class="hp-btn hp-btn-ghost" href="/tehnicheskij-razdel/sertifikaty/">Все сертификаты и документы</a>
+			</div>
+		</div>
+	</section>
+
+	<!-- CALCULATOR TEASER -->
+	<section class="hp-calc-section fullbleed">
+		<div class="container">
+			<div class="hp-calc-block">
+				<div class="hp-calc-icon">
+					<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="10" y2="10"/><line x1="12" y1="10" x2="14" y2="10"/><line x1="16" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="12" y1="14" x2="14" y2="14"/><line x1="16" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="10" y2="18"/><line x1="12" y1="18" x2="16" y2="18"/></svg>
+				</div>
+				<div class="hp-calc-text">
+					<h2>Рассчитайте стоимость за 30 секунд</h2>
+					<p>Укажите площадь фасада, тип кассет и покрытие — получите ориентировочную стоимость сразу. Детальный расчёт подготовим за 1–3 дня.</p>
+				</div>
+				<a class="hp-btn hp-btn-primary hp-calc-btn" href="/kalkulyator/">Открыть калькулятор</a>
+			</div>
+		</div>
+	</section>
+
+	<!-- FAQ -->
+	<section class="hp-section">
+		<div class="hp-section-header">
+			<h2>Часто задаваемые вопросы</h2>
+			<p class="hp-muted">Ответы на популярные вопросы о металлокассетах и работе с нами</p>
+		</div>
+		<div class="hp-faq-list">
+			<details class="hp-faq-item">
+				<summary>Какой минимальный объём заказа?</summary>
+				<p>Минимального порога нет — работаем как с небольшими объектами (от 50 м²), так и с крупными проектами. Стоимость за м² зависит от объёма: чем больше партия, тем выгоднее цена.</p>
+			</details>
+			<details class="hp-faq-item">
+				<summary>Какие сроки производства?</summary>
+				<p>Стандартные кассеты — от 5 рабочих дней. Нестандартные форматы и сложные покрытия (PVDF, HDP) — от 10 рабочих дней. Точные сроки зависят от объёма и загрузки производства.</p>
+			</details>
+			<details class="hp-faq-item">
+				<summary>Вы доставляете по всей России?</summary>
+				<p>Да, доставляем по всей РФ. Базовый регион — Екатеринбург и УрФО (1–2 дня). Доставка в другие регионы — через транспортные компании, сроки от 3 до 10 дней в зависимости от удалённости.</p>
+			</details>
+			<details class="hp-faq-item">
+				<summary>Какие документы предоставляете?</summary>
+				<p>Полный пакет: сертификаты соответствия, пожарные сертификаты, паспорта качества, протоколы испытаний. По запросу — альбом технических решений и конструктивные схемы узлов для прохождения экспертизы.</p>
+			</details>
+			<details class="hp-faq-item">
+				<summary>Чем отличается открытый тип от закрытого?</summary>
+				<p>Открытый тип — видимое крепление на заклёпки, дешевле на 15–25%, подходит для большинства объектов. Закрытый тип — скрытый замковый крепёж, монолитная плоскость фасада, применяется на объектах с высокими эстетическими требованиями.</p>
+			</details>
+			<details class="hp-faq-item">
+				<summary>Можно заказать кассеты нестандартного размера?</summary>
+				<p>Да, изготавливаем кассеты любого формата — от 200×200 до 2000×600 мм. Размеры определяются проектом. Помогаем с раскладкой и подбором оптимального модуля.</p>
+			</details>
+			<details class="hp-faq-item">
+				<summary>Как получить расчёт стоимости?</summary>
+				<p>Отправьте заявку через форму на сайте, калькулятор или позвоните. Укажите площадь фасада, тип кассет и желаемое покрытие. Мы подготовим коммерческое предложение за 1–3 рабочих дня.</p>
+			</details>
+		</div>
+	</section>
+
+	<!-- CTA -->
+	<section class="hp-cta-section fullbleed">
+		<div class="container">
+			<div class="hp-cta-block">
+				<div class="hp-cta-text">
+					<h2>Готовы обсудить ваш проект?</h2>
+					<p>Оставьте заявку — мы подготовим расчёт стоимости, подберём оптимальную систему и предоставим техническую документацию.</p>
+					<div class="hp-cta-features">
+						<span>✓ Расчёт за 1–3 дня</span>
+						<span>✓ Бесплатная консультация</span>
+						<span>✓ Выезд на объект</span>
+					</div>
+				</div>
+				<div class="hp-cta-form">
+					<h3>Быстрая заявка</h3>
+					<form>
+						<input type="text" name="name" placeholder="Ваше имя" class="hp-input" autocomplete="name" />
+						<input type="tel" name="phone" placeholder="Телефон" class="hp-input" required autocomplete="tel" />
+						<input type="text" name="city" placeholder="Город / Объект" class="hp-input" />
+						<button type="submit" class="hp-btn hp-btn-primary hp-btn-full">Отправить заявку</button>
+					</form>
+					<p class="hp-form-hint">Или позвоните: <a href={`tel:${site.contacts.phone.replace(/[\s()-]/g, '')}`}>{site.contacts.phone}</a></p>
 				</div>
 			</div>
 		</div>
@@ -178,66 +343,829 @@ const home = site.home;
 
 	<script>
 		(() => {
-			const root = document.getElementById("slides");
-			const inner = document.getElementById("slidesInner");
-			const prev = document.getElementById("prevSlide");
-			const next = document.getElementById("nextSlide");
-			if (!root || !inner || !prev || !next) return;
+			const slider = document.getElementById('hpSlider');
+			const slides = document.getElementById('hpSlides');
+			const prev = document.getElementById('hpPrev');
+			const next = document.getElementById('hpNext');
+			const dotsContainer = document.getElementById('hpDots');
+			if (!slider || !slides || !prev || !next || !dotsContainer) return;
 
-			const total = inner.children.length || 1;
-
-			const setTransform = (idx) => {
-				inner.style.transform = `translate3d(${-idx * 100}%, 0, 0)`;
-			};
-
-			const goTo = (idx) => {
-				const wrapped = ((idx % total) + total) % total;
-				setTransform(wrapped);
-				current = wrapped;
-			};
-
+			const allSlides = slides.children;
+			const total = allSlides.length;
+			const dots = dotsContainer.querySelectorAll('.hp-dot');
 			let current = 0;
-			let timer = null;
+			let timer: ReturnType<typeof setInterval> | null = null;
 			let paused = false;
 
-			const start = () => {
+			function goTo(idx: number) {
+				current = ((idx % total) + total) % total;
+				slides!.style.transform = `translate3d(${-current * 100}%, 0, 0)`;
+				dots.forEach((d, i) => d.classList.toggle('active', i === current));
+			}
+
+			function start() {
 				if (timer || total <= 1) return;
-				timer = window.setInterval(() => {
-					if (paused) return;
-					goTo((current + 1) % total);
-				}, 6500);
-			};
+				timer = setInterval(() => {
+					if (!paused) goTo(current + 1);
+				}, 5000);
+			}
 
-			const stop = () => {
-				if (!timer) return;
-				window.clearInterval(timer);
-				timer = null;
-			};
+			function stop() {
+				if (timer) { clearInterval(timer); timer = null; }
+			}
 
-			const pause = () => {
-				paused = true;
-			};
-			const resume = () => {
-				paused = false;
-			};
+			prev.addEventListener('click', () => { goTo(current - 1); stop(); start(); });
+			next.addEventListener('click', () => { goTo(current + 1); stop(); start(); });
 
-			prev.addEventListener("click", () => {
-				goTo(current - 1);
-				pause();
-			});
-			next.addEventListener("click", () => {
-				goTo(current + 1);
-				pause();
+			dots.forEach(dot => {
+				dot.addEventListener('click', () => {
+					const idx = Number((dot as HTMLElement).dataset.dot);
+					goTo(idx);
+					stop();
+					start();
+				});
 			});
 
-			// Autoplay: pause on hover/focus, resume on leave/blur.
-			root.addEventListener("mouseenter", pause);
-			root.addEventListener("mouseleave", resume);
-			root.addEventListener("focusin", pause);
-			root.addEventListener("focusout", resume);
+			slider.addEventListener('mouseenter', () => { paused = true; });
+			slider.addEventListener('mouseleave', () => { paused = false; });
 
-			setTransform(0);
+			goTo(0);
 			start();
 		})();
 	</script>
 </BaseLayout>
+
+<style>
+	/* SLIDER */
+	.hp-slider-section {
+		padding: 0;
+	}
+	.hp-slider {
+		position: relative;
+		overflow: hidden;
+		border-radius: 0 0 24px 24px;
+	}
+	.hp-slides {
+		display: flex;
+		transition: transform 500ms ease;
+	}
+	.hp-slide {
+		position: relative;
+		min-height: 520px;
+		flex: 0 0 100%;
+	}
+	.hp-slide img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	.hp-slide-overlay {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(90deg, rgba(10,5,5,0.92) 0%, rgba(10,5,5,0.7) 50%, rgba(10,5,5,0.3) 100%);
+		z-index: 1;
+	}
+	.hp-slide-content {
+		position: relative;
+		z-index: 2;
+		color: #fff;
+		padding-top: 60px;
+		padding-bottom: 80px;
+		max-width: 640px;
+	}
+	.hp-slide-kicker {
+		display: inline-block;
+		padding: 5px 14px;
+		border-radius: 999px;
+		background: rgba(255,255,255,0.1);
+		border: 1px solid rgba(255,255,255,0.15);
+		font-size: 12px;
+		font-weight: 600;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		margin-bottom: 20px;
+	}
+	.hp-slide-title {
+		font-size: 42px;
+		font-weight: 800;
+		line-height: 1.1;
+		margin: 0 0 14px;
+		letter-spacing: -0.02em;
+	}
+	.hp-slide-subtitle {
+		font-size: 17px;
+		line-height: 1.6;
+		color: rgba(255,255,255,0.75);
+		margin: 0 0 18px;
+	}
+	.hp-slide-bullets {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 24px;
+	}
+	.hp-slide-bullets li {
+		padding: 4px 0 4px 20px;
+		position: relative;
+		color: rgba(255,255,255,0.7);
+		font-size: 14px;
+	}
+	.hp-slide-bullets li::before {
+		content: "✓";
+		position: absolute;
+		left: 0;
+		color: #ef4444;
+		font-weight: 700;
+	}
+	.hp-slide-actions {
+		display: flex;
+		gap: 10px;
+		flex-wrap: wrap;
+	}
+
+	/* BUTTONS */
+	.hp-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 12px 24px;
+		border-radius: 10px;
+		font-size: 14px;
+		font-weight: 600;
+		text-decoration: none !important;
+		cursor: pointer;
+		border: none;
+		transition: all 0.2s ease;
+	}
+	.hp-btn-primary {
+		background: #b91c1c;
+		color: #fff !important;
+	}
+	.hp-btn-primary:hover {
+		background: #991b1b;
+	}
+	.hp-btn-outline {
+		background: transparent;
+		color: #fff !important;
+		border: 1px solid rgba(255,255,255,0.3);
+	}
+	.hp-btn-outline:hover {
+		background: rgba(255,255,255,0.1);
+		border-color: rgba(255,255,255,0.5);
+	}
+	.hp-btn-ghost {
+		background: transparent;
+		color: #1e293b !important;
+		border: 1px solid rgba(0,0,0,0.12);
+	}
+	.hp-btn-ghost:hover {
+		border-color: #b91c1c;
+		color: #b91c1c !important;
+	}
+	.hp-btn-full {
+		width: 100%;
+	}
+
+	/* SLIDER NAV */
+	.hp-slider-nav {
+		position: absolute;
+		z-index: 5;
+		bottom: 24px;
+		left: 50%;
+		transform: translateX(-50%);
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		background: rgba(0,0,0,0.5);
+		backdrop-filter: blur(8px);
+		padding: 8px 16px;
+		border-radius: 999px;
+	}
+	.hp-arrow {
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
+		border: none;
+		background: rgba(255,255,255,0.15);
+		color: #fff;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		transition: background 0.2s;
+	}
+	.hp-arrow:hover {
+		background: rgba(255,255,255,0.3);
+	}
+	.hp-dots {
+		display: flex;
+		gap: 6px;
+	}
+	.hp-dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		border: none;
+		background: rgba(255,255,255,0.3);
+		cursor: pointer;
+		transition: all 0.2s;
+		padding: 0;
+	}
+	.hp-dot.active {
+		background: #fff;
+		width: 24px;
+		border-radius: 4px;
+	}
+
+	/* SECTIONS */
+	.hp-section {
+		padding: 60px 0;
+	}
+	.hp-section-header {
+		text-align: center;
+		margin-bottom: 40px;
+	}
+	.hp-section-header h2 {
+		font-size: 32px;
+		font-weight: 700;
+		margin: 0 0 12px;
+		letter-spacing: -0.01em;
+		color: #111827;
+	}
+	.hp-muted {
+		color: #64748b;
+		font-size: 16px;
+		margin: 0;
+	}
+
+	/* ABOUT */
+	.hp-about-grid {
+		display: grid;
+		grid-template-columns: 1.5fr 1fr;
+		gap: 48px;
+		align-items: start;
+	}
+	.hp-about-text p {
+		color: #475569;
+		line-height: 1.7;
+		margin: 0 0 14px;
+		font-size: 15px;
+	}
+	.hp-about-actions {
+		display: flex;
+		gap: 10px;
+		flex-wrap: wrap;
+		margin-top: 24px;
+	}
+	.hp-about-stats {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 16px;
+	}
+	.hp-stat {
+		background: #f8fafc;
+		border: 1px solid rgba(0,0,0,0.06);
+		border-radius: 14px;
+		padding: 24px;
+		text-align: center;
+	}
+	.hp-stat-num {
+		display: block;
+		font-size: 28px;
+		font-weight: 800;
+		color: #b91c1c;
+		margin-bottom: 6px;
+	}
+	.hp-stat-label {
+		font-size: 13px;
+		color: #64748b;
+	}
+
+	/* PRODUCTS */
+	.hp-products-section {
+		background: #f8fafc;
+		padding: 60px 0;
+	}
+	.hp-products-grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 16px;
+	}
+	.hp-product-card {
+		background: #fff;
+		border: 1px solid rgba(0,0,0,0.06);
+		border-radius: 16px;
+		padding: 28px 24px;
+		text-decoration: none !important;
+		color: #1e293b;
+		transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+		display: flex;
+		flex-direction: column;
+		position: relative;
+	}
+	.hp-product-card:hover {
+		box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+		transform: translateY(-4px);
+		border-color: #b91c1c;
+	}
+	.hp-product-icon {
+		font-size: 28px;
+		margin-bottom: 14px;
+		color: #b91c1c;
+		opacity: 0.7;
+	}
+	.hp-product-title {
+		font-size: 16px;
+		font-weight: 700;
+		margin: 0 0 8px;
+		color: #1e293b;
+	}
+	.hp-product-count {
+		font-size: 13px;
+		color: #94a3b8;
+		margin-top: auto;
+	}
+	.hp-product-arrow {
+		position: absolute;
+		top: 24px;
+		right: 24px;
+		color: #b91c1c;
+		font-size: 18px;
+		font-weight: 700;
+		opacity: 0;
+		transition: opacity 0.2s;
+	}
+	.hp-product-card:hover .hp-product-arrow {
+		opacity: 1;
+	}
+
+	/* ADVANTAGES */
+	.hp-adv-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 20px;
+	}
+	.hp-adv-card {
+		background: #fff;
+		border: 1px solid rgba(0,0,0,0.06);
+		border-radius: 16px;
+		padding: 28px;
+		transition: box-shadow 0.2s;
+	}
+	.hp-adv-card:hover {
+		box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+	}
+	.hp-adv-num {
+		display: inline-block;
+		font-size: 13px;
+		font-weight: 800;
+		color: #b91c1c;
+		background: #fef2f2;
+		padding: 4px 10px;
+		border-radius: 6px;
+		margin-bottom: 14px;
+	}
+	.hp-adv-card h3 {
+		font-size: 17px;
+		font-weight: 700;
+		margin: 0 0 8px;
+		color: #1e293b;
+	}
+	.hp-adv-card p {
+		font-size: 14px;
+		line-height: 1.6;
+		color: #64748b;
+		margin: 0;
+	}
+
+	/* APPLICATION */
+	.hp-app-section {
+		background: #f8fafc;
+		padding: 60px 0;
+	}
+	.hp-app-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+		gap: 14px;
+	}
+	.hp-app-card {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 20px 24px;
+		border-radius: 14px;
+		background: #fff;
+		border: 1px solid rgba(0,0,0,0.06);
+		text-decoration: none !important;
+		color: #1e293b;
+		transition: box-shadow 0.2s, border-color 0.2s;
+	}
+	.hp-app-card:hover {
+		box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+		border-color: #b91c1c;
+	}
+	.hp-app-card h3 {
+		font-size: 15px;
+		font-weight: 600;
+		margin: 0;
+	}
+	.hp-app-arrow {
+		color: #b91c1c;
+		font-weight: 700;
+		font-size: 18px;
+	}
+	.hp-app-link {
+		text-align: center;
+		margin-top: 24px;
+	}
+
+	/* GALLERY */
+	.hp-gallery-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
+		grid-template-rows: auto auto;
+		gap: 16px;
+	}
+	.hp-gallery-large {
+		grid-row: 1 / 3;
+	}
+	.hp-gallery-card {
+		position: relative;
+		border-radius: 16px;
+		overflow: hidden;
+		text-decoration: none !important;
+		color: #fff;
+		display: block;
+		transition: transform 0.2s, box-shadow 0.2s;
+	}
+	.hp-gallery-card:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+	}
+	.hp-gallery-img {
+		width: 100%;
+		height: 100%;
+		min-height: 200px;
+		background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: rgba(255,255,255,0.35);
+		font-size: 15px;
+	}
+	.hp-gallery-large .hp-gallery-img {
+		min-height: 420px;
+	}
+	.hp-gallery-info {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		padding: 20px;
+		background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+	}
+	.hp-gallery-tag {
+		display: inline-block;
+		padding: 3px 10px;
+		border-radius: 999px;
+		background: rgba(185,28,28,0.8);
+		font-size: 11px;
+		font-weight: 600;
+		margin-bottom: 8px;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+	}
+	.hp-gallery-info h3 {
+		font-size: 16px;
+		font-weight: 700;
+		margin: 0;
+	}
+	.hp-gallery-info p {
+		font-size: 13px;
+		color: rgba(255,255,255,0.7);
+		margin: 4px 0 0;
+	}
+	.hp-gallery-link {
+		text-align: center;
+		margin-top: 28px;
+	}
+
+	/* PARTNERS */
+	.hp-partners-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+		gap: 14px;
+	}
+	.hp-partner {
+		padding: 20px;
+		border-radius: 12px;
+		background: #f8fafc;
+		border: 1px solid rgba(0,0,0,0.05);
+		text-align: center;
+		font-weight: 600;
+		color: #64748b;
+		font-size: 14px;
+	}
+
+	/* CERTIFICATES */
+	.hp-certs-section {
+		background: #f8fafc;
+		padding: 60px 0;
+	}
+	.hp-certs-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 24px;
+	}
+	.hp-cert-card {
+		background: #fff;
+		border: 1px solid rgba(0,0,0,0.06);
+		border-radius: 16px;
+		overflow: hidden;
+		transition: box-shadow 0.2s;
+	}
+	.hp-cert-card:hover {
+		box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+	}
+	.hp-cert-img {
+		height: 220px;
+		background: linear-gradient(135deg, #fef2f2, #fecaca);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #991b1b;
+		font-size: 16px;
+		font-weight: 600;
+		text-align: center;
+		border-bottom: 1px solid rgba(0,0,0,0.06);
+	}
+	.hp-cert-card h3 {
+		font-size: 16px;
+		font-weight: 700;
+		margin: 20px 24px 8px;
+		color: #1e293b;
+	}
+	.hp-cert-card p {
+		font-size: 13px;
+		line-height: 1.6;
+		color: #64748b;
+		margin: 0 24px 20px;
+	}
+	.hp-certs-link {
+		text-align: center;
+		margin-top: 28px;
+	}
+
+	/* CALCULATOR TEASER */
+	.hp-calc-section {
+		background: linear-gradient(135deg, #1a0505 0%, #7f1d1d 100%);
+		padding: 48px 0;
+	}
+	.hp-calc-block {
+		display: flex;
+		align-items: center;
+		gap: 32px;
+	}
+	.hp-calc-icon {
+		flex-shrink: 0;
+		width: 80px;
+		height: 80px;
+		border-radius: 20px;
+		background: rgba(255,255,255,0.1);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #fff;
+	}
+	.hp-calc-text {
+		flex: 1;
+	}
+	.hp-calc-text h2 {
+		font-size: 24px;
+		font-weight: 700;
+		color: #fff;
+		margin: 0 0 8px;
+	}
+	.hp-calc-text p {
+		font-size: 15px;
+		color: rgba(255,255,255,0.7);
+		margin: 0;
+		line-height: 1.6;
+	}
+	.hp-calc-btn {
+		flex-shrink: 0;
+		padding: 16px 32px !important;
+		font-size: 15px !important;
+		background: #fff !important;
+		color: #b91c1c !important;
+		font-weight: 700 !important;
+	}
+	.hp-calc-btn:hover {
+		background: #fef2f2 !important;
+	}
+
+	/* FAQ */
+	.hp-faq-list {
+		max-width: 800px;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+	.hp-faq-item {
+		border: 1px solid rgba(0,0,0,0.08);
+		border-radius: 14px;
+		overflow: hidden;
+		transition: border-color 0.2s;
+	}
+	.hp-faq-item[open] {
+		border-color: #b91c1c;
+	}
+	.hp-faq-item summary {
+		padding: 18px 24px;
+		font-size: 15px;
+		font-weight: 600;
+		color: #1e293b;
+		cursor: pointer;
+		list-style: none;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+		transition: background 0.15s;
+	}
+	.hp-faq-item summary:hover {
+		background: #f8fafc;
+	}
+	.hp-faq-item summary::-webkit-details-marker {
+		display: none;
+	}
+	.hp-faq-item summary::after {
+		content: "+";
+		font-size: 20px;
+		font-weight: 300;
+		color: #94a3b8;
+		flex-shrink: 0;
+		transition: transform 0.2s;
+	}
+	.hp-faq-item[open] summary::after {
+		content: "−";
+		color: #b91c1c;
+	}
+	.hp-faq-item[open] summary {
+		color: #b91c1c;
+		border-bottom: 1px solid rgba(0,0,0,0.06);
+	}
+	.hp-faq-item p {
+		padding: 16px 24px 20px;
+		margin: 0;
+		font-size: 14px;
+		line-height: 1.7;
+		color: #475569;
+	}
+
+	/* CTA */
+	.hp-cta-section {
+		background: linear-gradient(135deg, #1a0505 0%, #7f1d1d 100%);
+		padding: 60px 0;
+	}
+	.hp-cta-block {
+		display: grid;
+		grid-template-columns: 1.2fr 1fr;
+		gap: 60px;
+		align-items: start;
+	}
+	.hp-cta-text {
+		color: #fff;
+	}
+	.hp-cta-text h2 {
+		font-size: 32px;
+		font-weight: 700;
+		margin: 0 0 16px;
+	}
+	.hp-cta-text p {
+		color: rgba(255,255,255,0.8);
+		font-size: 16px;
+		line-height: 1.7;
+		margin: 0 0 24px;
+	}
+	.hp-cta-features {
+		display: flex;
+		gap: 24px;
+		flex-wrap: wrap;
+	}
+	.hp-cta-features span {
+		color: rgba(255,255,255,0.6);
+		font-size: 14px;
+	}
+	.hp-cta-form {
+		background: #fff;
+		border-radius: 20px;
+		padding: 32px;
+	}
+	.hp-cta-form h3 {
+		font-size: 20px;
+		font-weight: 700;
+		margin: 0 0 20px;
+		color: #1e293b;
+	}
+	.hp-cta-form form {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+	.hp-input {
+		padding: 14px 18px;
+		border: 1px solid rgba(0,0,0,0.12);
+		border-radius: 12px;
+		font-size: 15px;
+		outline: none;
+		transition: border-color 0.2s;
+		width: 100%;
+		box-sizing: border-box;
+		font-family: inherit;
+	}
+	.hp-input:focus {
+		border-color: #b91c1c;
+	}
+	.hp-form-hint {
+		margin: 12px 0 0;
+		font-size: 13px;
+		color: #64748b;
+		text-align: center;
+	}
+	.hp-form-hint a {
+		color: #b91c1c;
+		font-weight: 600;
+		text-decoration: none !important;
+	}
+
+	/* MOBILE */
+	@media (max-width: 1024px) {
+		.hp-products-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (max-width: 900px) {
+		.hp-slide {
+			min-height: 440px;
+		}
+		.hp-slide-title {
+			font-size: 32px;
+		}
+		.hp-about-grid {
+			grid-template-columns: 1fr;
+			gap: 32px;
+		}
+		.hp-adv-grid {
+			grid-template-columns: 1fr;
+		}
+		.hp-certs-grid {
+			grid-template-columns: 1fr;
+		}
+		.hp-gallery-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+		.hp-gallery-large {
+			grid-row: auto;
+		}
+		.hp-gallery-large .hp-gallery-img {
+			min-height: 240px;
+		}
+		.hp-cta-block {
+			grid-template-columns: 1fr;
+			gap: 32px;
+		}
+		.hp-calc-block {
+			flex-direction: column;
+			text-align: center;
+		}
+		.hp-calc-btn {
+			width: 100%;
+		}
+	}
+
+	@media (max-width: 600px) {
+		.hp-slide {
+			min-height: 400px;
+		}
+		.hp-slide-content {
+			padding-top: 40px;
+			padding-bottom: 70px;
+		}
+		.hp-slide-title {
+			font-size: 26px;
+		}
+		.hp-section-header h2 {
+			font-size: 24px;
+		}
+		.hp-products-grid {
+			grid-template-columns: 1fr;
+		}
+		.hp-about-stats {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+</style>

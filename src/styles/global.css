@@ -443,8 +443,8 @@ textarea {
 
 .header-sub,
 .header_sub-panel {
-  background: #ffffff;
-  border-bottom: 1px solid var(--line);
+  background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%);
+  border-bottom: none;
 }
 
 .header-sub-inner,
@@ -470,20 +470,25 @@ textarea {
   gap: 10px;
   padding: 12px 18px;
   border-radius: 10px;
-  border: 1px solid rgba(17, 24, 39, 0.14);
-  background: rgba(255, 255, 255, 0.35);
-  color: rgba(17, 24, 39, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.02em;
   font-size: 13px;
   text-decoration: none;
+  transition: background 0.15s;
+}
+
+.sub-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .sub-btn.active {
-  background: rgba(17, 24, 39, 0.75);
-  color: #fff;
-  border-color: rgba(17, 24, 39, 0);
+  background: rgba(255, 255, 255, 0.95);
+  color: #991b1b;
+  border-color: transparent;
 }
 
 .sub-contacts {
@@ -502,14 +507,32 @@ textarea {
 
 .contact-phone {
   font-weight: 800;
-  color: rgba(17, 24, 39, 0.86);
+  color: #fff;
   text-decoration: none;
 }
 
 .contact-hint {
   font-size: 12px;
-  color: rgba(17, 24, 39, 0.6);
+  color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
+}
+
+.tg-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.tg-link:hover {
+  background: rgba(255, 255, 255, 0.25);
 }
 
 @media (max-width: 900px) {

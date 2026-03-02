@@ -53,12 +53,12 @@
         "title": "Фасадные металлокассеты",
         "subtitle": "Производство, проектная поддержка и комплект документации",
         "bullets": [
-          "Технологичная раскладка и повторяемость модулей",
-          "Сертификаты и документация (PDF)",
-          "Работаем с застройщиками, генподрядом, фасадными подрядчиками"
+          "Открытый и закрытый тип крепления",
+          "Толщина от 0.45 до 1.5 мм",
+          "Любой цвет RAL, PVDF, HDP"
         ],
         "image": "https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?auto=format&fit=crop&w=2200&q=70",
-        "href": "/sistemy/",
+        "href": "/produkciya/metallokassety/",
         "cta": "Подробнее"
       },
       {
@@ -84,6 +84,90 @@
         "image": "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=2200&q=70",
         "href": "/katalog/",
         "cta": "Запросить"
+      },
+      {
+        "title": "Фасонные изделия",
+        "subtitle": "Отливы, откосы, парапетные крышки, планки, профили",
+        "bullets": [
+          "Оконные отливы и откосы",
+          "Парапетные крышки, аквилоны",
+          "Z-профиль, П-профиль, ветровые планки"
+        ],
+        "image": "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=2200&q=70",
+        "href": "/produkciya/okonnye-otlivy/",
+        "cta": "Каталог"
+      },
+      {
+        "title": "Вентиляционные решётки",
+        "subtitle": "Решётки для вентилируемых фасадов и систем вентиляции",
+        "bullets": [
+          "Стандартные и нестандартные размеры",
+          "Оцинкованная сталь, алюминий",
+          "Порошковая окраска в любой цвет RAL"
+        ],
+        "image": "https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=2200&q=70",
+        "href": "/produkciya/reshetki/",
+        "cta": "Подробнее"
+      },
+      {
+        "title": "Короба для кондиционеров",
+        "subtitle": "Декоративные короба для наружных блоков кондиционеров",
+        "bullets": [
+          "Эстетичный вид фасада",
+          "Защита оборудования от осадков",
+          "Изготовление по размерам заказчика"
+        ],
+        "image": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2200&q=70",
+        "href": "/produkciya/koroba-dlya-kondicionerov/",
+        "cta": "Подробнее"
+      },
+      {
+        "title": "Кровельные элементы",
+        "subtitle": "Элементы кровельных систем из оцинкованной стали",
+        "bullets": [
+          "Ендовы, коньки, планки",
+          "Оцинкованная сталь с полимерным покрытием",
+          "Индивидуальное изготовление"
+        ],
+        "image": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?auto=format&fit=crop&w=2200&q=70",
+        "href": "/produkciya/krovelnye-elementy/",
+        "cta": "Подробнее"
+      },
+      {
+        "title": "Колпаки на столбы и дымоходы",
+        "subtitle": "Защитные и декоративные колпаки из металла",
+        "bullets": [
+          "Колпаки на заборные столбы",
+          "Колпаки на дымоходы и вентканалы",
+          "Стандартные и нестандартные размеры"
+        ],
+        "image": "https://images.unsplash.com/photo-1590274853856-f22d5ee3d228?auto=format&fit=crop&w=2200&q=70",
+        "href": "/produkciya/kolpaki-na-stolby/",
+        "cta": "Подробнее"
+      },
+      {
+        "title": "Экраны для радиаторов",
+        "subtitle": "Декоративные экраны для батарей отопления",
+        "bullets": [
+          "Перфорированный металл",
+          "Порошковая окраска",
+          "Любые размеры по проекту"
+        ],
+        "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2200&q=70",
+        "href": "/produkciya/ekrany-dlya-radiatorov/",
+        "cta": "Подробнее"
+      },
+      {
+        "title": "Поддоны для бетонных дорожек",
+        "subtitle": "Съёмная опалубка для садовых и пешеходных дорожек",
+        "bullets": [
+          "Многоразовое использование",
+          "Быстрая заливка бетона",
+          "Стандартные и нестандартные формы"
+        ],
+        "image": "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=2200&q=70",
+        "href": "/produkciya/poddony-dlya-betonnyh-dorozhek/",
+        "cta": "Подробнее"
       }
     ],
     "technicalImage": "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=1800&q=70",
