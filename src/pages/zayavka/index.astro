@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import site from "../../data/site.json";
+import LeadForm from "../../components/LeadForm.astro";
+
+const error = Astro.url.searchParams.get("error");
+---
+
+<BaseLayout title={`Заявка — ${site.company.name}`} description="Запрос расчёта или консультации по фасадным металлокассетам.">
+  <div class="grid cols-2">
+    <section class="surface card">
+      <div class="kicker">Заявка</div>
+      <h1 class="h1" style="margin-top: 8px">Запрос расчёта / консультации</h1>
+      <p class="muted" style="margin-top: 10px">
+        Можно оставить только телефон — мы перезвоним и уточним параметры. Если есть исходные данные,
+        приложите файл.
+      </p>
+      <ul class="muted" style="margin-top: 10px">
+        <li>тип системы: открытая/закрытая</li>
+        <li>тип объекта и география (Екб / РФ)</li>
+        <li>требования по ветру/пожару (если известны)</li>
+        <li>сроки и стадия проекта</li>
+      </ul>
+    </section>
+
+    <section class="surface card">
+      <div class="h2">Форма</div>
+      {error ? <p class="error" style="margin: 10px 0 0">Проверьте: нужен телефон или email.</p> : null}
+      <div style="margin-top: 12px">
+        <LeadForm type="Расчёт" context="Общая форма" />
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+

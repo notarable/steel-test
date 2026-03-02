@@ -1,0 +1,272 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import site from "../../data/site.json";
+import projectsData from "../../data/projects.json";
+
+const projects = projectsData.projects;
+---
+
+<BaseLayout title={`Наши объекты — ${site.company.name}`} description="Реализованные объекты с фасадными металлокассетами Steelfas. Жилые комплексы, бизнес-центры, промышленные объекты.">
+
+  <section class="ob-hero">
+    <h1 class="ob-title">Наши объекты</h1>
+    <p class="ob-subtitle">Реализованные проекты с применением фасадных металлокассет Steelfas</p>
+  </section>
+
+  <!-- STATS -->
+  <section class="ob-stats">
+    <div class="ob-stat">
+      <div class="ob-stat-num">50+</div>
+      <div class="ob-stat-label">Объектов реализовано</div>
+    </div>
+    <div class="ob-stat">
+      <div class="ob-stat-num">120 000+</div>
+      <div class="ob-stat-label">м² фасадов облицовано</div>
+    </div>
+    <div class="ob-stat">
+      <div class="ob-stat-num">15+</div>
+      <div class="ob-stat-label">Городов России</div>
+    </div>
+    <div class="ob-stat">
+      <div class="ob-stat-num">7 лет</div>
+      <div class="ob-stat-label">Опыт работы</div>
+    </div>
+  </section>
+
+  <!-- PROJECTS GRID -->
+  <section class="ob-section">
+    <div class="ob-projects-grid">
+      {projects.map((p) => (
+        <a href={`/obekty/${p.slug}/`} class="ob-project-card">
+          <div class="ob-project-img">
+            {p.images && p.images.length > 0 ? (
+              <img src={p.images[0]} alt={p.title} loading="lazy" />
+            ) : (
+              <div class="ob-project-img-placeholder">
+                <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <span>Фото объекта</span>
+              </div>
+            )}
+          </div>
+          <div class="ob-project-body">
+            <h3 class="ob-project-title">{p.title}</h3>
+            <div class="ob-project-tags">
+              <span class="ob-tag">{p.buildingType}</span>
+              <span class="ob-tag">{p.system}</span>
+              <span class="ob-tag">{p.year}</span>
+            </div>
+            <p class="ob-project-summary">{p.summary}</p>
+            <div class="ob-project-meta">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+              <span>{p.city}</span>
+            </div>
+          </div>
+        </a>
+      ))}
+
+      <!-- Placeholder cards for future projects -->
+      <div class="ob-project-card ob-card-placeholder">
+        <div class="ob-project-img">
+          <div class="ob-project-img-placeholder">
+            <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+            <span>Скоро</span>
+          </div>
+        </div>
+        <div class="ob-project-body">
+          <h3 class="ob-project-title" style="color:#94a3b8">Новый объект</h3>
+          <p class="ob-project-summary">Портфолио пополняется — следите за обновлениями</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="ob-cta">
+    <div class="ob-cta-inner">
+      <h2>Хотите увидеть свой объект здесь?</h2>
+      <p>Обсудим ваш проект — подберём оптимальную систему и подготовим расчёт</p>
+      <div class="ob-cta-actions">
+        <a href="/kalkulyator/" class="btn primary ob-btn">Рассчитать стоимость</a>
+        <a href="/kontakty/" class="btn ob-btn">Связаться с нами</a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .ob-hero {
+    text-align: center;
+    padding: 24px 0 40px;
+  }
+  .ob-title {
+    font-size: 40px;
+    font-weight: 800;
+    margin: 0 0 12px;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+  }
+  .ob-subtitle {
+    font-size: 17px;
+    color: #64748b;
+    margin: 0 auto;
+    max-width: 520px;
+    line-height: 1.6;
+  }
+
+  .ob-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .ob-stat {
+    text-align: center;
+    padding: 24px 16px;
+    border-radius: 16px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  .ob-stat-num {
+    font-size: 28px;
+    font-weight: 800;
+    color: #b91c1c;
+    margin-bottom: 4px;
+  }
+  .ob-stat-label {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 500;
+  }
+
+  .ob-section { margin-bottom: 48px; }
+
+  .ob-projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .ob-project-card {
+    border-radius: 18px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+    text-decoration: none !important;
+    color: inherit;
+    transition: box-shadow 0.3s, transform 0.3s;
+    display: flex;
+    flex-direction: column;
+  }
+  a.ob-project-card:hover {
+    box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+    transform: translateY(-4px);
+  }
+  .ob-card-placeholder {
+    border-style: dashed;
+    opacity: 0.6;
+  }
+  .ob-project-img {
+    height: 220px;
+    overflow: hidden;
+  }
+  .ob-project-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .ob-project-img-placeholder {
+    width: 100%;
+    height: 100%;
+    background: #f1f5f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #94a3b8;
+    font-size: 13px;
+  }
+  .ob-project-body {
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .ob-project-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 12px;
+    color: #0f172a;
+  }
+  .ob-project-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  .ob-tag {
+    padding: 3px 10px;
+    border-radius: 6px;
+    background: #f8fafc;
+    border: 1px solid rgba(0,0,0,0.06);
+    font-size: 12px;
+    font-weight: 500;
+    color: #64748b;
+  }
+  .ob-project-summary {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #64748b;
+    margin: 0 0 16px;
+    flex: 1;
+  }
+  .ob-project-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #94a3b8;
+  }
+
+  .ob-cta {
+    background: linear-gradient(135deg, #1a0505 0%, #7f1d1d 100%);
+    border-radius: 20px;
+    padding: 48px 40px;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .ob-cta h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 10px;
+  }
+  .ob-cta p {
+    font-size: 16px;
+    color: rgba(255,255,255,0.7);
+    margin: 0 0 24px;
+  }
+  .ob-cta-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .ob-btn {
+    padding: 12px 24px !important;
+    font-size: 15px !important;
+  }
+
+  @media (max-width: 900px) {
+    .ob-stats { grid-template-columns: 1fr 1fr; }
+    .ob-projects-grid { grid-template-columns: 1fr; }
+    .ob-title { font-size: 32px; }
+  }
+  @media (max-width: 600px) {
+    .ob-title { font-size: 28px; }
+    .ob-stats { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .ob-stat { padding: 16px; }
+    .ob-stat-num { font-size: 22px; }
+    .ob-cta { padding: 32px 20px; }
+  }
+</style>

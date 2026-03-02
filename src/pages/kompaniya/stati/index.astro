@@ -1,0 +1,23 @@
+---
+import SectionLayout from "../../../layouts/SectionLayout.astro";
+
+const sideNav = [
+  { href: "/kompaniya/", label: "О компании" },
+  { href: "/kompaniya/novosti/", label: "Новости" },
+  { href: "/kompaniya/stati/", label: "Статьи" },
+  { href: "/kompaniya/vystavki/", label: "Выставки" },
+  { href: "/kompaniya/partnery/", label: "Наши партнёры" },
+  { href: "/kompaniya/sertifikaty/", label: "Сертификаты" },
+  { href: "/kompaniya/vakansii/", label: "Вакансии" }
+];
+---
+
+<SectionLayout title="Статьи" kicker="Компания" sideTitle="О компании" sideNav={sideNav}>
+  <section class="surface card">
+    <div class="h2">Статьи</div>
+    <p class="muted" style="margin-top: 10px">
+      Раздел‑заготовка под статьи: разбор узлов, требования по ветру/пожару, ошибки монтажа, примеры решений.
+    </p>
+  </section>
+</SectionLayout>
+

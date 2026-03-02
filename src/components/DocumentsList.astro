@@ -1,0 +1,50 @@
+---
+type Doc = {
+  id: string;
+  category: string;
+  title: string;
+  description?: string;
+  file?: string;
+  updatedAt?: string;
+};
+
+type Props = {
+  title: string;
+  docs: Doc[];
+};
+
+const { title, docs } = Astro.props;
+---
+
+<section class="surface card">
+  <div class="h2">{title}</div>
+  <div class="grid" style="margin-top: 12px">
+    {docs.length ? (
+      docs.map((d) => (
+        <div class="surface card" style="box-shadow:none">
+          <div style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap">
+            <div>
+              <div class="h3">{d.title}</div>
+              {d.description ? <p class="muted" style="margin: 6px 0 0">{d.description}</p> : null}
+              {d.updatedAt ? (
+                <p class="muted" style="margin: 6px 0 0">
+                  <span class="tag">Обновлено: {d.updatedAt}</span>
+                </p>
+              ) : null}
+            </div>
+            <div>
+              {d.file ? (
+                <a class="btn ghost" href={d.file} download>Скачать PDF</a>
+              ) : (
+                <span class="tag">По запросу</span>
+              )}
+            </div>
+          </div>
+        </div>
+      ))
+    ) : (
+      <p class="muted">Пока нет материалов в этом разделе.</p>
+    )}
+  </div>
+</section>
+

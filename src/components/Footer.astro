@@ -1,0 +1,87 @@
+---
+import site from "../data/site.json";
+
+const year = new Date().getFullYear();
+const phoneHref = `tel:${String(site.contacts.phone).replace(/[^+0-9]/g, "")}`;
+
+type MenuItem = { slug: string; title: string };
+type LinkItem = { href: string; label: string };
+type ProductGroup = { title: string; items: LinkItem[] };
+
+const productGroups = (site.menus?.productGroups as ProductGroup[]) ?? [];
+const services = (site.menus?.services as MenuItem[]) ?? [];
+const company = (site.menus?.company as LinkItem[]) ?? [];
+const policies = (site.menus?.policies as LinkItem[]) ?? [];
+---
+
+<footer class="footer">
+  <div class="container">
+    <hr class="hr" />
+    <div style="padding-top: 18px" class="footer-grid">
+      <div>
+        <div class="h3">{site.company.name}</div>
+        <p class="muted" style="margin: 8px 0 0">{site.company.legalHint}</p>
+        <p class="muted" style="margin: 8px 0 0">{site.company.about}</p>
+        <p class="muted" style="margin: 10px 0 0">
+          <a class="btn ghost" href="/katalog/">Скачать каталог</a>
+        </p>
+      </div>
+
+      <div>
+        <div class="h3">О компании</div>
+        <div class="grid" style="margin-top: 10px; gap: 6px">
+          <a href="/kompaniya/">О компании</a>
+          {company.map((c) => (
+            <a href={c.href}>{c.label}</a>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <div class="h3">Услуги</div>
+        <div class="grid" style="margin-top: 10px; gap: 6px">
+          {services.slice(0, 6).map((s) => (
+            <a href={`/uslugi/${s.slug}/`}>{s.title}</a>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <div class="h3">Продукция</div>
+        <div class="grid" style="margin-top: 10px; gap: 6px">
+          {productGroups.flatMap((g) => g.items).slice(0, 8).map((i) => (
+            <a href={i.href}>{i.label}</a>
+          ))}
+          <a href="/produkciya/">Вся продукция</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="h3">Контакты</div>
+        <p style="margin: 8px 0 0">
+          <a href={phoneHref}>{site.contacts.phone}</a>
+        </p>
+        <p style="margin: 8px 0 0">
+          <a href={`mailto:${site.contacts.email}`}>{site.contacts.email}</a>
+        </p>
+        <p class="muted" style="margin: 8px 0 0">{site.contacts.hours}</p>
+        <p class="muted" style="margin: 8px 0 0">{site.contacts.address}</p>
+      </div>
+    </div>
+
+    <div class="grid" style="margin-top: 18px; gap: 10px">
+      <hr class="hr" />
+      <div style="display:flex; gap:14px; flex-wrap:wrap; align-items:center; justify-content:space-between">
+        <p class="muted" style="margin: 0">
+          © {year} {site.company.name}. {site.company.region.baseCity} / РФ.
+        </p>
+        <div style="display:flex; gap:12px; flex-wrap:wrap">
+          {policies.map((p) => (
+            <a class="muted" href={p.href}>{p.label}</a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+

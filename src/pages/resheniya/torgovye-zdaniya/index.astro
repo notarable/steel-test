@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import site from "../../../data/site.json";
+import LeadForm from "../../../components/LeadForm.astro";
+---
+
+<BaseLayout title={`Торговые здания — решения — ${site.company.name}`} description="Применение металлокассет на торговых зданиях: эксплуатация, обслуживание, подбор системы.">
+  <div class="grid cols-2">
+    <section class="surface card">
+      <div class="kicker">Решения</div>
+      <h1 class="h1" style="margin-top: 8px">Торговые здания</h1>
+      <p class="muted" style="margin-top: 10px">
+        Торговые фасады часто имеют большие плоскости и повышенную динамику эксплуатации. Важны технологичность
+        монтажа, обслуживание, возможность замены элементов и устойчивость покрытия к загрязнениям.
+      </p>
+
+      <div class="h2" style="margin-top: 14px">Типовые требования</div>
+      <ul class="muted" style="margin-top: 10px">
+        <li>скорость монтажа и поэтапность (фасад по зонам)</li>
+        <li>обслуживание входных групп/витражей/рекламных элементов</li>
+        <li>устойчивость покрытия и простота очистки</li>
+        <li>ветровые нагрузки на больших плоскостях</li>
+      </ul>
+
+      <div style="margin-top: 12px; display:flex; gap:10px; flex-wrap:wrap">
+        <a class="btn ghost" href="/sistemy/otkrytye-metallokassety/">Открытый тип</a>
+        <a class="btn ghost" href="/sistemy/zakrytye-metallokassety/">Закрытый тип</a>
+      </div>
+    </section>
+
+    <section class="surface card">
+      <div class="h2">Запрос консультации</div>
+      <p class="muted" style="margin-top: 8px">
+        Опишите объект и требования к обслуживанию/замене элементов — предложим вариант системы и набор узлов.
+      </p>
+      <div style="margin-top: 12px">
+        <LeadForm type="Консультация" context="Решение: торговые здания" />
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+

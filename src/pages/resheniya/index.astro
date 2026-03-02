@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import site from "../../data/site.json";
+---
+
+<BaseLayout title={`Решения по типам объектов — ${site.company.name}`} description="Применение фасадных систем без привязки к ценам: требования объектов и рекомендации по выбору.">
+  <section class="surface card">
+    <div class="kicker">Решения</div>
+    <h1 class="h1" style="margin-top: 8px">Решения по типам объектов</h1>
+    <p class="muted" style="margin-top: 10px; max-width: 86ch">
+      Раздел описывает применение систем металлокассет на разных типах объектов: типовые требования,
+      эксплуатация, ремонтопригодность, рекомендации по документации и узлам. Без привязки к ценам.
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="grid cols-2">
+      {site.solutions.map((sol) => (
+        <a class="surface card" href={`/resheniya/${sol.slug}/`}>
+          <div class="h2">{sol.title}</div>
+          <p>{sol.summary}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+

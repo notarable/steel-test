@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import site from "../../../data/site.json";
+import allDocs from "../../../data/documents.json";
+import DocumentsList from "../../../components/DocumentsList.astro";
+
+const docs = allDocs.documents.filter((d) => d.category === "Узлы крепления");
+---
+
+<BaseLayout title={`Узлы крепления — ${site.company.name}`} description="Узлы крепления фасадных металлокассет: примыкания, углы, типовые решения.">
+  <div class="grid cols-2">
+    <section class="surface card">
+      <div class="kicker">Технический раздел</div>
+      <h1 class="h1" style="margin-top: 8px">Узлы крепления</h1>
+      <p class="muted" style="margin-top: 10px">
+        Подбор узлов зависит от основания, подсистемы, требований по пожару и геометрии фасада. Для корректного
+        выпуска РД/КМ/КМД — запросите актуальные узлы под ваш проект.
+      </p>
+      <div style="margin-top: 12px; display:flex; gap:10px; flex-wrap:wrap">
+        <a class="btn ghost" href="/zayavka/">Запросить узлы</a>
+        <a class="btn ghost" href="/tehnicheskij-razdel/">Все разделы</a>
+      </div>
+    </section>
+    <DocumentsList title="Материалы (PDF)" docs={docs} />
+  </div>
+</BaseLayout>
+

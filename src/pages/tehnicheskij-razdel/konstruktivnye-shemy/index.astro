@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import site from "../../../data/site.json";
+import allDocs from "../../../data/documents.json";
+import DocumentsList from "../../../components/DocumentsList.astro";
+
+const docs = allDocs.documents.filter((d) => d.category === "Конструктивные схемы");
+---
+
+<BaseLayout title={`Конструктивные схемы — ${site.company.name}`} description="Конструктивные схемы фасадных систем: принцип крепления, раскладка, подсистема.">
+  <div class="grid cols-2">
+    <section class="surface card">
+      <div class="kicker">Технический раздел</div>
+      <h1 class="h1" style="margin-top: 8px">Конструктивные схемы</h1>
+      <p class="muted" style="margin-top: 10px">
+        Схемы показывают общую логику крепления и принцип раскладки. Итоговый конструктив подтверждается
+        расчётом нагрузок и рабочими чертежами по проекту.
+      </p>
+      <div style="margin-top: 12px; display:flex; gap:10px; flex-wrap:wrap">
+        <a class="btn ghost" href="/zayavka/">Запросить схемы</a>
+        <a class="btn ghost" href="/tehnicheskij-razdel/">Все разделы</a>
+      </div>
+    </section>
+    <DocumentsList title="Материалы (PDF)" docs={docs} />
+  </div>
+</BaseLayout>
+

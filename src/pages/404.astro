@@ -1,0 +1,20 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import site from "../data/site.json";
+---
+
+<BaseLayout title={`Страница не найдена — ${site.company.name}`} noindex>
+  <section class="surface card">
+    <div class="kicker">404</div>
+    <h1 class="h1" style="margin-top: 8px">Страница не найдена</h1>
+    <p class="muted" style="margin-top: 10px">
+      Если вы перешли по технической ссылке — проверьте адрес или вернитесь на главную.
+    </p>
+    <div style="margin-top: 14px; display:flex; gap:10px; flex-wrap:wrap">
+      <a class="btn primary" href="/">На главную</a>
+      <a class="btn ghost" href="/sistemy/">Системы</a>
+      <a class="btn ghost" href="/kontakty/">Контакты</a>
+    </div>
+  </section>
+</BaseLayout>
+

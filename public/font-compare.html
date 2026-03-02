@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Сравнение шрифтов — Steelfas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&family=Nunito+Sans:wght@400;500;600;700;800&family=Raleway:wght@400;500;600;700;800&family=Rubik:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700;800&family=PT+Sans:wght@400;700&family=Golos+Text:wght@400;500;600;700;800&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #f6f7f9; color: #111827; padding: 40px 24px; }
+  .wrap { max-width: 1100px; margin: 0 auto; }
+  h1 { font-family: system-ui; font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .intro { font-family: system-ui; font-size: 15px; color: #64748b; margin-bottom: 40px; line-height: 1.6; }
+  .font-card {
+    background: #fff;
+    border-radius: 16px;
+    border: 2px solid transparent;
+    padding: 32px;
+    margin-bottom: 20px;
+    transition: border-color 0.2s;
+    cursor: pointer;
+  }
+  .font-card:hover { border-color: #b91c1c; }
+  .font-card.selected { border-color: #b91c1c; box-shadow: 0 4px 20px rgba(185,28,28,0.12); }
+  .font-name {
+    font-family: system-ui;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #94a3b8;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .font-name span { 
+    background: #f1f5f9; 
+    padding: 3px 10px; 
+    border-radius: 6px; 
+    font-size: 11px; 
+    color: #64748b; 
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .sample-hero { font-size: 42px; font-weight: 800; line-height: 1.1; margin-bottom: 12px; letter-spacing: -0.02em; }
+  .sample-sub { font-size: 20px; font-weight: 600; margin-bottom: 12px; color: #1e293b; }
+  .sample-body { font-size: 16px; font-weight: 400; line-height: 1.65; color: #475569; margin-bottom: 16px; max-width: 700px; }
+  .sample-weights { display: flex; flex-wrap: wrap; gap: 16px; align-items: baseline; }
+  .sample-weights span { font-size: 15px; color: #64748b; }
+  .sample-btn {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 12px 28px;
+    border-radius: 10px;
+    background: #b91c1c;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+  }
+  .weights-row { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 16px; padding-top: 16px; border-top: 1px solid #f1f5f9; }
+  .weight-sample { display: flex; flex-direction: column; gap: 2px; }
+  .weight-label { font-family: system-ui; font-size: 11px; color: #94a3b8; }
+  .weight-text { font-size: 18px; color: #1e293b; }
+  @media (max-width: 600px) {
+    .sample-hero { font-size: 28px; }
+    .sample-sub { font-size: 17px; }
+    body { padding: 20px 16px; }
+    .font-card { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Выбери шрифт для сайта</h1>
+  <p class="intro">Нажми на карточку, чтобы отметить понравившийся. Все шрифты бесплатные (Google Fonts), поддерживают кириллицу. Ниже — как каждый шрифт выглядит в заголовках, подзаголовках, тексте и на кнопке.</p>
+
+  <div id="cards"></div>
+</div>
+
+<script>
+const fonts = [
+  { name: 'Inter', note: 'Самый популярный, нейтральный, чёткий', family: "'Inter', sans-serif" },
+  { name: 'Manrope', note: 'Мягкий, современный, геометричный', family: "'Manrope', sans-serif" },
+  { name: 'Montserrat', note: 'Классика B2B, уверенный, крупные заголовки', family: "'Montserrat', sans-serif" },
+  { name: 'Onest', note: 'Русский шрифт, дружелюбный, современный', family: "'Onest', sans-serif" },
+  { name: 'Golos Text', note: 'Русский, государственный стиль, строгий', family: "'Golos Text', sans-serif" },
+  { name: 'Raleway', note: 'Элегантный, тонкие заголовки, архитектурный', family: "'Raleway', sans-serif" },
+  { name: 'Rubik', note: 'Округлый, современный, тёплый', family: "'Rubik', sans-serif" },
+  { name: 'Nunito Sans', note: 'Мягкий, дружелюбный, читаемый', family: "'Nunito Sans', sans-serif" },
+  { name: 'Open Sans', note: 'Классика интернета, нейтральный, проверенный', family: "'Open Sans', sans-serif" },
+  { name: 'PT Sans', note: 'Русская классика, хорошая кириллица', family: "'PT Sans', sans-serif" },
+];
+
+const container = document.getElementById('cards');
+
+fonts.forEach(f => {
+  const card = document.createElement('div');
+  card.className = 'font-card';
+  card.onclick = () => {
+    card.classList.toggle('selected');
+  };
+  card.innerHTML = `
+    <div class="font-name">${f.name} <span>${f.note}</span></div>
+    <div style="font-family: ${f.family}">
+      <div class="sample-hero">Фасадные металлокассеты</div>
+      <div class="sample-sub">Производство, проектирование и поставка по всей России</div>
+      <div class="sample-body">Собственное производство рядом с Екатеринбургом. Контроль качества на каждом этапе — от раскроя и гибки до порошковой окраски и упаковки. Работаем с застройщиками, генподрядчиками и фасадными компаниями.</div>
+      <button class="sample-btn" style="font-family: ${f.family}">Рассчитать стоимость</button>
+      <div class="weights-row">
+        <div class="weight-sample"><div class="weight-label">Regular 400</div><div class="weight-text" style="font-weight:400">Металлокассеты 0.7 мм</div></div>
+        <div class="weight-sample"><div class="weight-label">Medium 500</div><div class="weight-text" style="font-weight:500">Металлокассеты 0.7 мм</div></div>
+        <div class="weight-sample"><div class="weight-label">SemiBold 600</div><div class="weight-text" style="font-weight:600">Металлокассеты 0.7 мм</div></div>
+        <div class="weight-sample"><div class="weight-label">Bold 700</div><div class="weight-text" style="font-weight:700">Металлокассеты 0.7 мм</div></div>
+        <div class="weight-sample"><div class="weight-label">ExtraBold 800</div><div class="weight-text" style="font-weight:800">Металлокассеты 0.7 мм</div></div>
+      </div>
+    </div>
+  `;
+  container.appendChild(card);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import site from "../../../data/site.json";
+import LeadForm from "../../../components/LeadForm.astro";
+---
+
+<BaseLayout title={`Промышленные объекты — решения — ${site.company.name}`} description="Применение металлокассет на промышленных объектах: условия среды, деформации, подбор системы.">
+  <div class="grid cols-2">
+    <section class="surface card">
+      <div class="kicker">Решения</div>
+      <h1 class="h1" style="margin-top: 8px">Промышленные объекты</h1>
+      <p class="muted" style="margin-top: 10px">
+        На промышленных объектах часто учитывают агрессивность среды, температурные деформации, повышенные
+        требования к технологичности монтажа и ремонтопригодности. Подбор выполняется по нагрузкам и условиям
+        эксплуатации.
+      </p>
+
+      <div class="h2" style="margin-top: 14px">Типовые факторы</div>
+      <ul class="muted" style="margin-top: 10px">
+        <li>температурные деформации и длины плоскостей</li>
+        <li>условия коррозии/загрязнения, требования к покрытию</li>
+        <li>скорость монтажа и доступность обслуживания</li>
+        <li>ветровые нагрузки (открытые площадки)</li>
+      </ul>
+
+      <div style="margin-top: 12px; display:flex; gap:10px; flex-wrap:wrap">
+        <a class="btn ghost" href="/sistemy/otkrytye-metallokassety/">Часто: открытый тип</a>
+        <a class="btn ghost" href="/sistemy/zakrytye-metallokassety/">Также: закрытый тип</a>
+      </div>
+    </section>
+
+    <section class="surface card">
+      <div class="h2">Запрос расчёта</div>
+      <p class="muted" style="margin-top: 8px">
+        Укажите условия эксплуатации и тип основания. По возможности приложите схемы/размеры.
+      </p>
+      <div style="margin-top: 12px">
+        <LeadForm type="Расчёт" context="Решение: промышленные объекты" />
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+

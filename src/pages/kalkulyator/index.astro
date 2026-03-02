@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import site from "../../data/site.json";
+import LeadForm from "../../components/LeadForm.astro";
+---
+
+<BaseLayout title={`Калькулятор — ${site.company.name}`} description="Быстрый запрос расчёта по фасадным металлокассетам.">
+  <div class="grid cols-2">
+    <section class="surface card">
+      <div class="kicker">Калькулятор</div>
+      <h1 class="h1" style="margin-top: 8px">Быстрый расчёт</h1>
+      <p class="muted" style="margin-top: 10px">
+        Сейчас это быстрый сценарий: оставляете телефон — мы перезвоним и уточним параметры, чтобы выполнить расчёт корректно (ветровые нагрузки, узлы, формат кассет).
+      </p>
+      <ul class="muted" style="margin-top: 10px">
+        <li>тип объекта / адрес строительства</li>
+        <li>этажность / отметки</li>
+        <li>раскладка / форматы кассет (если есть)</li>
+      </ul>
+    </section>
+
+    <section class="surface card">
+      <div class="h2">Оставить телефон</div>
+      <div style="margin-top: 12px">
+        <LeadForm type="Расчёт" context="Калькулятор" variant="phoneOnly" />
+      </div>
+      <p class="muted" style="margin-top: 10px">
+        Нужна полная форма? <a href="/zayavka/">Перейти к заявке</a>.
+      </p>
+    </section>
+  </div>
+</BaseLayout>
+

@@ -1,0 +1,356 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import site from "../../data/site.json";
+---
+
+<BaseLayout title={`Доставка и комплектация — ${site.company.name}`} description="Доставка фасадных металлокассет по Екатеринбургу, Свердловской области и всей России. Собственная упаковка, контроль отгрузки.">
+
+  <section class="dv-hero">
+    <h1 class="dv-title">Доставка и комплектация</h1>
+    <p class="dv-subtitle">Организуем доставку металлокассет и комплектующих от производства до объекта по всей России</p>
+  </section>
+
+  <!-- ГЕОГРАФИЯ -->
+  <section class="dv-section">
+    <h2 class="dv-h2">География доставки</h2>
+    <div class="dv-geo-grid">
+      <div class="dv-geo-card dv-geo-primary">
+        <div class="dv-geo-icon">
+          <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        </div>
+        <h3>Екатеринбург и область</h3>
+        <p>Базовый регион — доставка собственным транспортом. Сроки: <strong>1–3 рабочих дня</strong> с момента готовности заказа.</p>
+      </div>
+      <div class="dv-geo-card">
+        <div class="dv-geo-icon">
+          <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+        </div>
+        <h3>УрФО</h3>
+        <p>Челябинск, Тюмень, Курган, Пермь — <strong>3–5 рабочих дней</strong>. Транспортные компании или собственная логистика.</p>
+      </div>
+      <div class="dv-geo-card">
+        <div class="dv-geo-icon">
+          <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h3>Вся Россия</h3>
+        <p>Москва, Санкт-Петербург, Новосибирск, Краснодар и другие регионы — <strong>5–10 рабочих дней</strong> через транспортные компании.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ПРОЦЕСС -->
+  <section class="dv-section dv-process-section">
+    <h2 class="dv-h2">Как мы работаем</h2>
+    <div class="dv-steps">
+      <div class="dv-step">
+        <div class="dv-step-num">1</div>
+        <div class="dv-step-body">
+          <h3>Заявка и расчёт</h3>
+          <p>Вы отправляете заявку — мы готовим расчёт с учётом объёма, габаритов и адреса доставки.</p>
+        </div>
+      </div>
+      <div class="dv-step">
+        <div class="dv-step-num">2</div>
+        <div class="dv-step-body">
+          <h3>Производство</h3>
+          <p>Изготовление партии на собственном производстве рядом с Екатеринбургом. Контроль качества каждой единицы.</p>
+        </div>
+      </div>
+      <div class="dv-step">
+        <div class="dv-step-num">3</div>
+        <div class="dv-step-body">
+          <h3>Упаковка</h3>
+          <p>Каждая кассета упаковывается в защитную плёнку. Партия формируется на паллетах с жёсткой фиксацией.</p>
+        </div>
+      </div>
+      <div class="dv-step">
+        <div class="dv-step-num">4</div>
+        <div class="dv-step-body">
+          <h3>Доставка на объект</h3>
+          <p>Отгрузка собственным транспортом или через транспортную компанию. Отслеживание груза до получения.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ФОТО ПЛЕЙСХОЛДЕРЫ -->
+  <section class="dv-section">
+    <h2 class="dv-h2">Упаковка и отгрузка</h2>
+    <div class="dv-photo-grid">
+      <div class="dv-photo-placeholder">
+        <span>Фото: упаковка<br/>кассет на паллете</span>
+      </div>
+      <div class="dv-photo-placeholder">
+        <span>Фото: загрузка<br/>в транспорт</span>
+      </div>
+      <div class="dv-photo-placeholder">
+        <span>Фото: маркировка<br/>и документы</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- УСЛОВИЯ -->
+  <section class="dv-section">
+    <h2 class="dv-h2">Условия доставки</h2>
+    <div class="dv-conditions-grid">
+      <div class="dv-cond-card">
+        <h3>Транспорт</h3>
+        <ul>
+          <li>Собственный транспорт по Екатеринбургу и области</li>
+          <li>Транспортные компании (ПЭК, Деловые Линии, СДЭК и др.) по РФ</li>
+          <li>Возможен самовывоз с производства</li>
+        </ul>
+      </div>
+      <div class="dv-cond-card">
+        <h3>Упаковка</h3>
+        <ul>
+          <li>Защитная плёнка на каждой кассете</li>
+          <li>Жёсткая фиксация на паллетах</li>
+          <li>Угловые протекторы при необходимости</li>
+          <li>Маркировка каждой упаковки</li>
+        </ul>
+      </div>
+      <div class="dv-cond-card">
+        <h3>Документы</h3>
+        <ul>
+          <li>Товарная накладная (ТОРГ-12)</li>
+          <li>Счёт-фактура</li>
+          <li>Паспорт качества на партию</li>
+          <li>Сертификаты (по запросу)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="dv-cta">
+    <div class="dv-cta-inner">
+      <div>
+        <h2>Рассчитать стоимость доставки</h2>
+        <p>Укажите адрес объекта и объём заказа — мы подготовим расчёт с учётом логистики</p>
+      </div>
+      <div class="dv-cta-actions">
+        <a href="/kalkulyator/" class="btn primary dv-btn">Рассчитать стоимость</a>
+        <a href="/kontakty/" class="btn dv-btn">Связаться с нами</a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .dv-hero {
+    text-align: center;
+    padding: 24px 0 40px;
+  }
+  .dv-title {
+    font-size: 40px;
+    font-weight: 800;
+    margin: 0 0 12px;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+  }
+  .dv-subtitle {
+    font-size: 17px;
+    color: #64748b;
+    margin: 0 auto;
+    max-width: 560px;
+    line-height: 1.6;
+  }
+  .dv-section { margin-bottom: 48px; }
+  .dv-h2 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0 0 24px;
+    color: #0f172a;
+  }
+
+  .dv-geo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .dv-geo-card {
+    padding: 28px;
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.06);
+    background: #fff;
+  }
+  .dv-geo-primary {
+    border-color: #b91c1c;
+    box-shadow: 0 4px 20px rgba(185,28,28,0.08);
+  }
+  .dv-geo-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #475569;
+    margin-bottom: 16px;
+  }
+  .dv-geo-primary .dv-geo-icon {
+    background: #fef2f2;
+    color: #b91c1c;
+  }
+  .dv-geo-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 8px;
+    color: #0f172a;
+  }
+  .dv-geo-card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #64748b;
+    margin: 0;
+  }
+  .dv-geo-card strong { color: #1e293b; }
+
+  .dv-process-section {
+    background: #f8fafc;
+    margin-left: -24px;
+    margin-right: -24px;
+    padding: 48px 24px;
+    border-radius: 20px;
+  }
+  .dv-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .dv-step {
+    text-align: center;
+  }
+  .dv-step-num {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: #b91c1c;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+  .dv-step-body h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 8px;
+    color: #0f172a;
+  }
+  .dv-step-body p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #64748b;
+    margin: 0;
+  }
+
+  .dv-photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .dv-photo-placeholder {
+    aspect-ratio: 4/3;
+    border-radius: 16px;
+    background: #f1f5f9;
+    border: 2px dashed rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    font-size: 14px;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .dv-conditions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .dv-cond-card {
+    padding: 28px;
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.06);
+    background: #fff;
+  }
+  .dv-cond-card h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 0 0 14px;
+    color: #0f172a;
+  }
+  .dv-cond-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .dv-cond-card li {
+    padding: 6px 0;
+    padding-left: 18px;
+    position: relative;
+    font-size: 14px;
+    color: #475569;
+    line-height: 1.5;
+  }
+  .dv-cond-card li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #b91c1c;
+    font-weight: 700;
+  }
+
+  .dv-cta {
+    background: linear-gradient(135deg, #1a0505 0%, #7f1d1d 100%);
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 24px;
+  }
+  .dv-cta-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .dv-cta h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 8px;
+    color: #fff;
+  }
+  .dv-cta p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.7);
+    margin: 0;
+    max-width: 480px;
+  }
+  .dv-cta-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .dv-btn {
+    padding: 12px 24px !important;
+    font-size: 15px !important;
+  }
+
+  @media (max-width: 900px) {
+    .dv-geo-grid, .dv-conditions-grid { grid-template-columns: 1fr; }
+    .dv-steps { grid-template-columns: 1fr 1fr; }
+    .dv-photo-grid { grid-template-columns: 1fr; }
+    .dv-title { font-size: 32px; }
+  }
+  @media (max-width: 600px) {
+    .dv-title { font-size: 28px; }
+    .dv-steps { grid-template-columns: 1fr; }
+    .dv-cta { padding: 24px; }
+  }
+</style>

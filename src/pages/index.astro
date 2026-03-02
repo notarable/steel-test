@@ -1,0 +1,243 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import site from "../data/site.json";
+import LeadForm from "../components/LeadForm.astro";
+
+type Slide = {
+	title: string;
+	subtitle: string;
+	bullets: string[];
+	image: string;
+	href: string;
+	cta: string;
+};
+
+const slides = (site.media.heroSlides as Slide[]) ?? [];
+const home = site.home;
+---
+
+<BaseLayout title={site.seo.defaultTitle} description={site.seo.defaultDescription}>
+	<section class="fullbleed">
+		<div class="container">
+			<section class="slider" aria-label="Витрина">
+				<div class="slides" id="slides">
+					<div class="slides-inner" id="slidesInner">
+						{slides.map((s, idx) => (
+							<section class="slide" id={`slide-${idx + 1}`}>
+								<img src={s.image} alt={s.title} loading={idx === 0 ? "eager" : "lazy"} />
+								<div class="content">
+									<div class="kicker">{site.company.region.baseCity} · работа по РФ · B2B</div>
+									<h1 class="h1" style="margin-top: 10px">{s.title}</h1>
+									<p class="muted" style="margin-top: 10px">{s.subtitle}</p>
+									<ul class="muted" style="margin-top: 12px">
+										{s.bullets.map((b) => (
+											<li>{b}</li>
+										))}
+									</ul>
+									<div style="display:flex; flex-wrap:wrap; gap:10px; margin-top: 14px">
+										<a class="btn primary" href={s.href}>{s.cta}</a>
+										<a class="btn ghost" href="/katalog/">Скачать каталог</a>
+										<a class="btn ghost" href="/#callback">Заказать звонок</a>
+									</div>
+								</div>
+							</section>
+						))}
+					</div>
+				</div>
+				<div class="slider-controls" aria-label="Управление слайдером">
+					<button class="arrow" type="button" id="prevSlide" aria-label="Предыдущий слайд">‹</button>
+					<button class="arrow" type="button" id="nextSlide" aria-label="Следующий слайд">›</button>
+				</div>
+			</section>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="h2">{site.company.name} — проектирование и производство фасадных решений</div>
+		<div class="grid cols-2" style="margin-top: 12px">
+			<div class="prose">
+				<p class="muted">{site.company.about}</p>
+				<p class="muted"><strong>Миссия:</strong> {home.mission}</p>
+				<ul class="muted">
+					<li>фасадные металлокассеты (открытый/закрытый тип)</li>
+					<li>комплект документации и поддержка проектирования</li>
+					<li>сертификаты и материалы для согласований</li>
+				</ul>
+				<div style="display:flex; flex-wrap:wrap; gap:10px; margin-top: 10px">
+					<a class="btn primary" href="/kalkulyator/">Калькулятор</a>
+					<a class="btn ghost" href="/obekty/">Проекты</a>
+					<a class="btn ghost" href="/tehnicheskij-razdel/">Технический раздел</a>
+				</div>
+			</div>
+			<figure class="figure">
+				<img src={site.media.productsImage} alt="Производство" loading="lazy" />
+			</figure>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="h2">Продукция</div>
+		<div class="strip cols-3" style="margin-top: 12px">
+			{home.products.map((p) => (
+				<a class="tile" href={p.href}>
+					<img class="thumb" src={p.image} alt={p.title} loading="lazy" />
+					<div class="body">
+						<div class="h3">{p.title}</div>
+						<ul>
+							{p.items.map((i) => (
+								<li>{i}</li>
+							))}
+						</ul>
+						<div style="margin-top: 12px">
+							<span class="btn ghost">В каталог</span>
+						</div>
+					</div>
+				</a>
+			))}
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="h2">Услуги</div>
+		<div class="strip cols-3" style="margin-top: 12px">
+			{home.services.map((s) => (
+				<a class="tile" href={s.href}>
+					<img class="thumb" src={s.image} alt={s.title} loading="lazy" />
+					<div class="body">
+						<div class="h3">{s.title}</div>
+						<p class="muted" style="margin-top: 8px">
+							Подробнее о составе работ и документации.
+						</p>
+						<div style="margin-top: 12px">
+							<span class="btn ghost">Подробнее</span>
+						</div>
+					</div>
+				</a>
+			))}
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="h2">Почему выбирают нас</div>
+		<div class="icon-grid" style="margin-top: 12px">
+			{home.advantages.map((a) => (
+				<div class="icon-card">
+					<div class="h3">{a.title}</div>
+					<p class="muted" style="margin-top: 8px">{a.text}</p>
+				</div>
+			))}
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="h2">Область применения</div>
+		<div class="grid cols-2" style="margin-top: 12px">
+			{home.application.map((a) => (
+				<a class="surface card" href={a.href} style="border-radius: 14px">
+					<div class="h3">{a.title}</div>
+					<p class="muted" style="margin-top: 6px">Перейти в раздел</p>
+				</a>
+			))}
+		</div>
+		<div style="margin-top: 12px">
+			<a class="btn ghost" href="/obekty/">Перейти в галерею объектов</a>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="h2">Наши партнёры</div>
+		<div class="logo-grid" style="margin-top: 12px">
+			{home.partners.map((p) => (
+				<div class="logo">{p.name}</div>
+			))}
+		</div>
+	</section>
+
+	<section id="callback" class="section">
+		<div class="grid cols-2">
+			<div class="surface card">
+				<div class="h2">Заказать обратный звонок</div>
+				<p class="muted" style="margin-top: 10px">
+					Оставьте номер — свяжемся в ближайшее время и уточним параметры. Можно без ТЗ.
+				</p>
+				<div style="margin-top: 12px">
+					<LeadForm type="Консультация" context="Главная: обратный звонок" variant="phoneOnly" />
+				</div>
+			</div>
+			<div class="surface card">
+				<div class="h2">Форма обратной связи</div>
+				<p class="muted" style="margin-top: 10px">
+					Если удобнее — напишите задачу и приложите файлы.
+				</p>
+				<div style="margin-top: 12px">
+					<LeadForm type="Обратная связь" context="Главная: сообщение" variant="full" />
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script>
+		(() => {
+			const root = document.getElementById("slides");
+			const inner = document.getElementById("slidesInner");
+			const prev = document.getElementById("prevSlide");
+			const next = document.getElementById("nextSlide");
+			if (!root || !inner || !prev || !next) return;
+
+			const total = inner.children.length || 1;
+
+			const setTransform = (idx) => {
+				inner.style.transform = `translate3d(${-idx * 100}%, 0, 0)`;
+			};
+
+			const goTo = (idx) => {
+				const wrapped = ((idx % total) + total) % total;
+				setTransform(wrapped);
+				current = wrapped;
+			};
+
+			let current = 0;
+			let timer = null;
+			let paused = false;
+
+			const start = () => {
+				if (timer || total <= 1) return;
+				timer = window.setInterval(() => {
+					if (paused) return;
+					goTo((current + 1) % total);
+				}, 6500);
+			};
+
+			const stop = () => {
+				if (!timer) return;
+				window.clearInterval(timer);
+				timer = null;
+			};
+
+			const pause = () => {
+				paused = true;
+			};
+			const resume = () => {
+				paused = false;
+			};
+
+			prev.addEventListener("click", () => {
+				goTo(current - 1);
+				pause();
+			});
+			next.addEventListener("click", () => {
+				goTo(current + 1);
+				pause();
+			});
+
+			// Autoplay: pause on hover/focus, resume on leave/blur.
+			root.addEventListener("mouseenter", pause);
+			root.addEventListener("mouseleave", resume);
+			root.addEventListener("focusin", pause);
+			root.addEventListener("focusout", resume);
+
+			setTransform(0);
+			start();
+		})();
+	</script>
+</BaseLayout>

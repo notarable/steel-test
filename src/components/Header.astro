@@ -1,0 +1,236 @@
+---
+import site from "../data/site.json";
+
+type Link = { href: string; label: string };
+type PhoneItem = { phone: string; hint?: string; action?: string };
+type ProductGroup = { title: string; items: Link[] };
+
+const pathname = Astro.url.pathname;
+
+const email: string = site.contacts.email;
+const emailHref = `mailto:${email}`;
+
+const topLinks: Link[] =
+  (site as any).header?.topLinks ??
+  ([
+    { href: "/dostavka/", label: "Доставка" },
+    { href: "/obekty/", label: "Наши объекты" },
+    { href: "/kompaniya/", label: "О компании" },
+    { href: "/kontakty/", label: "Контакты" }
+  ] as Link[]);
+
+const subButtons: Link[] =
+  (site as any).header?.subButtons ??
+  ([
+    { href: "/produkciya/", label: "Продукция" },
+    { href: "/kalkulyator/", label: "Расчёт стоимости" },
+    { href: "/ai-konsultaciya/", label: "ИИ‑консультант" }
+  ] as Link[]);
+
+const otherSubButtons = subButtons.filter((b) => b.label !== "Продукция");
+const productGroups = (site.menus?.productGroups as ProductGroup[]) ?? [];
+
+const phones: PhoneItem[] =
+  (site.contacts as any).phones ??
+  ([
+    { phone: site.contacts.phone, hint: "Заказать обратный звонок", action: "/#callback" }
+  ] as PhoneItem[]);
+
+const telHref = (phone: string) => `tel:${String(phone).replace(/[^+0-9]/g, "")}`;
+---
+
+<header class="site-header" id="siteHeader" aria-label="Шапка сайта">
+  <div class="header_main">
+    <div class="container header_main-inner">
+      <a class="brand" href="/" aria-label={site.company.name}>
+        <img
+          class="brand-logo"
+          src="/logo-steelfas.png"
+          alt="Steelfas"
+          loading="eager"
+          decoding="async"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';"
+        />
+        <strong class="brand-text" style="display:none">{site.company.name}</strong>
+      </a>
+
+      <nav class="top-links" aria-label="Навигация">
+        {topLinks.map((l) => (
+          <a href={l.href} aria-current={pathname.startsWith(l.href) ? "page" : undefined}>
+            {l.label}
+          </a>
+        ))}
+      </nav>
+
+      <div class="header-email" aria-label="Почта">
+        <span class="icon-circle" aria-hidden="true">✉</span>
+        <div>
+          <a class="email" href={emailHref}>{email}</a>
+          <div class="muted small">Наша почта</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="header_sub-panel" aria-label="Быстрые действия">
+    <div class="container header_sub-panel-inner">
+      <div class="sub-buttons">
+        <button type="button" class={`sub-btn mega-menu-trigger ${pathname.startsWith("/produkciya/") || pathname.startsWith("/sistemy/") ? "active" : ""}`} id="megaMenuBtn" aria-expanded="false">
+          Продукция
+          <span class="mega-icon">☰</span>
+        </button>
+        {otherSubButtons.map((b) => (
+          <a class={`sub-btn ${pathname.startsWith(b.href) ? "active" : ""}`} href={b.href}>
+            {b.label}
+          </a>
+        ))}
+      </div>
+
+      <div class="sub-contacts">
+        {phones.map((p) => (
+          <div class="contact-chip">
+            <a class="contact-phone" href={telHref(p.phone)}>{p.phone}</a>
+            {p.hint ? (
+              <a class="contact-hint" href={p.action ?? "/kontakty/"}>{p.hint}</a>
+            ) : null}
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ПОЛНОЭКРАННОЕ МЕГА-МЕНЮ -->
+<div class="mega-menu-overlay" id="megaMenuOverlay">
+  <div class="mega-menu-content">
+    <div class="mega-menu-layout">
+      <!-- Левая колонка: категории -->
+      <aside class="mega-menu-sidebar">
+        <h3 class="mega-sidebar-title">Категории</h3>
+        <nav class="mega-categories-list">
+          {productGroups.map((group, idx) => (
+            <div class={`mega-category-item ${idx === 0 ? 'active' : ''}`} data-category={idx}>
+              <a href={group.href} class="mega-category-link">
+                {group.title}
+              </a>
+            </div>
+          ))}
+        </nav>
+      </aside>
+
+      <!-- Правая область: контент выбранной категории -->
+      <div class="mega-menu-main">
+        {productGroups.map((group, idx) => (
+          <div class={`mega-content-panel ${idx === 0 ? 'active' : ''}`} data-panel={idx}>
+            <h2 class="mega-panel-title">{group.title}</h2>
+
+            {group.specGrid && group.specs ? (
+              <div class="mega-spec-grid">
+                {group.specs.map((spec) => (
+                  <div class="mega-spec-group">
+                    <div class="mega-spec-title">{spec.group}</div>
+                    {spec.items.map((item) => (
+                      <a href={item.href} class="mega-spec-link">{item.label}</a>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div class="mega-items-grid">
+                {group.items.map((item) => (
+                  <a href={item.href} class="mega-item-link">
+                    {item.label}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+  const megaMenuBtn = document.getElementById('megaMenuBtn');
+  const megaMenuOverlay = document.getElementById('megaMenuOverlay');
+  const body = document.body;
+
+  function openMegaMenu() {
+    if (megaMenuOverlay) megaMenuOverlay.style.top = '';
+    megaMenuOverlay?.classList.add('active');
+    body?.classList.add('mega-menu-open');
+    megaMenuBtn?.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeMegaMenu() {
+    megaMenuOverlay?.classList.remove('active');
+    body?.classList.remove('mega-menu-open');
+    megaMenuBtn?.setAttribute('aria-expanded', 'false');
+    if (megaMenuOverlay) megaMenuOverlay.style.top = '';
+  }
+
+  function toggleMegaMenu() {
+    if (megaMenuOverlay?.classList.contains('active')) {
+      closeMegaMenu();
+    } else {
+      openMegaMenu();
+    }
+  }
+
+  megaMenuBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleMegaMenu();
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!megaMenuOverlay?.classList.contains('active')) return;
+    const target = e.target as HTMLElement;
+    if (!megaMenuOverlay.contains(target) && target !== megaMenuBtn) {
+      closeMegaMenu();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && megaMenuOverlay?.classList.contains('active')) {
+      closeMegaMenu();
+    }
+  });
+
+  const categoryItems = document.querySelectorAll('.mega-category-item');
+  const contentPanels = document.querySelectorAll('.mega-content-panel');
+
+  categoryItems.forEach(item => {
+    item.addEventListener('mouseenter', () => {
+      const el = item as HTMLElement;
+      const categoryIdx = el.getAttribute('data-category');
+      
+      categoryItems.forEach(b => b.classList.remove('active'));
+      contentPanels.forEach(p => p.classList.remove('active'));
+      
+      el.classList.add('active');
+      const targetPanel = document.querySelector(`.mega-content-panel[data-panel="${categoryIdx}"]`);
+      targetPanel?.classList.add('active');
+    });
+  });
+
+  window.addEventListener('scroll', () => {
+    if (!megaMenuOverlay?.classList.contains('active')) return;
+    const header = document.getElementById('siteHeader');
+    const headerBottom = header ? header.getBoundingClientRect().bottom : 0;
+    if (headerBottom <= 0) {
+      megaMenuOverlay.style.top = '0';
+    } else {
+      megaMenuOverlay.style.top = headerBottom + 'px';
+    }
+  });
+
+  const megaLinks = document.querySelectorAll('.mega-item-link, .mega-spec-link, .mega-category-link');
+  megaLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      closeMegaMenu();
+    });
+  });
+</script>

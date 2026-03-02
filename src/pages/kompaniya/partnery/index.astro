@@ -1,0 +1,23 @@
+---
+import SectionLayout from "../../../layouts/SectionLayout.astro";
+
+const sideNav = [
+  { href: "/kompaniya/", label: "О компании" },
+  { href: "/kompaniya/novosti/", label: "Новости" },
+  { href: "/kompaniya/stati/", label: "Статьи" },
+  { href: "/kompaniya/vystavki/", label: "Выставки" },
+  { href: "/kompaniya/partnery/", label: "Партнёры" },
+  { href: "/kompaniya/sertifikaty/", label: "Сертификаты" },
+  { href: "/kompaniya/vakansii/", label: "Вакансии" }
+];
+---
+
+<SectionLayout title="Партнёры" kicker="Компания" sideTitle="О компании" sideNav={sideNav}>
+  <section class="surface card">
+    <div class="h2">Партнёры</div>
+    <p class="muted" style="margin-top: 10px">
+      Раздел-заготовка. Сюда можно добавить производителей металла/покрытий, поставщиков подсистем и т.п.
+    </p>
+  </section>
+</SectionLayout>
+

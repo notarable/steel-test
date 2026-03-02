@@ -1,0 +1,26 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import site from "../../data/site.json";
+---
+
+<BaseLayout title={`ИИ‑консультант — ${site.company.name}`} description="Страница под интеграцию GPT‑чата.">
+  <div class="grid cols-2">
+    <section class="surface card">
+      <div class="kicker">ИИ</div>
+      <h1 class="h1" style="margin-top: 8px">ИИ‑консультант</h1>
+      <p class="muted" style="margin-top: 10px">
+        Здесь будет ваш чат (виджет/скрипт). Пользователь сможет задать вопросы по продукции, узлам и применению.
+      </p>
+    </section>
+
+    <section class="surface card">
+      <div class="h2">Место под чат</div>
+      <div style="margin-top: 12px; height: 520px; border-radius: 14px; border: 1px dashed rgba(75, 85, 99, 0.35); background: rgba(255,255,255,0.6); display:flex; align-items:center; justify-content:center;">
+        <div class="muted" style="text-align:center; max-width: 46ch">
+          Вставьте сюда ваш виджет (iframe/скрипт).
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+

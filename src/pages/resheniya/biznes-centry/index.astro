@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import site from "../../../data/site.json";
+import LeadForm from "../../../components/LeadForm.astro";
+---
+
+<BaseLayout title={`Бизнес-центры — решения — ${site.company.name}`} description="Применение металлокассет на бизнес-центрах: допуски, узлы, требования и подбор системы.">
+  <div class="grid cols-2">
+    <section class="surface card">
+      <div class="kicker">Решения</div>
+      <h1 class="h1" style="margin-top: 8px">Бизнес-центры</h1>
+      <p class="muted" style="margin-top: 10px">
+        Для административных объектов важны визуальные допуски, качество сопряжений (примыкания, углы,
+        витражные зоны), повторяемость модулей и стабильность покрытия.
+      </p>
+
+      <div class="h2" style="margin-top: 14px">Ключевые моменты</div>
+      <ul class="muted" style="margin-top: 10px">
+        <li>требования к плоскости и виду шва</li>
+        <li>деталировка узлов и сопряжений с витражами/поясами</li>
+        <li>ветровые нагрузки (высотность, угловые зоны)</li>
+        <li>сроки производства и поэтапность поставки</li>
+      </ul>
+
+      <div style="margin-top: 12px; display:flex; gap:10px; flex-wrap:wrap">
+        <a class="btn ghost" href="/sistemy/zakrytye-metallokassety/">Чаще: закрытый тип</a>
+        <a class="btn ghost" href="/sistemy/otkrytye-metallokassety/">Также: открытый тип</a>
+      </div>
+    </section>
+
+    <section class="surface card">
+      <div class="h2">Запрос документации / консультации</div>
+      <p class="muted" style="margin-top: 8px">
+        Укажите стадии проекта и приложите раскладку/фасады — подготовим рекомендации по системе и перечню
+        документов (узлы, схемы, сертификаты).
+      </p>
+      <div style="margin-top: 12px">
+        <LeadForm type="Запрос документации" context="Решение: бизнес-центры" />
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+

@@ -1,0 +1,67 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import site from "../../../data/site.json";
+import LeadForm from "../../../components/LeadForm.astro";
+
+const system = site.systems.find((s) => s.slug === "otkrytye-metallokassety");
+---
+
+<BaseLayout
+  title={`${system?.title ?? "Металлокассеты открытого типа"} — ${site.company.name}`}
+  description="Металлокассеты открытого типа: принцип работы, области применения, особенности, параметры и запрос расчёта."
+>
+  <div class="grid cols-2">
+    <section class="surface card">
+      <div class="kicker">Система</div>
+      <h1 class="h1" style="margin-top: 8px">{system?.title ?? "Металлокассеты открытого типа"}</h1>
+      <p class="muted" style="margin-top: 10px">
+        {system?.summary}
+      </p>
+
+      <hr class="hr" style="margin: 14px 0" />
+
+      <div class="h2">Принцип</div>
+      <div class="prose" style="margin-top: 10px">
+        <p>
+          Открытый тип — система с контролируемым межкассетным швом и технологическими зазорами. Монтажная
+          логика и контроль допусков прозрачны: видимый шов упрощает визуальную проверку геометрии и
+          сопряжений.
+        </p>
+      </div>
+
+      <div class="h2" style="margin-top: 14px">Где применяется</div>
+      <ul class="muted" style="margin-top: 10px">
+        <li>жилые и общественные здания (при заданной раскладке)</li>
+        <li>торговые и административные фасады с большим метражом</li>
+        <li>объекты, где важна ремонтопригодность и частичная замена элементов</li>
+      </ul>
+
+      <div class="h2" style="margin-top: 14px">Технические особенности</div>
+      <ul class="muted" style="margin-top: 10px">
+        <li>понятное формирование шва и повторяемость модуля</li>
+        <li>возможность обслуживания и локальной замены</li>
+        <li>подбор по ветровым нагрузкам и основаниям</li>
+      </ul>
+
+      <div class="h2" style="margin-top: 14px">Материалы и параметры</div>
+      <ul class="muted" style="margin-top: 10px">
+        <li>металл: сталь / алюминий (по проекту)</li>
+        <li>толщина: по расчёту и требованиям плоскости</li>
+        <li>покрытия: PVDF / полиэстер и др. (по спецификации)</li>
+        <li>форматы кассет: модуль/раскладка — по архитектуре</li>
+      </ul>
+    </section>
+
+    <section class="surface card">
+      <div class="h2">Запрос расчёта</div>
+      <p class="muted" style="margin-top: 8px">
+        Для расчёта укажите тип объекта, геометрию/раскладку, требования по ветру/пожару и предпочтения
+        по материалу/покрытию (если известны).
+      </p>
+      <div style="margin-top: 12px">
+        <LeadForm type="Расчёт" context="Металлокассеты открытого типа" />
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+

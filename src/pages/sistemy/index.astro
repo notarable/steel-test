@@ -1,0 +1,31 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import site from "../../data/site.json";
+---
+
+<BaseLayout title={`Системы металлокассет — ${site.company.name}`} description="Открытый и закрытый тип: принцип, применение, особенности, параметры.">
+  <section class="surface card">
+    <div class="kicker">Системы</div>
+    <h1 class="h1" style="margin-top: 8px">Системы фасадных металлокассет</h1>
+    <p class="muted" style="margin-top: 10px; max-width: 86ch">
+      Раздел предназначен для специалистов: принцип работы, ограничения, технические параметры и форма
+      заявки на расчёт. Подбор выполняется с учётом ветровых нагрузок, требований по пожарной
+      безопасности и архитектурной раскладки.
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="grid cols-2">
+      {site.systems.map((s) => (
+        <a class="surface card" href={`/sistemy/${s.slug}/`}>
+          <div class="h2">{s.title}</div>
+          <p>{s.summary}</p>
+          <div style="margin-top: 10px">
+            <span class="tag">Описание · Применение · Параметры · Заявка</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+

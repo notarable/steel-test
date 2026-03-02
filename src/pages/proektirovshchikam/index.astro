@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import site from "../../data/site.json";
+import LeadForm from "../../components/LeadForm.astro";
+---
+
+<BaseLayout title={`Проектировщикам и архитекторам — ${site.company.name}`} description="Проектная поддержка: узлы, схемы, сертификаты, консультации и подбор системы.">
+  <div class="grid cols-2">
+    <section class="surface card">
+      <div class="kicker">Проектировщикам / Архитекторам</div>
+      <h1 class="h1" style="margin-top: 8px">Проектная поддержка</h1>
+      <p class="muted" style="margin-top: 10px">
+        Предоставляем материалы для проектирования и согласования: узлы, схемы, перечни элементов, сертификаты
+        и пояснения по монтажной логике. Подбор выполняется с учётом ветровых нагрузок и требований по пожару.
+      </p>
+
+      <div class="h2" style="margin-top: 14px">Что можно запросить</div>
+      <ul class="muted" style="margin-top: 10px">
+        <li>альбом узлов / типовые примыкания</li>
+        <li>конструктивные схемы</li>
+        <li>сертификаты и подтверждение соответствия</li>
+        <li>рекомендации по раскладке и допускам</li>
+      </ul>
+
+      <div class="h2" style="margin-top: 14px">Формат работы</div>
+      <ul class="muted" style="margin-top: 10px">
+        <li>Екатеринбург и область — оперативная поддержка</li>
+        <li>по РФ — удалённая поддержка и поставки</li>
+      </ul>
+    </section>
+
+    <section class="surface card">
+      <div class="h2">Запрос документации</div>
+      <p class="muted" style="margin-top: 8px">
+        Укажите стадию проекта, тип объекта и что требуется (узлы/схемы/сертификаты). Можно приложить PDF/DWG.
+      </p>
+      <div style="margin-top: 12px">
+        <LeadForm type="Запрос документации" context="Проектировщикам / Архитекторам" />
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+

@@ -1,0 +1,900 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import site from "../../../data/site.json";
+
+const seo = {
+  title: "Фасадные металлокассеты — производство и монтаж | Steelfas",
+  description: "Производство фасадных металлокассет открытого и закрытого типа в Екатеринбурге. Собственное производство, сертификаты, проектная поддержка. Расчёт за 1 день.",
+};
+---
+
+<BaseLayout title={seo.title} description={seo.description}>
+
+  <!-- HERO -->
+  <section class="mk-hero fullbleed">
+    <div class="mk-hero-bg"></div>
+    <div class="container mk-hero-inner">
+      <div class="mk-hero-content">
+        <span class="mk-badge">Собственное производство</span>
+        <h1 class="mk-hero-title">Фасадные<br/>металлокассеты</h1>
+        <p class="mk-hero-subtitle">
+          Проектирование, производство и поставка облицовочных кассет 
+          для вентилируемых фасадов. Работаем с застройщиками, 
+          подрядчиками и архитекторами по всей России.
+        </p>
+        <div class="mk-hero-actions">
+          <a href="/kalkulyator/" class="btn primary mk-btn-lg">Рассчитать стоимость</a>
+          <a href="/kontakty/" class="btn mk-btn-lg">Получить консультацию</a>
+        </div>
+        <div class="mk-hero-trust">
+          <div class="mk-trust-item">
+            <strong>25+</strong>
+            <span>лет срок службы</span>
+          </div>
+          <div class="mk-trust-item">
+            <strong>3 дня</strong>
+            <span>расчёт проекта</span>
+          </div>
+          <div class="mk-trust-item">
+            <strong>RAL</strong>
+            <span>любой цвет</span>
+          </div>
+          <div class="mk-trust-item">
+            <strong>РФ</strong>
+            <span>доставка по России</span>
+          </div>
+        </div>
+      </div>
+      <div class="mk-hero-visual">
+        <div class="mk-hero-img-placeholder">
+          <span>Фото фасада<br/>с металлокассетами</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ТИПЫ СИСТЕМ -->
+  <section class="section">
+    <div class="container">
+      <div class="mk-section-header">
+        <h2>Два типа систем — под любой проект</h2>
+        <p class="muted">Выберите подходящую систему крепления металлокассет</p>
+      </div>
+
+      <div class="mk-types-grid">
+        <a href="/sistemy/otkrytye-metallokassety/" class="mk-type-card">
+          <div class="mk-type-img">
+            <span>Фото: открытый тип</span>
+          </div>
+          <div class="mk-type-body">
+            <div class="mk-type-tag">Экономичное решение</div>
+            <h3>Открытого типа</h3>
+            <p>Видимая подконструкция, быстрый монтаж. Оптимальное соотношение цены и качества для жилых и коммерческих объектов.</p>
+            <ul class="mk-specs-list">
+              <li>Размеры от 400×400 до 1200×600 мм</li>
+              <li>Толщина 0,7–1,2 мм</li>
+              <li>Полиэстер / PVDF</li>
+            </ul>
+            <div class="mk-type-action">Подробнее →</div>
+          </div>
+        </a>
+
+        <a href="/sistemy/zakrytye-metallokassety/" class="mk-type-card mk-type-premium">
+          <div class="mk-type-img mk-type-img-dark">
+            <span>Фото: закрытый тип</span>
+          </div>
+          <div class="mk-type-body">
+            <div class="mk-type-tag mk-tag-premium">Премиальное решение</div>
+            <h3>Закрытого типа</h3>
+            <p>Скрытый крепёж, монолитная поверхность фасада. Идеален для бизнес-центров и объектов с высокими архитектурными требованиями.</p>
+            <ul class="mk-specs-list">
+              <li>Размеры от 600×600 до 2000×600 мм</li>
+              <li>Толщина 1,0–1,5 мм</li>
+              <li>PVDF / HDP / Granite</li>
+            </ul>
+            <div class="mk-type-action">Подробнее →</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ПРЕИМУЩЕСТВА -->
+  <section class="section mk-advantages-section fullbleed">
+    <div class="container">
+      <div class="mk-section-header">
+        <h2>Почему выбирают наши металлокассеты</h2>
+        <p class="muted">Преимущества работы с Steelfas</p>
+      </div>
+
+      <div class="mk-adv-grid">
+        <div class="mk-adv-card">
+          <div class="mk-adv-icon">🏭</div>
+          <h3>Собственное производство</h3>
+          <p>Полный цикл: от проектирования до отгрузки. Производственная площадка рядом с Екатеринбургом.</p>
+        </div>
+        <div class="mk-adv-card">
+          <div class="mk-adv-icon">📐</div>
+          <h3>Проектная поддержка</h3>
+          <p>Разработка раскладки кассет, чертежи узлов, альбом технических решений под ваш объект.</p>
+        </div>
+        <div class="mk-adv-card">
+          <div class="mk-adv-icon">📋</div>
+          <h3>Сертификаты</h3>
+          <p>Полный пакет документации: сертификаты, паспорта качества, протоколы испытаний.</p>
+        </div>
+        <div class="mk-adv-card">
+          <div class="mk-adv-icon">🎨</div>
+          <h3>Любой цвет по RAL</h3>
+          <p>Широкая палитра покрытий: полиэстер, PVDF, HDP, под дерево, камень.</p>
+        </div>
+        <div class="mk-adv-card">
+          <div class="mk-adv-icon">🚚</div>
+          <h3>Доставка по России</h3>
+          <p>Логистика до объекта. Базовый регион — Урал, работаем по всей территории РФ.</p>
+        </div>
+        <div class="mk-adv-card">
+          <div class="mk-adv-icon">⚡</div>
+          <h3>Быстрый расчёт</h3>
+          <p>Коммерческое предложение с расчётом за 1–3 рабочих дня после получения задания.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ХАРАКТЕРИСТИКИ -->
+  <section class="section">
+    <div class="container">
+      <div class="mk-section-header">
+        <h2>Технические характеристики</h2>
+        <p class="muted">Основные параметры фасадных металлокассет</p>
+      </div>
+
+      <div class="mk-specs-table-wrap">
+        <table class="mk-specs-table">
+          <thead>
+            <tr>
+              <th>Параметр</th>
+              <th>Открытый тип</th>
+              <th>Закрытый тип</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Материал</td>
+              <td>Сталь оцинкованная</td>
+              <td>Сталь оцинкованная</td>
+            </tr>
+            <tr>
+              <td>Толщина</td>
+              <td>0,7 – 1,2 мм</td>
+              <td>1,0 – 1,5 мм</td>
+            </tr>
+            <tr>
+              <td>Размеры (Ш×В)</td>
+              <td>400–1200 × 400–600 мм</td>
+              <td>600–2000 × 400–600 мм</td>
+            </tr>
+            <tr>
+              <td>Покрытие</td>
+              <td>Полиэстер, PVDF</td>
+              <td>PVDF, HDP, Granite</td>
+            </tr>
+            <tr>
+              <td>Тип крепления</td>
+              <td>Видимое (заклёпки)</td>
+              <td>Скрытое (замковое)</td>
+            </tr>
+            <tr>
+              <td>Ветровая нагрузка</td>
+              <td>До 1000 Па</td>
+              <td>До 1200 Па</td>
+            </tr>
+            <tr>
+              <td>Пожарная безопасность</td>
+              <td>НГ (негорючий)</td>
+              <td>НГ (негорючий)</td>
+            </tr>
+            <tr class="mk-price-row">
+              <td>Стоимость</td>
+              <td>от 990 ₽/м²<sup>*</sup></td>
+              <td>от 1 390 ₽/м²<sup>*</sup></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ПРИМЕНЕНИЕ -->
+  <section class="section">
+    <div class="container">
+      <div class="mk-section-header">
+        <h2>Где применяются металлокассеты</h2>
+        <p class="muted">Подходят для любых типов зданий и климатических условий</p>
+      </div>
+
+      <div class="mk-usage-grid">
+        <div class="mk-usage-card">
+          <div class="mk-usage-img" style="background: linear-gradient(135deg, #fef2f2, #fecaca)">🏢</div>
+          <h3>Бизнес-центры</h3>
+          <p class="muted">Класс A и B+, представительский вид</p>
+        </div>
+        <div class="mk-usage-card">
+          <div class="mk-usage-img" style="background: linear-gradient(135deg, #fef3c7, #fde68a)">🏠</div>
+          <h3>Жилые комплексы</h3>
+          <p class="muted">Многоквартирные дома, ЖК</p>
+        </div>
+        <div class="mk-usage-card">
+          <div class="mk-usage-img" style="background: linear-gradient(135deg, #d1fae5, #a7f3d0)">🏪</div>
+          <h3>Торговые центры</h3>
+          <p class="muted">ТРЦ, моллы, магазины</p>
+        </div>
+        <div class="mk-usage-card">
+          <div class="mk-usage-img" style="background: linear-gradient(135deg, #e0e7ff, #c7d2fe)">🏗️</div>
+          <h3>Промышленные объекты</h3>
+          <p class="muted">Склады, производства, логистика</p>
+        </div>
+        <div class="mk-usage-card">
+          <div class="mk-usage-img" style="background: linear-gradient(135deg, #fce7f3, #fbcfe8)">🏛️</div>
+          <h3>Административные</h3>
+          <p class="muted">Государственные и муниципальные</p>
+        </div>
+        <div class="mk-usage-card">
+          <div class="mk-usage-img" style="background: linear-gradient(135deg, #ccfbf1, #99f6e4)">🏥</div>
+          <h3>Социальные объекты</h3>
+          <p class="muted">Школы, больницы, спортивные</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- КАТАЛОГ: ВСЕ ВАРИАНТЫ -->
+  <section class="section">
+    <div class="container">
+      <div class="mk-section-header">
+        <h2>Каталог металлокассет</h2>
+        <p class="muted">Выберите подходящие параметры — каждый вариант на отдельной странице с характеристиками и расчётом</p>
+      </div>
+
+      <div class="mk-catalog-grid">
+        <div class="mk-catalog-group">
+          <h3 class="mk-catalog-cat">По толщине</h3>
+          <div class="mk-catalog-links">
+            {site.productVariants.metallokassety.filter(v => v.category === 'thickness').map(v => (
+              <a href={`/produkciya/metallokassety/${v.slug}/`} class="mk-catalog-link">
+                <span>{v.title}</span>
+                <span class="mk-catalog-meta">
+                  {v.priceFrom && <span class="mk-catalog-price">{v.priceFrom}<sup>*</sup></span>}
+                  <span class="mk-catalog-arrow">→</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div class="mk-catalog-group">
+          <h3 class="mk-catalog-cat">По размеру</h3>
+          <div class="mk-catalog-links">
+            {site.productVariants.metallokassety.filter(v => v.category === 'size').map(v => (
+              <a href={`/produkciya/metallokassety/${v.slug}/`} class="mk-catalog-link">
+                <span>{v.title}</span>
+                <span class="mk-catalog-meta">
+                  {v.priceFrom && <span class="mk-catalog-price">{v.priceFrom}<sup>*</sup></span>}
+                  <span class="mk-catalog-arrow">→</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div class="mk-catalog-group">
+          <h3 class="mk-catalog-cat">По материалу</h3>
+          <div class="mk-catalog-links">
+            {site.productVariants.metallokassety.filter(v => v.category === 'material').map(v => (
+              <a href={`/produkciya/metallokassety/${v.slug}/`} class="mk-catalog-link">
+                <span>{v.title}</span>
+                <span class="mk-catalog-meta">
+                  {v.priceFrom && <span class="mk-catalog-price">{v.priceFrom}<sup>*</sup></span>}
+                  <span class="mk-catalog-arrow">→</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div class="mk-catalog-group">
+          <h3 class="mk-catalog-cat">По типу крепления</h3>
+          <div class="mk-catalog-links">
+            {site.productVariants.metallokassety.filter(v => v.category === 'type').map(v => (
+              <a href={`/produkciya/metallokassety/${v.slug}/`} class="mk-catalog-link">
+                <span>{v.title}</span>
+                <span class="mk-catalog-meta">
+                  {v.priceFrom && <span class="mk-catalog-price">{v.priceFrom}<sup>*</sup></span>}
+                  <span class="mk-catalog-arrow">→</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div class="mk-catalog-group">
+          <h3 class="mk-catalog-cat">Дополнительно</h3>
+          <div class="mk-catalog-links">
+            {site.productVariants.metallokassety.filter(v => v.category === 'color' || v.category === 'subsystem').map(v => (
+              <a href={`/produkciya/metallokassety/${v.slug}/`} class="mk-catalog-link">
+                <span>{v.title}</span>
+                <span class="mk-catalog-meta">
+                  {v.priceFrom && <span class="mk-catalog-price">{v.priceFrom}<sup>*</sup></span>}
+                  <span class="mk-catalog-arrow">→</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICE DISCLAIMER -->
+  <section class="section">
+    <div class="container">
+      <div class="mk-disclaimer">
+        <p>* Указанные цены носят информационный характер и не являются публичной офертой (ст.&nbsp;437 ГК&nbsp;РФ). Точная стоимость зависит от объёма заказа, толщины металла, типа покрытия и сроков поставки. Для получения актуальной цены <a href="/kontakty/">свяжитесь с нами</a> или отправьте заявку на расчёт.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section mk-cta-section fullbleed">
+    <div class="container">
+      <div class="mk-cta-block">
+        <div class="mk-cta-text">
+          <h2>Готовы обсудить ваш проект?</h2>
+          <p>Отправьте заявку — мы подготовим расчёт стоимости, подберём оптимальную систему и предоставим техническую документацию. Работаем с проектами любой сложности.</p>
+          <div class="mk-cta-features">
+            <span>✓ Расчёт за 1–3 дня</span>
+            <span>✓ Бесплатная консультация</span>
+            <span>✓ Выезд на объект</span>
+          </div>
+        </div>
+        <div class="mk-cta-form">
+          <h3>Быстрая заявка</h3>
+          <form>
+            <input type="text" placeholder="Ваше имя" class="mk-input" />
+            <input type="tel" placeholder="Телефон" class="mk-input" />
+            <input type="text" placeholder="Город / Объект" class="mk-input" />
+            <button type="submit" class="btn primary mk-btn-lg mk-btn-full">Отправить заявку</button>
+          </form>
+          <p class="mk-form-hint">Или позвоните: <a href="tel:+73430000000">{site.contacts.phone}</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* HERO */
+  .mk-hero {
+    position: relative;
+    padding: 60px 0 50px;
+    overflow: hidden;
+  }
+  .mk-hero-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #1a0505 0%, #7f1d1d 100%);
+    z-index: 0;
+  }
+  .mk-hero-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .mk-hero-content {
+    color: #fff;
+  }
+  .mk-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(4px);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .mk-hero-title {
+    font-size: 48px;
+    line-height: 1.1;
+    font-weight: 800;
+    margin: 0 0 20px;
+    letter-spacing: -0.02em;
+  }
+  .mk-hero-subtitle {
+    font-size: 18px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.8);
+    margin: 0 0 32px;
+    max-width: 520px;
+  }
+  .mk-hero-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .mk-btn-lg {
+    padding: 14px 28px !important;
+    font-size: 15px !important;
+  }
+  .mk-hero-trust {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .mk-trust-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .mk-trust-item strong {
+    font-size: 22px;
+    color: #fff;
+  }
+  .mk-trust-item span {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+  }
+  .mk-hero-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .mk-hero-img-placeholder {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: rgba(255,255,255,0.08);
+    border: 2px dashed rgba(255,255,255,0.2);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    font-size: 16px;
+  }
+
+  /* SECTION HEADER */
+  .mk-section-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .mk-section-header h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 12px;
+    letter-spacing: -0.01em;
+  }
+  .mk-section-header p {
+    margin: 0;
+  }
+
+  /* TYPES GRID */
+  .mk-types-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .mk-type-card {
+    display: block;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.08);
+    background: #fff;
+    text-decoration: none !important;
+    color: inherit;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  .mk-type-card:hover {
+    box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+    transform: translateY(-4px);
+  }
+  .mk-type-img {
+    height: 220px;
+    background: linear-gradient(135deg, #fef2f2, #fecaca);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    font-size: 16px;
+  }
+  .mk-type-img-dark {
+    background: linear-gradient(135deg, #7f1d1d, #dc2626);
+    color: rgba(255,255,255,0.6);
+  }
+  .mk-type-body {
+    padding: 28px;
+  }
+  .mk-type-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: #fee2e2;
+    color: #991b1b;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .mk-tag-premium {
+    background: #fef3c7;
+    color: #92400e;
+  }
+  .mk-type-body h3 {
+    font-size: 24px;
+    margin: 0 0 12px;
+    font-weight: 700;
+  }
+  .mk-type-body p {
+    color: #64748b;
+    line-height: 1.6;
+    margin: 0 0 16px;
+  }
+  .mk-specs-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px;
+  }
+  .mk-specs-list li {
+    padding: 6px 0;
+    padding-left: 20px;
+    position: relative;
+    color: #374151;
+    font-size: 14px;
+  }
+  .mk-specs-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #b91c1c;
+    font-weight: 700;
+  }
+  .mk-type-action {
+    color: #b91c1c;
+    font-weight: 700;
+    font-size: 15px;
+  }
+
+  /* ADVANTAGES */
+  .mk-advantages-section {
+    background: #f8fafc;
+    padding: 60px 0;
+  }
+  .mk-adv-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .mk-adv-card {
+    padding: 28px;
+    border-radius: 16px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+    transition: box-shadow 0.2s ease;
+  }
+  .mk-adv-card:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  }
+  .mk-adv-icon {
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
+  .mk-adv-card h3 {
+    font-size: 18px;
+    margin: 0 0 10px;
+    font-weight: 700;
+  }
+  .mk-adv-card p {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* SPECS TABLE */
+  .mk-specs-table-wrap {
+    overflow-x: auto;
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+  .mk-specs-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+  }
+  .mk-specs-table th {
+    padding: 16px 20px;
+    background: #0f172a;
+    color: #fff;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .mk-specs-table td {
+    padding: 14px 20px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .mk-specs-table tr:last-child td {
+    border-bottom: none;
+  }
+  .mk-specs-table tr:hover td {
+    background: #f8fafc;
+  }
+  .mk-specs-table td:first-child {
+    font-weight: 600;
+    color: #1e293b;
+  }
+
+  .mk-price-row td {
+    background: #fef2f2;
+    font-weight: 700;
+    color: #b91c1c;
+  }
+  .mk-price-row td:first-child {
+    color: #1e293b;
+  }
+  .mk-price-row sup {
+    font-size: 10px;
+    opacity: 0.7;
+  }
+
+  /* DISCLAIMER */
+  .mk-disclaimer {
+    padding: 20px 24px;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  .mk-disclaimer p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.7;
+    color: #94a3b8;
+  }
+  .mk-disclaimer a {
+    color: #b91c1c;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .mk-disclaimer a:hover {
+    text-decoration: underline;
+  }
+
+  /* USAGE */
+  .mk-usage-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .mk-usage-card {
+    border-radius: 16px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+    transition: box-shadow 0.2s ease;
+    text-align: center;
+  }
+  .mk-usage-card:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  }
+  .mk-usage-img {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+  }
+  .mk-usage-card h3 {
+    font-size: 16px;
+    margin: 16px 16px 6px;
+    font-weight: 700;
+  }
+  .mk-usage-card p {
+    margin: 0 16px 16px;
+    font-size: 13px;
+  }
+
+  /* CTA */
+  .mk-cta-section {
+    background: linear-gradient(135deg, #1a0505 0%, #7f1d1d 100%);
+    padding: 60px 0;
+  }
+  .mk-cta-block {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .mk-cta-text {
+    color: #fff;
+  }
+  .mk-cta-text h2 {
+    font-size: 32px;
+    margin: 0 0 16px;
+    font-weight: 700;
+  }
+  .mk-cta-text p {
+    color: rgba(255,255,255,0.8);
+    font-size: 16px;
+    line-height: 1.7;
+    margin: 0 0 24px;
+  }
+  .mk-cta-features {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .mk-cta-features span {
+    color: rgba(255,255,255,0.7);
+    font-size: 14px;
+  }
+  .mk-cta-form {
+    background: #fff;
+    border-radius: 20px;
+    padding: 32px;
+  }
+  .mk-cta-form h3 {
+    font-size: 20px;
+    margin: 0 0 20px;
+    font-weight: 700;
+  }
+  .mk-cta-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .mk-input {
+    padding: 14px 18px;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 12px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .mk-input:focus {
+    border-color: #b91c1c;
+  }
+  .mk-btn-full {
+    width: 100%;
+  }
+  .mk-form-hint {
+    margin: 12px 0 0;
+    font-size: 13px;
+    color: #64748b;
+    text-align: center;
+  }
+  .mk-form-hint a {
+    color: #b91c1c;
+    font-weight: 600;
+  }
+
+  /* CATALOG GRID */
+  .mk-catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  .mk-catalog-group {
+    background: #f8fafc;
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  .mk-catalog-cat {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #94a3b8;
+    margin: 0 0 14px;
+  }
+  .mk-catalog-links {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .mk-catalog-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+    text-decoration: none !important;
+    color: #1e293b;
+    font-size: 14px;
+    font-weight: 500;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .mk-catalog-link:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-color: #b91c1c;
+  }
+  .mk-catalog-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  .mk-catalog-price {
+    font-size: 13px;
+    font-weight: 600;
+    color: #b91c1c;
+    white-space: nowrap;
+  }
+  .mk-catalog-price sup {
+    font-size: 9px;
+    opacity: 0.7;
+  }
+  .mk-catalog-arrow {
+    color: #b91c1c;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    .mk-hero-inner {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+    .mk-hero-title {
+      font-size: 32px;
+    }
+    .mk-hero-subtitle {
+      font-size: 16px;
+    }
+    .mk-hero-trust {
+      gap: 20px;
+    }
+    .mk-types-grid {
+      grid-template-columns: 1fr;
+    }
+    .mk-adv-grid {
+      grid-template-columns: 1fr;
+    }
+    .mk-usage-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .mk-cta-block {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .mk-hero {
+      padding: 40px 0 30px;
+    }
+    .mk-hero-title {
+      font-size: 28px;
+    }
+    .mk-usage-grid {
+      grid-template-columns: 1fr;
+    }
+    .mk-section-header h2 {
+      font-size: 24px;
+    }
+  }
+</style>

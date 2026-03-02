@@ -1,0 +1,47 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import site from "../data/site.json";
+
+type SideItem = { href: string; label: string };
+
+type Props = {
+  title: string;
+  description?: string;
+  kicker?: string;
+  sideTitle?: string;
+  sideNav?: SideItem[];
+};
+
+const { title, description, kicker, sideTitle, sideNav = [] } = Astro.props;
+const pathname = Astro.url.pathname;
+---
+
+<BaseLayout title={`${title} — ${site.company.name}`} description={description}>
+  <div class="grid cols-2">
+    <aside class="surface card" style="height: fit-content">
+      {kicker ? <div class="kicker">{kicker}</div> : null}
+      <div class="h2" style="margin-top: 8px">{sideTitle ?? title}</div>
+      {sideNav.length ? (
+        <nav aria-label="Раздел">
+          <div class="grid" style="margin-top: 12px; gap: 10px">
+            {sideNav.map((i) => (
+              <a
+                href={i.href}
+                style={`padding:10px 12px; border-radius:10px; border:1px solid var(--line); text-decoration:none; ${
+                  pathname === i.href ? "background: rgba(17,24,39,0.04); color: var(--text); font-weight:700;" : "color: var(--muted);"
+                }`}
+              >
+                {i.label}
+              </a>
+            ))}
+          </div>
+        </nav>
+      ) : null}
+    </aside>
+
+    <section>
+      <slot />
+    </section>
+  </div>
+</BaseLayout>
+

@@ -1,0 +1,603 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import site from "../../../data/site.json";
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return site.productVariants.metallokassety.map((v) => ({
+    params: { slug: v.slug },
+    props: { variant: v },
+  }));
+}
+
+const { variant } = Astro.props;
+
+const allVariants = site.productVariants.metallokassety;
+const related = allVariants.filter(
+  (v) => v.category === variant.category && v.slug !== variant.slug
+);
+const otherCategories = allVariants.filter(
+  (v) => v.category !== variant.category
+);
+
+const categoryLabels: Record<string, string> = {
+  thickness: "По толщине",
+  size: "По размеру",
+  material: "По материалу",
+  type: "По типу крепления",
+  color: "Цветовая палитра",
+  subsystem: "Подсистема",
+};
+
+const specLabels: Record<string, string> = {
+  thickness: "Толщина металла",
+  material: "Материал",
+  sizes: "Размеры (Ш×В)",
+  coating: "Покрытие",
+  mounting: "Тип крепления",
+  windLoad: "Ветровая нагрузка",
+  fireClass: "Пожарная безопасность",
+};
+
+const specEntries = Object.entries(variant.specs) as [string, string][];
+
+type VariantItem = typeof allVariants[number];
+const otherGrouped: Record<string, VariantItem[]> = {};
+for (const v of otherCategories) {
+  const cat = categoryLabels[v.category] ?? v.category;
+  if (!otherGrouped[cat]) otherGrouped[cat] = [];
+  otherGrouped[cat].push(v);
+}
+const otherGroupedEntries = Object.entries(otherGrouped);
+---
+
+<BaseLayout title={variant.metaTitle} description={variant.metaDescription}>
+
+  <!-- Breadcrumbs + JSON-LD -->
+  <nav class="vp-breadcrumbs" aria-label="Хлебные крошки">
+    <a href="/">Главная</a>
+    <span class="vp-bc-sep">/</span>
+    <a href="/produkciya/metallokassety/">Металлокассеты</a>
+    <span class="vp-bc-sep">/</span>
+    <span class="vp-bc-current">{variant.title}</span>
+  </nav>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": variant.h1,
+    "description": variant.metaDescription,
+    "brand": { "@type": "Brand", "name": site.company.name },
+    "manufacturer": { "@type": "Organization", "name": site.company.name },
+    "category": "Фасадные металлокассеты",
+    "offers": {
+      "@type": "Offer",
+      "availability": "https://schema.org/InStock",
+      "priceCurrency": "RUB",
+      "url": `https://steelfasad.example/produkciya/metallokassety/${variant.slug}/`
+    }
+  })} />
+
+  <!-- HERO -->
+  <section class="vp-hero">
+    <div class="vp-hero-inner">
+      <div class="vp-hero-text">
+        <span class="vp-badge">{variant.badge}</span>
+        <h1 class="vp-h1">{variant.h1}</h1>
+        <p class="vp-hero-desc">{variant.heroText}</p>
+        {variant.priceFrom && (
+          <div class="vp-price-block">
+            <span class="vp-price-value">{variant.priceFrom}<sup>*</sup></span>
+          </div>
+        )}
+        <div class="vp-hero-actions">
+          <a href="/kalkulyator/" class="btn primary vp-btn">Рассчитать стоимость</a>
+          <a href="/kontakty/" class="btn vp-btn">Консультация</a>
+        </div>
+      </div>
+      <div class="vp-hero-visual">
+        <div class="vp-hero-placeholder">
+          <span>Фото<br/>{variant.title}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPECS TABLE -->
+  <section class="vp-section">
+    <h2 class="vp-h2">Технические характеристики</h2>
+    <div class="vp-specs-wrap">
+      <table class="vp-specs-table">
+        <tbody>
+          {specEntries.map(([key, value]) => (
+            <tr>
+              <td class="vp-spec-label">{specLabels[key] ?? key}</td>
+              <td class="vp-spec-value">{value}</td>
+            </tr>
+          ))}
+          {variant.priceFrom && (
+            <tr class="vp-spec-price-row">
+              <td class="vp-spec-label">Стоимость</td>
+              <td class="vp-spec-value vp-spec-price">{variant.priceFrom}<sup>*</sup></td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ADVANTAGES -->
+  <section class="vp-section vp-adv-section">
+    <h2 class="vp-h2">Преимущества</h2>
+    <div class="vp-adv-grid">
+      {variant.advantages.map((adv) => (
+        <div class="vp-adv-card">
+          <h3>{adv.title}</h3>
+          <p>{adv.text}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- USE CASES -->
+  <section class="vp-section">
+    <h2 class="vp-h2">Области применения</h2>
+    <p class="vp-use-cases">{variant.useCases}</p>
+  </section>
+
+  <!-- RELATED VARIANTS -->
+  {related.length > 0 && (
+    <section class="vp-section">
+      <h2 class="vp-h2">Смотрите также: {categoryLabels[variant.category] ?? variant.badge}</h2>
+      <div class="vp-related-grid">
+        {related.map((r) => (
+          <a href={`/produkciya/metallokassety/${r.slug}/`} class="vp-related-link">
+            <span class="vp-related-title">{r.title}</span>
+            <span class="vp-related-arrow">→</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- OTHER CATEGORIES -->
+  <section class="vp-section">
+    <h2 class="vp-h2">Металлокассеты по другим параметрам</h2>
+    <div class="vp-other-grid">
+      {otherGroupedEntries.map(([catName, items]) => (
+        <div class="vp-other-group">
+          <h3 class="vp-other-cat">{catName}</h3>
+          <div class="vp-other-links">
+            {items.map((v) => (
+              <a href={`/produkciya/metallokassety/${v.slug}/`} class="vp-other-link">{v.title}</a>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- CTA FORM -->
+  <section class="vp-cta-section">
+    <div class="vp-cta-block">
+      <div class="vp-cta-text">
+        <h2>Рассчитать стоимость</h2>
+        <p>Отправьте заявку — подготовим расчёт с учётом параметров вашего объекта. {variant.title} — в наличии на производстве.</p>
+        <div class="vp-cta-features">
+          <span>Расчёт за 1–3 дня</span>
+          <span>Бесплатная консультация</span>
+          <span>Доставка по РФ</span>
+        </div>
+      </div>
+      <div class="vp-cta-form">
+        <h3>Быстрая заявка</h3>
+        <form action="/api/lead" method="post">
+          <input type="hidden" name="type" value="Расчёт" />
+          <input type="hidden" name="context" value={variant.title} />
+          <input type="hidden" name="page" value={Astro.url.pathname} />
+          <input type="text" name="name" placeholder="Ваше имя" class="vp-input" autocomplete="name" />
+          <input type="tel" name="phone" placeholder="Телефон" class="vp-input" required autocomplete="tel" />
+          <input type="text" name="city" placeholder="Город / Объект" class="vp-input" />
+          <button type="submit" class="btn primary vp-btn vp-btn-full">Отправить заявку</button>
+        </form>
+        <p class="vp-form-hint">Или позвоните: <a href={`tel:${site.contacts.phone.replace(/[\s()-]/g, '')}`}>{site.contacts.phone}</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICE DISCLAIMER -->
+  <div class="vp-disclaimer">
+    <p>* Указанные цены носят информационный характер и не являются публичной офертой (ст.&nbsp;437 ГК&nbsp;РФ). Точная стоимость зависит от объёма заказа, толщины металла, типа покрытия и сроков поставки. Для получения актуальной цены <a href="/kontakty/">свяжитесь с нами</a> или отправьте заявку на расчёт.</p>
+  </div>
+
+</BaseLayout>
+
+<style>
+  /* BREADCRUMBS */
+  .vp-breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #94a3b8;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .vp-breadcrumbs a {
+    color: #64748b;
+    text-decoration: none !important;
+    transition: color 0.2s;
+  }
+  .vp-breadcrumbs a:hover {
+    color: #b91c1c;
+  }
+  .vp-bc-sep { color: #cbd5e1; }
+  .vp-bc-current { color: #1e293b; font-weight: 500; }
+
+  /* HERO */
+  .vp-hero {
+    background: linear-gradient(135deg, #1a0505 0%, #7f1d1d 100%);
+    border-radius: 20px;
+    padding: 48px 40px;
+    margin-bottom: 48px;
+    overflow: hidden;
+  }
+  .vp-hero-inner {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .vp-hero-text { color: #fff; }
+  .vp-badge {
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.12);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin-bottom: 16px;
+    border: 1px solid rgba(255,255,255,0.15);
+    text-transform: uppercase;
+  }
+  .vp-h1 {
+    font-size: 36px;
+    line-height: 1.15;
+    font-weight: 800;
+    margin: 0 0 16px;
+    letter-spacing: -0.02em;
+  }
+  .vp-hero-desc {
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.75);
+    margin: 0 0 28px;
+    max-width: 520px;
+  }
+  .vp-price-block {
+    margin-bottom: 20px;
+  }
+  .vp-price-value {
+    font-size: 32px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.02em;
+  }
+  .vp-price-value sup {
+    font-size: 16px;
+    font-weight: 600;
+    opacity: 0.7;
+    margin-left: 2px;
+    vertical-align: super;
+  }
+  .vp-hero-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .vp-btn {
+    padding: 12px 24px !important;
+    font-size: 14px !important;
+  }
+  .vp-hero-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .vp-hero-placeholder {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: rgba(255,255,255,0.06);
+    border: 2px dashed rgba(255,255,255,0.15);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.35);
+    text-align: center;
+    font-size: 15px;
+  }
+
+  /* SECTIONS */
+  .vp-section {
+    margin-bottom: 48px;
+  }
+  .vp-h2 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0 0 24px;
+    letter-spacing: -0.01em;
+  }
+
+  /* SPECS TABLE */
+  .vp-specs-wrap {
+    border-radius: 14px;
+    border: 1px solid rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  .vp-specs-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .vp-specs-table tr:not(:last-child) td {
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .vp-specs-table tr:hover td {
+    background: #f8fafc;
+  }
+  .vp-spec-label {
+    padding: 14px 20px;
+    font-weight: 600;
+    color: #1e293b;
+    width: 40%;
+    font-size: 14px;
+  }
+  .vp-spec-value {
+    padding: 14px 20px;
+    color: #475569;
+    font-size: 14px;
+  }
+
+  .vp-spec-price-row td {
+    background: #fef2f2;
+  }
+  .vp-spec-price {
+    font-weight: 700;
+    color: #b91c1c !important;
+    font-size: 16px !important;
+  }
+  .vp-spec-price sup {
+    font-size: 11px;
+    opacity: 0.7;
+  }
+
+  /* ADVANTAGES */
+  .vp-adv-section {
+    background: #f8fafc;
+    margin-left: -40px;
+    margin-right: -40px;
+    padding: 48px 40px;
+    border-radius: 0;
+  }
+  .vp-adv-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .vp-adv-card {
+    background: #fff;
+    padding: 28px;
+    border-radius: 14px;
+    border: 1px solid rgba(0,0,0,0.06);
+    transition: box-shadow 0.2s;
+  }
+  .vp-adv-card:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  }
+  .vp-adv-card h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 0 0 10px;
+    color: #1e293b;
+  }
+  .vp-adv-card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #64748b;
+    margin: 0;
+  }
+
+  /* USE CASES */
+  .vp-use-cases {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #475569;
+    background: #f8fafc;
+    padding: 24px 28px;
+    border-radius: 14px;
+    border: 1px solid rgba(0,0,0,0.06);
+    margin: 0;
+  }
+
+  /* RELATED */
+  .vp-related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .vp-related-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(0,0,0,0.08);
+    background: #fff;
+    text-decoration: none !important;
+    color: #1e293b;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .vp-related-link:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    border-color: #b91c1c;
+  }
+  .vp-related-title { font-size: 14px; font-weight: 600; }
+  .vp-related-arrow { color: #b91c1c; font-size: 18px; font-weight: 700; }
+
+  /* OTHER CATEGORIES */
+  .vp-other-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  .vp-other-group {
+    background: #f8fafc;
+    border-radius: 14px;
+    padding: 24px;
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  .vp-other-cat {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #94a3b8;
+    margin: 0 0 12px;
+  }
+  .vp-other-links {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .vp-other-link {
+    font-size: 14px;
+    color: #1e293b;
+    text-decoration: none !important;
+    padding: 6px 0;
+    transition: color 0.2s;
+  }
+  .vp-other-link:hover { color: #b91c1c; }
+
+  /* CTA */
+  .vp-cta-section {
+    background: linear-gradient(135deg, #1a0505 0%, #7f1d1d 100%);
+    border-radius: 20px;
+    padding: 48px 40px;
+    margin-top: 48px;
+    margin-bottom: 24px;
+  }
+  .vp-cta-block {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .vp-cta-text { color: #fff; }
+  .vp-cta-text h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 14px;
+  }
+  .vp-cta-text p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.75);
+    margin: 0 0 20px;
+  }
+  .vp-cta-features {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .vp-cta-features span {
+    color: rgba(255,255,255,0.6);
+    font-size: 13px;
+  }
+  .vp-cta-features span::before {
+    content: "✓ ";
+    color: rgba(255,255,255,0.4);
+  }
+  .vp-cta-form {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px;
+  }
+  .vp-cta-form h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 18px;
+  }
+  .vp-cta-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .vp-input {
+    padding: 12px 16px;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+  }
+  .vp-input:focus { border-color: #b91c1c; }
+  .vp-btn-full { width: 100%; }
+  .vp-form-hint {
+    margin: 10px 0 0;
+    font-size: 12px;
+    color: #94a3b8;
+    text-align: center;
+  }
+  .vp-form-hint a {
+    color: #b91c1c;
+    font-weight: 600;
+    text-decoration: none !important;
+  }
+
+  /* DISCLAIMER */
+  .vp-disclaimer {
+    margin: 32px 0 16px;
+    padding: 20px 24px;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  .vp-disclaimer p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.7;
+    color: #94a3b8;
+  }
+  .vp-disclaimer a {
+    color: #b91c1c;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .vp-disclaimer a:hover {
+    text-decoration: underline;
+  }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    .vp-hero-inner { grid-template-columns: 1fr; gap: 24px; }
+    .vp-hero { padding: 32px 24px; }
+    .vp-h1 { font-size: 28px; }
+    .vp-adv-grid { grid-template-columns: 1fr; }
+    .vp-adv-section { margin-left: -20px; margin-right: -20px; padding: 32px 20px; }
+    .vp-cta-block { grid-template-columns: 1fr; gap: 24px; }
+    .vp-cta-section { padding: 32px 24px; }
+    .vp-related-grid { grid-template-columns: 1fr; }
+    .vp-other-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .vp-hero { padding: 24px 16px; border-radius: 14px; }
+    .vp-h1 { font-size: 24px; }
+    .vp-h2 { font-size: 22px; }
+    .vp-cta-section { padding: 24px 16px; border-radius: 14px; }
+  }
+</style>

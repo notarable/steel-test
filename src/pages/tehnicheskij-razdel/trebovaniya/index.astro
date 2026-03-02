@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import site from "../../../data/site.json";
+import LeadForm from "../../../components/LeadForm.astro";
+---
+
+<BaseLayout title={`Технические требования — ${site.company.name}`} description="Ветровые нагрузки, пожарные требования и ограничения для систем металлокассет.">
+  <div class="grid cols-2">
+    <section class="surface card">
+      <div class="kicker">Технический раздел</div>
+      <h1 class="h1" style="margin-top: 8px">Технические требования</h1>
+      <p class="muted" style="margin-top: 10px">
+        Итоговые решения по системе и узлам принимаются по расчёту (ветровые нагрузки, высотность, угловые зоны)
+        и требованиям проекта (пожарная безопасность, основания, подсистема, архитектурная раскладка).
+      </p>
+
+      <div class="h2" style="margin-top: 14px">Что обычно требуется для подбора</div>
+      <ul class="muted" style="margin-top: 10px">
+        <li>адрес/район строительства (для климатических данных)</li>
+        <li>этажность / отметки по фасаду</li>
+        <li>схема фасадов / раскладка / форматы кассет</li>
+        <li>основание и тип подсистемы</li>
+        <li>пожарные требования и состав слоёв</li>
+      </ul>
+
+      <div class="h2" style="margin-top: 14px">Примечание</div>
+      <p class="muted" style="margin-top: 10px">
+        Этот раздел — ориентир. Конкретные параметры (толщины, шаги креплений, узлы) выдаются под проект.
+      </p>
+    </section>
+
+    <section class="surface card">
+      <div class="h2">Запрос консультации</div>
+      <p class="muted" style="margin-top: 8px">
+        Если у вас есть исходные данные — приложите файл и кратко опишите задачу.
+      </p>
+      <div style="margin-top: 12px">
+        <LeadForm type="Консультация" context="Технические требования" />
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+

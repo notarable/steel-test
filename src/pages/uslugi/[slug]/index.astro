@@ -1,0 +1,63 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import site from "../../../data/site.json";
+
+type MenuItem = { slug: string; title: string };
+const services = (site.menus?.services as MenuItem[]) ?? [];
+
+export function getStaticPaths() {
+  const s = ((site.menus as any)?.services as MenuItem[]) ?? [];
+  return s.map((item) => ({ params: { slug: item.slug } }));
+}
+
+const slug = Astro.params.slug;
+const item = services.find((s) => s.slug === slug);
+---
+
+{item ? (
+<BaseLayout title={`${item.title} — услуги — ${site.company.name}`} description={`${item.title}: раздел услуги (заготовка).`}>
+  <section class="surface card">
+    <div class="kicker">Услуги</div>
+    <h1 class="h1" style="margin-top: 8px">{item.title}</h1>
+    <p class="muted" style="margin-top: 10px">
+      Раздел‑заготовка. Здесь будет описание процесса, состав работ, выдаваемые документы и условия взаимодействия.
+    </p>
+    <div style="margin-top: 12px; display:flex; gap:10px; flex-wrap:wrap">
+      <a class="btn ghost" href="/uslugi/">Все услуги</a>
+      <a class="btn ghost" href="/katalog/">Каталог / документация</a>
+      <a class="btn primary" href="/zayavka/">Оставить заявку</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="grid cols-2">
+      <div class="surface card">
+        <div class="h2">Что входит</div>
+        <ul class="muted" style="margin-top: 10px">
+          <li>уточнение исходных данных</li>
+          <li>подбор решения и параметров</li>
+          <li>подготовка документов (по договорённости)</li>
+        </ul>
+      </div>
+      <div class="surface card">
+        <div class="h2">Результат</div>
+        <p class="muted" style="margin-top: 10px">
+          Описывается под ваш реальный процесс (проектирование/производство/монтаж).
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+) : (
+<BaseLayout title={`Раздел не найден — ${site.company.name}`} noindex>
+  <section class="surface card">
+    <div class="kicker">Услуги</div>
+    <h1 class="h1" style="margin-top: 8px">Раздел не найден</h1>
+    <p class="muted" style="margin-top: 10px">Проверьте ссылку или вернитесь в список услуг.</p>
+    <div style="margin-top: 12px">
+      <a class="btn primary" href="/uslugi/">Услуги</a>
+    </div>
+  </section>
+</BaseLayout>
+)}
+

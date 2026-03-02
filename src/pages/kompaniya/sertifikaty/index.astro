@@ -1,0 +1,27 @@
+---
+import SectionLayout from "../../../layouts/SectionLayout.astro";
+
+const sideNav = [
+  { href: "/kompaniya/", label: "О компании" },
+  { href: "/kompaniya/novosti/", label: "Новости" },
+  { href: "/kompaniya/stati/", label: "Статьи" },
+  { href: "/kompaniya/vystavki/", label: "Выставки" },
+  { href: "/kompaniya/partnery/", label: "Партнёры" },
+  { href: "/kompaniya/sertifikaty/", label: "Сертификаты" },
+  { href: "/kompaniya/vakansii/", label: "Вакансии" }
+];
+---
+
+<SectionLayout title="Сертификаты" kicker="Компания" sideTitle="О компании" sideNav={sideNav}>
+  <section class="surface card">
+    <div class="h2">Сертификаты</div>
+    <p class="muted" style="margin-top: 10px">
+      Сертификаты размещены в техническом разделе.
+    </p>
+    <div style="margin-top: 12px; display:flex; gap:10px; flex-wrap:wrap">
+      <a class="btn primary" href="/tehnicheskij-razdel/sertifikaty/">Перейти к сертификатам</a>
+      <a class="btn ghost" href="/proektirovshchikam/">Запросить комплект документов</a>
+    </div>
+  </section>
+</SectionLayout>
+

@@ -1,0 +1,50 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import site from "../../../data/site.json";
+import LeadForm from "../../../components/LeadForm.astro";
+---
+
+<BaseLayout title={`Жилые здания — решения — ${site.company.name}`} description="Применение металлокассет на жилых зданиях: требования, подбор системы и документации.">
+  <div class="grid cols-2">
+    <section class="surface card">
+      <div class="kicker">Решения</div>
+      <h1 class="h1" style="margin-top: 8px">Жилые здания</h1>
+      <p class="muted" style="margin-top: 10px">
+        Для жилых объектов обычно критичны долговечность покрытия, визуальные допуски плоскости, стабильность
+        цвета/партии и ремонтопригодность (локальная замена элементов без «пересборки» фасада).
+      </p>
+
+      <div class="h2" style="margin-top: 14px">На что смотрим при подборе</div>
+      <ul class="muted" style="margin-top: 10px">
+        <li>ветровые нагрузки и высотность</li>
+        <li>пожарные требования и конструктив фасада</li>
+        <li>архитектурная раскладка, формат модулей, требования к шву</li>
+        <li>обслуживание и доступность замены элементов</li>
+      </ul>
+
+      <div class="h2" style="margin-top: 14px">Рекомендации</div>
+      <ul class="muted" style="margin-top: 10px">
+        <li>закрытый тип — при повышенных требованиях к виду шва и целостности плоскости</li>
+        <li>открытый тип — когда важна контролируемость шва и ремонтопригодность</li>
+      </ul>
+
+      <div style="margin-top: 12px; display:flex; gap:10px; flex-wrap:wrap">
+        <a class="btn ghost" href="/sistemy/otkrytye-metallokassety/">Открытый тип</a>
+        <a class="btn ghost" href="/sistemy/zakrytye-metallokassety/">Закрытый тип</a>
+        <a class="btn ghost" href="/tehnicheskij-razdel/">Документация / узлы</a>
+      </div>
+    </section>
+
+    <section class="surface card">
+      <div class="h2">Запрос консультации</div>
+      <p class="muted" style="margin-top: 8px">
+        Опишите объект и приложите раскладку (если есть) — предложим системное решение и перечень документов
+        для проектирования/согласования.
+      </p>
+      <div style="margin-top: 12px">
+        <LeadForm type="Консультация" context="Решение: жилые здания" />
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+

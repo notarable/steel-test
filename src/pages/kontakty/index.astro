@@ -1,0 +1,388 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import site from "../../data/site.json";
+
+const phoneClean = site.contacts.phone.replace(/[\s()\-]/g, "");
+---
+
+<BaseLayout title={`Контакты — ${site.company.name}`} description="Контакты производителя фасадных металлокассет Steelfas. Телефон, email, адрес производства. Екатеринбург / РФ.">
+
+  <section class="ct-hero">
+    <h1 class="ct-title">Контакты</h1>
+    <p class="ct-subtitle">Свяжитесь с нами удобным способом — ответим в течение рабочего дня</p>
+  </section>
+
+  <div class="ct-grid">
+
+    <!-- LEFT: Contact info -->
+    <div class="ct-info">
+
+      <a href={`tel:${phoneClean}`} class="ct-card ct-card-phone">
+        <div class="ct-card-icon">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+        </div>
+        <div class="ct-card-body">
+          <div class="ct-card-label">Телефон</div>
+          <div class="ct-card-value">{site.contacts.phone}</div>
+          <div class="ct-card-hint">{site.contacts.hours}</div>
+        </div>
+      </a>
+
+      <a href={`mailto:${site.contacts.email}`} class="ct-card">
+        <div class="ct-card-icon">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        </div>
+        <div class="ct-card-body">
+          <div class="ct-card-label">Email</div>
+          <div class="ct-card-value">{site.contacts.email}</div>
+          <div class="ct-card-hint">Ответ в течение 1 рабочего дня</div>
+        </div>
+      </a>
+
+      <a href={`mailto:${site.contacts.salesEmail}`} class="ct-card">
+        <div class="ct-card-icon">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        </div>
+        <div class="ct-card-body">
+          <div class="ct-card-label">Отдел продаж</div>
+          <div class="ct-card-value">{site.contacts.salesEmail}</div>
+          <div class="ct-card-hint">Расчёты, КП, договоры</div>
+        </div>
+      </a>
+
+      <div class="ct-card">
+        <div class="ct-card-icon">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        </div>
+        <div class="ct-card-body">
+          <div class="ct-card-label">Производство</div>
+          <div class="ct-card-value">{site.contacts.address}</div>
+          <div class="ct-card-hint">{site.contacts.hours}</div>
+        </div>
+      </div>
+
+      <div class="ct-extra">
+        {site.contacts.phones.map((p) => (
+          <a href={`tel:${p.phone.replace(/[\s()\-]/g, "")}`} class="ct-extra-item">
+            <span class="ct-extra-phone">{p.phone}</span>
+            <span class="ct-extra-hint">{p.hint}</span>
+          </a>
+        ))}
+      </div>
+
+    </div>
+
+    <!-- RIGHT: Form -->
+    <div class="ct-form-wrap">
+      <div class="ct-form-header">
+        <h2 class="ct-form-title">Написать нам</h2>
+        <p class="ct-form-desc">Опишите задачу — мы свяжемся и обсудим детали</p>
+      </div>
+
+      <form class="ct-form" action="/api/lead" method="post">
+        <input type="hidden" name="type" value="Обратная связь" />
+        <input type="hidden" name="context" value="Контакты" />
+        <input type="hidden" name="page" value="/kontakty/" />
+
+        <div class="ct-form-row">
+          <div class="ct-field">
+            <label for="ct-name">Имя</label>
+            <input type="text" id="ct-name" name="name" placeholder="Как к вам обращаться" autocomplete="name" />
+          </div>
+          <div class="ct-field">
+            <label for="ct-company">Компания</label>
+            <input type="text" id="ct-company" name="company" placeholder="Название организации" autocomplete="organization" />
+          </div>
+        </div>
+
+        <div class="ct-form-row">
+          <div class="ct-field">
+            <label for="ct-phone">Телефон <span class="ct-req">*</span></label>
+            <input type="tel" id="ct-phone" name="phone" placeholder="+7 (___) ___-__-__" required autocomplete="tel" />
+          </div>
+          <div class="ct-field">
+            <label for="ct-email">Email</label>
+            <input type="email" id="ct-email" name="email" placeholder="email@company.ru" autocomplete="email" />
+          </div>
+        </div>
+
+        <div class="ct-field">
+          <label for="ct-message">Сообщение</label>
+          <textarea id="ct-message" name="message" rows="4" placeholder="Расскажите о вашем проекте: тип объекта, площадь фасада, материал, сроки..."></textarea>
+        </div>
+
+        <button type="submit" class="ct-submit">Отправить заявку</button>
+
+        <p class="ct-privacy">Нажимая кнопку, вы соглашаетесь с <a href="/politika-konfidencialnosti/">политикой конфиденциальности</a></p>
+      </form>
+    </div>
+
+  </div>
+
+  <!-- MAP PLACEHOLDER -->
+  <section class="ct-map">
+    <div class="ct-map-placeholder">
+      <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+      <span>Карта — Яндекс.Карты или 2ГИС<br/>(вставьте iframe с координатами производства)</span>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* HERO */
+  .ct-hero {
+    text-align: center;
+    padding: 24px 0 40px;
+  }
+  .ct-title {
+    font-size: 40px;
+    font-weight: 800;
+    margin: 0 0 12px;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+  }
+  .ct-subtitle {
+    font-size: 17px;
+    color: #64748b;
+    margin: 0;
+    max-width: 480px;
+    margin-inline: auto;
+    line-height: 1.6;
+  }
+
+  /* GRID */
+  .ct-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 32px;
+    margin-bottom: 48px;
+    align-items: start;
+  }
+
+  /* CONTACT CARDS */
+  .ct-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .ct-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+    border-radius: 14px;
+    border: 1px solid rgba(0,0,0,0.06);
+    background: #fff;
+    text-decoration: none !important;
+    color: inherit;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  a.ct-card { cursor: pointer; }
+  a.ct-card:hover {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border-color: rgba(0,0,0,0.12);
+  }
+  .ct-card-icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #475569;
+  }
+  a.ct-card-phone .ct-card-icon {
+    background: #b91c1c;
+    color: #fff;
+  }
+  .ct-card-body {
+    min-width: 0;
+  }
+  .ct-card-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #94a3b8;
+    margin-bottom: 4px;
+  }
+  .ct-card-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #0f172a;
+    word-break: break-all;
+  }
+  .ct-card-hint {
+    font-size: 13px;
+    color: #94a3b8;
+    margin-top: 4px;
+  }
+
+  /* EXTRA PHONES */
+  .ct-extra {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px 20px;
+    background: #f8fafc;
+    border-radius: 14px;
+    border: 1px solid rgba(0,0,0,0.04);
+  }
+  .ct-extra-item {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    text-decoration: none !important;
+    color: inherit;
+    padding: 4px 0;
+  }
+  .ct-extra-item:hover .ct-extra-phone { color: #b91c1c; }
+  .ct-extra-phone {
+    font-size: 15px;
+    font-weight: 600;
+    color: #0f172a;
+    transition: color 0.2s;
+    white-space: nowrap;
+  }
+  .ct-extra-hint {
+    font-size: 13px;
+    color: #94a3b8;
+  }
+
+  /* FORM */
+  .ct-form-wrap {
+    background: #fff;
+    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.06);
+    padding: 36px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+  }
+  .ct-form-header {
+    margin-bottom: 28px;
+  }
+  .ct-form-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 8px;
+    color: #0f172a;
+  }
+  .ct-form-desc {
+    font-size: 15px;
+    color: #64748b;
+    margin: 0;
+  }
+  .ct-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .ct-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .ct-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .ct-field label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+  }
+  .ct-req { color: #b91c1c; }
+  .ct-field input,
+  .ct-field textarea {
+    padding: 12px 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: inherit;
+    color: #1e293b;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .ct-field input:focus,
+  .ct-field textarea:focus {
+    border-color: #b91c1c;
+    box-shadow: 0 0 0 3px rgba(185,28,28,0.08);
+  }
+  .ct-field input::placeholder,
+  .ct-field textarea::placeholder {
+    color: #b0b8c4;
+  }
+  .ct-field textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  .ct-submit {
+    width: 100%;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 12px;
+    background: #b91c1c;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .ct-submit:hover { background: #991b1b; }
+  .ct-submit:active { transform: scale(0.99); }
+  .ct-privacy {
+    font-size: 12px;
+    color: #94a3b8;
+    text-align: center;
+    margin: 0;
+  }
+  .ct-privacy a {
+    color: #64748b;
+    text-decoration: underline !important;
+  }
+  .ct-privacy a:hover { color: #b91c1c; }
+
+  /* MAP */
+  .ct-map {
+    margin-bottom: 32px;
+  }
+  .ct-map-placeholder {
+    height: 280px;
+    border-radius: 20px;
+    background: #f1f5f9;
+    border: 1px solid rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #94a3b8;
+    font-size: 14px;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    .ct-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .ct-title { font-size: 32px; }
+    .ct-form-wrap { padding: 24px; }
+  }
+  @media (max-width: 600px) {
+    .ct-hero { padding: 16px 0 28px; }
+    .ct-title { font-size: 28px; }
+    .ct-form-row { grid-template-columns: 1fr; gap: 16px; }
+    .ct-form-wrap { padding: 20px; border-radius: 16px; }
+    .ct-card { padding: 16px; }
+  }
+</style>

@@ -1,0 +1,32 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import site from "../../data/site.json";
+import LeadForm from "../../components/LeadForm.astro";
+---
+
+<BaseLayout title={`Каталог — ${site.company.name}`} description="Запрос каталога и технической документации по фасадным металлокассетам.">
+  <div class="grid cols-2">
+    <section class="surface card">
+      <div class="kicker">Каталог</div>
+      <h1 class="h1" style="margin-top: 8px">Каталог и документация</h1>
+      <p class="muted" style="margin-top: 10px">
+        Можем отправить каталог, альбом узлов, схемы и сертификаты под ваш проект. Достаточно оставить телефон — уточним состав и требования.
+      </p>
+      <div style="margin-top: 12px; display:flex; gap:10px; flex-wrap:wrap">
+        <a class="btn ghost" href="/tehnicheskij-razdel/">Технический раздел</a>
+        <a class="btn ghost" href="/tehnicheskij-razdel/sertifikaty/">Сертификаты</a>
+      </div>
+    </section>
+
+    <section class="surface card">
+      <div class="h2">Запросить каталог</div>
+      <p class="muted" style="margin-top: 8px">
+        Можно одним полем. Если удобнее — оставьте email во второй строке.
+      </p>
+      <div style="margin-top: 12px">
+        <LeadForm type="Запрос документации" context="Каталог" variant="phoneOnly" />
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+

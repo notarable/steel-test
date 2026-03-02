@@ -1,0 +1,112 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import site from "../../../data/site.json";
+
+type LinkItem = { href: string; label: string };
+type ProductGroup = { title: string; items: LinkItem[] };
+type SpecRow = { label: string; values: string[] };
+
+const groups = (site.menus?.productGroups as ProductGroup[]) ?? [];
+const catalogSpecs = (site as { catalogSpecs?: Record<string, SpecRow[]> }).catalogSpecs ?? {};
+const defaultSpecs = catalogSpecs.default ?? [{ label: "ОПИСАНИЕ", values: ["Уточняется по запросу"] }];
+
+function getSpecKey(href: string): string {
+  if (href.includes("sistemy") || href.includes("otkrytye") || href.includes("zakrytye")) return "metallokassety";
+  if (href.includes("reshetki")) return "reshetki";
+  if (href.includes("okonnye") || href.includes("parapet") || href.includes("profil") || href.includes("otlivy") || href.includes("otkosy") || href.includes("ugly") || href.includes("endova") || href.includes("vetrovaya") || href.includes("akvilony")) return "fasonnye";
+  if (href.includes("poddony")) return "default";
+  if (href.includes("koroba") || href.includes("kondicioner")) return "default";
+  if (href.includes("krovelnye")) return "default";
+  if (href.includes("kolpaki")) return "default";
+  if (href.includes("ekrany")) return "default";
+  return "default";
+}
+
+export function getStaticPaths() {
+  const g = (site.menus?.productGroups as ProductGroup[]) ?? [];
+  const allItems = g.flatMap((gr) => gr.items);
+  return allItems
+    .map((i) => {
+      const match = i.href.match(/^\/produkciya\/([^/]+)\//);
+      return match ? { params: { slug: match[1] } } : null;
+    })
+    .filter(Boolean);
+}
+
+const slug = Astro.params.slug;
+const allItems = groups.flatMap((g) => g.items);
+const item = allItems.find((i) => i.href === `/produkciya/${slug}/`);
+const currentPath = `/produkciya/${slug}/`;
+---
+
+{item ? (
+<BaseLayout title={`${item.label} — ${site.company.name}`} description={`${item.label}: раздел продукции.`}>
+  <div class="catalog-layout">
+    <aside class="catalog-sidebar">
+      <nav class="catalog-nav" aria-label="Каталог продукции">
+        {groups.map((g) => (
+          <div class="catalog-nav-group">
+            <div class="catalog-nav-group-title">{g.title}</div>
+            {g.items.map((i) => (
+              <a class="catalog-nav-item" href={i.href} aria-current={i.href === currentPath ? "page" : undefined}>{i.label}</a>
+            ))}
+          </div>
+        ))}
+        <div class="catalog-nav-group">
+          <a class="catalog-nav-item" href="/uslugi/">Услуги</a>
+          <a class="catalog-nav-item" href="/kompaniya/stati/">Статьи</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="catalog-main">
+      <h1 class="catalog-title">{item.label}</h1>
+
+      <div class="catalog-specs">
+        {(catalogSpecs[getSpecKey(item.href)] ?? defaultSpecs).map((row) => (
+          <div class="spec-row">
+            <div class="spec-label">{row.label}</div>
+            <div class="spec-values">{row.values.join(", ")}</div>
+          </div>
+        ))}
+      </div>
+
+      <div style="margin-bottom: 28px; display: flex; gap: 10px; flex-wrap: wrap">
+        <a class="btn primary" href="/zayavka/">Запросить расчёт</a>
+        <a class="btn ghost" href="/produkciya/">Вся продукция</a>
+        <a class="btn ghost" href="/katalog/">Скачать каталог</a>
+      </div>
+
+      <section class="catalog-cta" aria-label="Обратная связь">
+        <div class="catalog-cta-content">
+          <div class="catalog-cta-text">
+            <strong>Не нашли, что искали?</strong>
+            <span class="muted">Вам перезвонят в течение 5 минут</span>
+          </div>
+          <form class="catalog-cta-form" action="/api/lead" method="post">
+            <input type="hidden" name="type" value="Обратная связь" />
+            <input type="hidden" name="context" value="Каталог" />
+            <input type="hidden" name="page" value={Astro.url.pathname} />
+            <input type="hidden" name="variant" value="phoneOnly" />
+            <input type="tel" name="phone" placeholder="Телефон" required autocomplete="tel" class="catalog-cta-input" />
+            <button type="submit" class="btn primary catalog-cta-btn" aria-label="Отправить">
+              →
+            </button>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+</BaseLayout>
+) : (
+<BaseLayout title={`Раздел не найден — ${site.company.name}`} noindex>
+  <section class="surface card">
+    <div class="kicker">Продукция</div>
+    <h1 class="h1" style="margin-top: 8px">Раздел не найден</h1>
+    <p class="muted" style="margin-top: 10px">Проверьте ссылку или вернитесь в каталог продукции.</p>
+    <div style="margin-top: 12px">
+      <a class="btn primary" href="/produkciya/">Каталог продукции</a>
+    </div>
+  </section>
+</BaseLayout>
+)}

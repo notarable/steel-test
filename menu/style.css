@@ -1,0 +1,600 @@
+/* Сброс стилей */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Контейнер */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ========== НАВИГАЦИЯ ========== */
+.navbar {
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.navbar.scrolled {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    height: 70px;
+}
+
+/* Логотип */
+.logo a {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2563eb;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.logo a:hover {
+    color: #1d4ed8;
+}
+
+/* Меню навигации */
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 5px;
+    align-items: center;
+}
+
+.nav-item {
+    position: relative;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 10px 18px;
+    color: #374151;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    border-radius: 6px;
+}
+
+.nav-link:hover {
+    color: #2563eb;
+    background-color: #f3f4f6;
+}
+
+.arrow {
+    margin-left: 6px;
+    font-size: 10px;
+    transition: transform 0.3s ease;
+}
+
+.has-dropdown:hover .arrow {
+    transform: rotate(180deg);
+}
+
+/* Выпадающее меню */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    min-width: 220px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    list-style: none;
+    padding: 8px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    margin-top: 8px;
+}
+
+.has-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-menu li {
+    padding: 0;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 12px 20px;
+    color: #374151;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f3f4f6;
+    color: #2563eb;
+    padding-left: 24px;
+}
+
+/* Кнопка CTA */
+.nav-cta .btn-primary {
+    display: inline-block;
+    padding: 10px 24px;
+    background-color: #2563eb;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+.nav-cta .btn-primary:hover {
+    background-color: #1d4ed8;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+    transform: translateY(-2px);
+}
+
+/* ========== КОНТЕНТ СТРАНИЦЫ ========== */
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    padding: 120px 20px;
+    text-align: center;
+}
+
+.hero-section h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.hero-section p {
+    font-size: 20px;
+    opacity: 0.9;
+}
+
+.content-section {
+    padding: 80px 20px;
+    min-height: 400px;
+}
+
+.content-section:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+.content-section h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #1f2937;
+}
+
+.content-section p {
+    font-size: 18px;
+    color: #6b7280;
+}
+
+/* Footer */
+footer {
+    background-color: #1f2937;
+    color: #fff;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+/* Плавная прокрутка */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Блокировка прокрутки при открытом меню */
+body.mega-menu-open {
+    overflow: hidden;
+}
+
+/* ========== ПОЛНОЭКРАННОЕ МЕГА-МЕНЮ ========== */
+
+/* Кнопка открытия мега-меню */
+.mega-menu-trigger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+}
+
+.mega-icon {
+    margin-left: 8px;
+    font-size: 16px;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.mega-menu-trigger:hover .mega-icon {
+    transform: rotate(90deg);
+}
+
+/* Overlay (фон меню) */
+.mega-menu-overlay {
+    position: fixed;
+    top: 70px; /* Высота header */
+    left: 0;
+    right: 0;
+    height: 85vh; /* Занимает 85% высоты экрана, снизу видна страница */
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+    cursor: default;
+}
+
+.mega-menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Затемнение внизу для видимости что там можно кликнуть */
+.mega-menu-overlay::after {
+    content: '';
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 15vh;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.3), transparent);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Кликабельная область под меню */
+.mega-menu-clickable-area {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 15vh;
+    z-index: 9998;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.mega-menu-clickable-area::before {
+    content: '↑ Нажмите здесь чтобы закрыть меню';
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(37, 99, 235, 0.9);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: 0 4px 20px rgba(37, 99, 235, 0.4);
+    animation: pulseHint 2s ease-in-out infinite;
+    backdrop-filter: blur(10px);
+}
+
+.mega-menu-clickable-area:hover::before {
+    background: rgba(37, 99, 235, 1);
+    transform: translateX(-50%) scale(1.05);
+}
+
+body.mega-menu-open .mega-menu-clickable-area {
+    opacity: 1;
+    visibility: visible;
+}
+
+@keyframes pulseHint {
+    0%, 100% { 
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    50% { 
+        opacity: 0.8;
+        transform: translateX(-50%) translateY(-8px);
+    }
+}
+
+/* Контент меню */
+.mega-menu-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 40px 60px;
+    transform: translateY(-30px);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    min-height: 100%;
+    pointer-events: none; /* Чтобы клики проходили сквозь пустое пространство */
+}
+
+.mega-menu-overlay.active .mega-menu-content {
+    transform: translateY(0);
+}
+
+/* Включаем pointer-events для интерактивных элементов */
+.mega-menu-content > * {
+    pointer-events: auto;
+}
+
+/* Кнопка закрытия - СКРЫТА */
+.mega-menu-close {
+    display: none; /* Убираем кнопку закрытия */
+}
+
+/* Сетка колонок */
+.mega-menu-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+/* Колонка */
+.mega-column {
+    animation: fadeInUp 0.6s ease backwards;
+}
+
+.mega-column:nth-child(1) { animation-delay: 0.1s; }
+.mega-column:nth-child(2) { animation-delay: 0.2s; }
+.mega-column:nth-child(3) { animation-delay: 0.3s; }
+.mega-column:nth-child(4) { animation-delay: 0.4s; }
+
+/* Заголовок колонки */
+.mega-title {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #2563eb;
+    display: inline-block;
+}
+
+/* Категория (раскрывающийся блок) */
+.mega-category {
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.mega-category:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Заголовок категории */
+.mega-category-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mega-category-header:hover {
+    padding-left: 24px;
+    color: #60a5fa;
+}
+
+.expand-icon {
+    font-size: 20px;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+}
+
+.mega-category.expanded .expand-icon {
+    transform: rotate(45deg);
+}
+
+/* Содержимое категории */
+.mega-category-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mega-category.expanded .mega-category-content {
+    max-height: 600px;
+    padding-bottom: 10px;
+}
+
+.mega-category-content a {
+    display: block;
+    padding: 12px 20px 12px 40px;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 15px;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.mega-category-content a::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 2px;
+    background: #2563eb;
+    transition: width 0.3s ease;
+}
+
+.mega-category-content a:hover {
+    color: #fff;
+    padding-left: 50px;
+    background: rgba(37, 99, 235, 0.1);
+}
+
+.mega-category-content a:hover::before {
+    width: 12px;
+}
+
+/* Футер мега-меню */
+.mega-menu-footer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    animation: fadeInUp 0.6s ease 0.5s backwards;
+}
+
+.mega-footer-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #fff;
+}
+
+.footer-icon {
+    font-size: 32px;
+}
+
+.mega-footer-item strong {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.mega-footer-item p {
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Анимации */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========== АДАПТИВ ДЛЯ ПЛАНШЕТОВ ========== */
+@media (max-width: 1024px) {
+    .nav-container {
+        padding: 0 20px;
+    }
+    
+    .nav-menu {
+        gap: 2px;
+    }
+    
+    .nav-link {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    /* Мега-меню для планшетов */
+    .mega-menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+
+    .mega-menu-content {
+        padding: 40px 30px 60px;
+    }
+
+    .mega-menu-overlay {
+        height: 80vh; /* Чуть меньше на планшетах */
+    }
+
+    .mega-menu-clickable-area {
+        height: 20vh;
+    }
+}
+
+/* ========== АДАПТИВ ДЛЯ МОБИЛЬНЫХ ========== */
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none; /* Для мобильной версии нужно добавить гамбургер меню */
+    }
+    
+    .hero-section h1 {
+        font-size: 32px;
+    }
+    
+    .hero-section p {
+        font-size: 16px;
+    }
+    
+    .content-section h2 {
+        font-size: 28px;
+    }
+
+    /* Мега-меню для мобильных */
+    .mega-menu-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .mega-menu-content {
+        padding: 30px 20px 50px;
+    }
+
+    .mega-title {
+        font-size: 20px;
+    }
+
+    .mega-menu-footer {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .mega-menu-overlay {
+        height: 75vh; /* Меньше на мобильных */
+    }
+
+    .mega-menu-clickable-area {
+        height: 25vh;
+    }
+
+    /* Подсказка для мобильных */
+    .mega-menu-clickable-area::before {
+        font-size: 12px;
+        padding: 10px 20px;
+        white-space: normal;
+        text-align: center;
+        max-width: 80%;
+    }
+}

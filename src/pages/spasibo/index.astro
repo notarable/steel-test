@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import site from "../../data/site.json";
+
+const type = Astro.url.searchParams.get("type");
+const mock = Astro.url.searchParams.get("mock");
+---
+
+<BaseLayout title={`Спасибо — ${site.company.name}`} description="Заявка отправлена.">
+  <section class="surface card">
+    <div class="kicker">Готово</div>
+    <h1 class="h1" style="margin-top: 8px">Заявка принята</h1>
+    <p class="muted" style="margin-top: 10px">
+      {type ? `Тип заявки: ${type}. ` : ""}Мы свяжемся после обработки запроса.
+    </p>
+    {mock ? (
+      <p class="muted" style="margin-top: 10px">
+        Примечание: SMTP не настроен — письмо не отправлялось (режим разработки).
+      </p>
+    ) : null}
+    <div style="margin-top: 14px; display:flex; gap:10px; flex-wrap:wrap">
+      <a class="btn primary" href="/tehnicheskij-razdel/">Технический раздел</a>
+      <a class="btn ghost" href="/sistemy/">Системы</a>
+      <a class="btn ghost" href="/kontakty/">Контакты</a>
+    </div>
+  </section>
+</BaseLayout>
+

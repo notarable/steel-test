@@ -1,0 +1,43 @@
+---
+import "../styles/global.css";
+import site from "../data/site.json";
+import Seo from "../components/Seo.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+type Props = {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  noindex?: boolean;
+};
+
+const title = Astro.props.title ?? site.seo.defaultTitle;
+const description = Astro.props.description ?? site.seo.defaultDescription;
+const canonical = Astro.props.canonical;
+const noindex = Astro.props.noindex;
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="/minilogo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <meta name="generator" content={Astro.generator} />
+    <Seo title={title} description={description} canonical={canonical} noindex={noindex} />
+  </head>
+  <body>
+    <Header />
+    <main class="main">
+      <div class="container">
+        <slot />
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>
+

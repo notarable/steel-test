@@ -1,0 +1,443 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import site from "../../data/site.json";
+
+const companyLinks = site.menus?.company ?? [];
+---
+
+<BaseLayout title={`О компании — ${site.company.name}`} description="Steelfas — производство фасадных металлокассет рядом с Екатеринбургом. Собственное производство, проектная поддержка, поставки по РФ.">
+
+  <!-- HERO -->
+  <section class="co-hero">
+    <div class="co-hero-bg">
+      <img src={site.media.technicalImage} alt="Производство Steelfas" loading="eager" />
+      <div class="co-hero-overlay"></div>
+    </div>
+    <div class="co-hero-content">
+      <span class="co-badge">О компании</span>
+      <h1 class="co-hero-title">Steelfas</h1>
+      <p class="co-hero-subtitle">{site.company.tagline}</p>
+      <p class="co-hero-desc">{site.company.about}</p>
+    </div>
+  </section>
+
+  <!-- MISSION + NUMBERS -->
+  <section class="co-section">
+    <div class="co-mission-grid">
+      <div class="co-mission">
+        <h2 class="co-h2">Наша миссия</h2>
+        <p class="co-mission-text">{site.home.mission}</p>
+      </div>
+      <div class="co-numbers">
+        <div class="co-num-item">
+          <div class="co-num-value">7+</div>
+          <div class="co-num-label">лет на рынке</div>
+        </div>
+        <div class="co-num-item">
+          <div class="co-num-value">50+</div>
+          <div class="co-num-label">объектов</div>
+        </div>
+        <div class="co-num-item">
+          <div class="co-num-value">15+</div>
+          <div class="co-num-label">городов РФ</div>
+        </div>
+        <div class="co-num-item">
+          <div class="co-num-value">100%</div>
+          <div class="co-num-label">своё производство</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADVANTAGES -->
+  <section class="co-section co-adv-section">
+    <h2 class="co-h2">Почему выбирают Steelfas</h2>
+    <div class="co-adv-grid">
+      {site.advantages.map((adv) => (
+        <div class="co-adv-card">
+          <h3>{adv.title}</h3>
+          <p>{adv.text}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- PRODUCTION PHOTOS -->
+  <section class="co-section">
+    <h2 class="co-h2">Производство</h2>
+    <p class="co-section-desc">Собственная производственная площадка рядом с Екатеринбургом. Полный цикл — от раскроя и гибки до порошковой окраски и упаковки.</p>
+    <div class="co-photo-grid">
+      <div class="co-photo-placeholder co-photo-large">
+        <span>Фото: производственный цех<br/>(общий вид)</span>
+      </div>
+      <div class="co-photo-placeholder">
+        <span>Фото: станок<br/>гибки</span>
+      </div>
+      <div class="co-photo-placeholder">
+        <span>Фото: покрасочная<br/>линия</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUB-SECTIONS: News, Articles, Exhibitions, Partners, etc. -->
+  <section class="co-section">
+    <h2 class="co-h2">Разделы компании</h2>
+    <div class="co-links-grid">
+      <a href="/kompaniya/novosti/" class="co-link-card">
+        <div class="co-link-icon">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+        </div>
+        <div>
+          <h3>Новости</h3>
+          <p>Обновления производства, новые объекты, события компании</p>
+        </div>
+        <span class="co-link-arrow">→</span>
+      </a>
+
+      <a href="/kompaniya/stati/" class="co-link-card">
+        <div class="co-link-icon">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+        </div>
+        <div>
+          <h3>Статьи</h3>
+          <p>Полезные материалы о фасадах, металлокассетах, монтаже</p>
+        </div>
+        <span class="co-link-arrow">→</span>
+      </a>
+
+      <a href="/kompaniya/vystavki/" class="co-link-card">
+        <div class="co-link-icon">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        </div>
+        <div>
+          <h3>Выставки</h3>
+          <p>Участие в профессиональных выставках и мероприятиях</p>
+        </div>
+        <span class="co-link-arrow">→</span>
+      </a>
+
+      <a href="/kompaniya/partnery/" class="co-link-card">
+        <div class="co-link-icon">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+        </div>
+        <div>
+          <h3>Партнёры</h3>
+          <p>Компании, с которыми мы работаем и развиваемся</p>
+        </div>
+        <span class="co-link-arrow">→</span>
+      </a>
+
+      <a href="/kompaniya/sertifikaty/" class="co-link-card">
+        <div class="co-link-icon">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+        </div>
+        <div>
+          <h3>Сертификаты</h3>
+          <p>Документация, сертификаты соответствия, протоколы испытаний</p>
+        </div>
+        <span class="co-link-arrow">→</span>
+      </a>
+
+      <a href="/kompaniya/vakansii/" class="co-link-card">
+        <div class="co-link-icon">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        </div>
+        <div>
+          <h3>Вакансии</h3>
+          <p>Открытые позиции в команде Steelfas</p>
+        </div>
+        <span class="co-link-arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="co-cta">
+    <h2>Готовы начать сотрудничество?</h2>
+    <p>Обсудим ваш проект — расскажем о возможностях и подготовим расчёт</p>
+    <div class="co-cta-actions">
+      <a href="/kontakty/" class="btn primary co-btn">Связаться с нами</a>
+      <a href="/obekty/" class="btn co-btn">Наши объекты</a>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* HERO */
+  .co-hero {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    min-height: 320px;
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 48px;
+  }
+  .co-hero-bg {
+    position: absolute;
+    inset: 0;
+  }
+  .co-hero-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .co-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(26,5,5,0.3) 0%, rgba(26,5,5,0.85) 100%);
+  }
+  .co-hero-content {
+    position: relative;
+    z-index: 1;
+    padding: 40px;
+    color: #fff;
+    max-width: 600px;
+  }
+  .co-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.15);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .co-hero-title {
+    font-size: 48px;
+    font-weight: 800;
+    margin: 0 0 12px;
+    letter-spacing: -0.02em;
+  }
+  .co-hero-subtitle {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 12px;
+    color: rgba(255,255,255,0.9);
+  }
+  .co-hero-desc {
+    font-size: 15px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.7);
+    margin: 0;
+  }
+
+  /* SECTIONS */
+  .co-section { margin-bottom: 48px; }
+  .co-h2 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0 0 20px;
+    color: #0f172a;
+  }
+  .co-section-desc {
+    font-size: 16px;
+    color: #64748b;
+    line-height: 1.6;
+    margin: -8px 0 24px;
+    max-width: 600px;
+  }
+
+  /* MISSION + NUMBERS */
+  .co-mission-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: center;
+  }
+  .co-mission-text {
+    font-size: 20px;
+    line-height: 1.6;
+    color: #374151;
+    margin: 0;
+    font-weight: 500;
+  }
+  .co-numbers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .co-num-item {
+    text-align: center;
+    padding: 24px 16px;
+    border-radius: 16px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  .co-num-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: #b91c1c;
+    margin-bottom: 4px;
+  }
+  .co-num-label {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 500;
+  }
+
+  /* ADVANTAGES */
+  .co-adv-section {
+    background: #f8fafc;
+    margin-left: -24px;
+    margin-right: -24px;
+    padding: 48px 24px;
+    border-radius: 20px;
+  }
+  .co-adv-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .co-adv-card {
+    padding: 24px;
+    border-radius: 14px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  .co-adv-card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 8px;
+    color: #0f172a;
+  }
+  .co-adv-card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #64748b;
+    margin: 0;
+  }
+
+  /* PRODUCTION PHOTOS */
+  .co-photo-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 16px;
+  }
+  .co-photo-placeholder {
+    aspect-ratio: 4/3;
+    border-radius: 16px;
+    background: #f1f5f9;
+    border: 2px dashed rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    font-size: 14px;
+    text-align: center;
+    line-height: 1.5;
+  }
+  .co-photo-large {
+    grid-row: span 1;
+  }
+
+  /* SUB-SECTION LINKS */
+  .co-links-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .co-link-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    border-radius: 14px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+    text-decoration: none !important;
+    color: inherit;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .co-link-card:hover {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border-color: rgba(0,0,0,0.12);
+  }
+  .co-link-icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #475569;
+  }
+  .co-link-card:hover .co-link-icon {
+    background: #fef2f2;
+    color: #b91c1c;
+  }
+  .co-link-card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 4px;
+    color: #0f172a;
+  }
+  .co-link-card p {
+    font-size: 13px;
+    color: #94a3b8;
+    margin: 0;
+    line-height: 1.4;
+  }
+  .co-link-arrow {
+    margin-left: auto;
+    font-size: 20px;
+    font-weight: 700;
+    color: #cbd5e1;
+    flex-shrink: 0;
+    transition: color 0.2s;
+  }
+  .co-link-card:hover .co-link-arrow { color: #b91c1c; }
+
+  /* CTA */
+  .co-cta {
+    background: linear-gradient(135deg, #1a0505 0%, #7f1d1d 100%);
+    border-radius: 20px;
+    padding: 48px 40px;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .co-cta h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 10px;
+  }
+  .co-cta p {
+    font-size: 16px;
+    color: rgba(255,255,255,0.7);
+    margin: 0 0 24px;
+  }
+  .co-cta-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .co-btn {
+    padding: 12px 24px !important;
+    font-size: 15px !important;
+  }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    .co-hero-title { font-size: 36px; }
+    .co-mission-grid { grid-template-columns: 1fr; }
+    .co-adv-grid { grid-template-columns: 1fr; }
+    .co-photo-grid { grid-template-columns: 1fr; }
+    .co-links-grid { grid-template-columns: 1fr; }
+    .co-hero-content { padding: 24px; }
+  }
+  @media (max-width: 600px) {
+    .co-hero { min-height: 260px; }
+    .co-hero-title { font-size: 28px; }
+    .co-hero-subtitle { font-size: 17px; }
+    .co-numbers { grid-template-columns: 1fr 1fr; }
+    .co-cta { padding: 32px 20px; }
+    .co-adv-section { margin-left: -16px; margin-right: -16px; padding: 32px 16px; }
+  }
+</style>

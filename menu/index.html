@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Навигационное меню</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Липкая навигация -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <!-- Логотип -->
+            <div class="logo">
+                <a href="#home">МойСайт</a>
+            </div>
+
+            <!-- Меню навигации -->
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#home" class="nav-link">Главная</a>
+                </li>
+
+                <!-- Кнопка открытия полноэкранного меню -->
+                <li class="nav-item">
+                    <button class="nav-link mega-menu-trigger" id="megaMenuBtn">
+                        Продукция
+                        <span class="mega-icon">☰</span>
+                    </button>
+                </li>
+                
+                <li class="nav-item has-dropdown">
+                    <a href="#services" class="nav-link">Услуги <span class="arrow">▼</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#web-design">Веб-дизайн</a></li>
+                        <li><a href="#development">Разработка</a></li>
+                        <li><a href="#seo">SEO оптимизация</a></li>
+                        <li><a href="#marketing">Маркетинг</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#about" class="nav-link">О нас</a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#portfolio" class="nav-link">Портфолио</a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">Контакты</a>
+                </li>
+            </ul>
+
+            <!-- Кнопка призыва к действию -->
+            <div class="nav-cta">
+                <a href="#get-started" class="btn-primary">Начать</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ПОЛНОЭКРАННОЕ МЕГА-МЕНЮ -->
+    <div class="mega-menu-overlay" id="megaMenuOverlay">
+        <div class="mega-menu-content">
+
+            <!-- Контент мега-меню -->
+            <div class="mega-menu-grid">
+                
+                <!-- Колонка 1: Услуги -->
+                <div class="mega-column">
+                    <h3 class="mega-title">Услуги</h3>
+                    
+                    <div class="mega-category">
+                        <button class="mega-category-header">
+                            <span>Веб-дизайн</span>
+                            <span class="expand-icon">+</span>
+                        </button>
+                        <div class="mega-category-content">
+                            <a href="#designer-vasya">👨‍💻 Дизайнер Вася</a>
+                            <a href="#designer-petya">👨‍💻 Дизайнер Петя</a>
+                            <a href="#designer-masha">👩‍💻 Дизайнер Маша</a>
+                            <a href="#ui-ux">🎨 UI/UX дизайн</a>
+                            <a href="#mobile-design">📱 Мобильный дизайн</a>
+                        </div>
+                    </div>
+
+                    <div class="mega-category">
+                        <button class="mega-category-header">
+                            <span>Программирование</span>
+                            <span class="expand-icon">+</span>
+                        </button>
+                        <div class="mega-category-content">
+                            <a href="#programmer-ivan">💻 Программист Иван</a>
+                            <a href="#programmer-sergey">💻 Программист Сергей</a>
+                            <a href="#programmer-anna">💻 Программист Анна</a>
+                            <a href="#frontend">🎯 Frontend разработка</a>
+                            <a href="#backend">⚙️ Backend разработка</a>
+                            <a href="#fullstack">🚀 Fullstack разработка</a>
+                        </div>
+                    </div>
+
+                    <div class="mega-category">
+                        <button class="mega-category-header">
+                            <span>SEO & Маркетинг</span>
+                            <span class="expand-icon">+</span>
+                        </button>
+                        <div class="mega-category-content">
+                            <a href="#seo-specialist">📊 SEO специалист Олег</a>
+                            <a href="#marketer-katya">📈 Маркетолог Катя</a>
+                            <a href="#content-manager">✍️ Контент-менеджер Лена</a>
+                            <a href="#smm">📱 SMM продвижение</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Колонка 2: Продукты -->
+                <div class="mega-column">
+                    <h3 class="mega-title">Продукты</h3>
+                    
+                    <div class="mega-category">
+                        <button class="mega-category-header">
+                            <span>Готовые решения</span>
+                            <span class="expand-icon">+</span>
+                        </button>
+                        <div class="mega-category-content">
+                            <a href="#crm">🏢 CRM система</a>
+                            <a href="#ecommerce">🛒 Интернет-магазин</a>
+                            <a href="#landing">📄 Лендинг под ключ</a>
+                            <a href="#corporate">🏛️ Корпоративный сайт</a>
+                            <a href="#blog">📝 Платформа для блога</a>
+                        </div>
+                    </div>
+
+                    <div class="mega-category">
+                        <button class="mega-category-header">
+                            <span>Индивидуальная разработка</span>
+                            <span class="expand-icon">+</span>
+                        </button>
+                        <div class="mega-category-content">
+                            <a href="#custom-web">🌐 Веб-приложение</a>
+                            <a href="#custom-mobile">📱 Мобильное приложение</a>
+                            <a href="#custom-desktop">💻 Десктоп приложение</a>
+                            <a href="#custom-api">🔌 API разработка</a>
+                        </div>
+                    </div>
+
+                    <div class="mega-category">
+                        <button class="mega-category-header">
+                            <span>Шаблоны и темы</span>
+                            <span class="expand-icon">+</span>
+                        </button>
+                        <div class="mega-category-content">
+                            <a href="#wordpress-themes">📦 WordPress темы</a>
+                            <a href="#html-templates">📄 HTML шаблоны</a>
+                            <a href="#react-components">⚛️ React компоненты</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Колонка 3: Технологии -->
+                <div class="mega-column">
+                    <h3 class="mega-title">Технологии</h3>
+                    
+                    <div class="mega-category">
+                        <button class="mega-category-header">
+                            <span>Frontend</span>
+                            <span class="expand-icon">+</span>
+                        </button>
+                        <div class="mega-category-content">
+                            <a href="#react">⚛️ React.js</a>
+                            <a href="#vue">💚 Vue.js</a>
+                            <a href="#angular">🅰️ Angular</a>
+                            <a href="#next">▲ Next.js</a>
+                            <a href="#svelte">🧡 Svelte</a>
+                        </div>
+                    </div>
+
+                    <div class="mega-category">
+                        <button class="mega-category-header">
+                            <span>Backend</span>
+                            <span class="expand-icon">+</span>
+                        </button>
+                        <div class="mega-category-content">
+                            <a href="#nodejs">🟢 Node.js</a>
+                            <a href="#python">🐍 Python/Django</a>
+                            <a href="#php">🐘 PHP/Laravel</a>
+                            <a href="#ruby">💎 Ruby on Rails</a>
+                            <a href="#golang">🔵 Go</a>
+                        </div>
+                    </div>
+
+                    <div class="mega-category">
+                        <button class="mega-category-header">
+                            <span>Базы данных</span>
+                            <span class="expand-icon">+</span>
+                        </button>
+                        <div class="mega-category-content">
+                            <a href="#postgresql">🐘 PostgreSQL</a>
+                            <a href="#mongodb">🍃 MongoDB</a>
+                            <a href="#mysql">🐬 MySQL</a>
+                            <a href="#redis">🔴 Redis</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Колонка 4: Поддержка -->
+                <div class="mega-column">
+                    <h3 class="mega-title">Поддержка</h3>
+                    
+                    <div class="mega-category">
+                        <button class="mega-category-header">
+                            <span>Тех. поддержка</span>
+                            <span class="expand-icon">+</span>
+                        </button>
+                        <div class="mega-category-content">
+                            <a href="#support-24">🔧 24/7 поддержка</a>
+                            <a href="#hosting">🌐 Хостинг и домены</a>
+                            <a href="#maintenance">🛠️ Обслуживание сайта</a>
+                            <a href="#updates">🔄 Обновления</a>
+                        </div>
+                    </div>
+
+                    <div class="mega-category">
+                        <button class="mega-category-header">
+                            <span>Обучение</span>
+                            <span class="expand-icon">+</span>
+                        </button>
+                        <div class="mega-category-content">
+                            <a href="#courses">📚 Онлайн курсы</a>
+                            <a href="#webinars">🎥 Вебинары</a>
+                            <a href="#documentation">📖 Документация</a>
+                            <a href="#tutorials">🎓 Видеоуроки</a>
+                        </div>
+                    </div>
+
+                    <div class="mega-category">
+                        <button class="mega-category-header">
+                            <span>Консультации</span>
+                            <span class="expand-icon">+</span>
+                        </button>
+                        <div class="mega-category-content">
+                            <a href="#consultation">💼 Бизнес-консультация</a>
+                            <a href="#audit">🔍 Аудит проекта</a>
+                            <a href="#strategy">📋 Стратегия развития</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Нижний блок с контактами -->
+            <div class="mega-menu-footer">
+                <div class="mega-footer-item">
+                    <span class="footer-icon">📞</span>
+                    <div>
+                        <strong>Телефон</strong>
+                        <p>+7 (999) 123-45-67</p>
+                    </div>
+                </div>
+                <div class="mega-footer-item">
+                    <span class="footer-icon">✉️</span>
+                    <div>
+                        <strong>Email</strong>
+                        <p>info@example.com</p>
+                    </div>
+                </div>
+                <div class="mega-footer-item">
+                    <span class="footer-icon">💬</span>
+                    <div>
+                        <strong>Онлайн-чат</strong>
+                        <p>Мы всегда на связи</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Область закрытия меню (видимый контент снизу) -->
+    <div class="mega-menu-clickable-area" id="megaMenuClickableArea"></div>
+
+    <!-- Контент страницы -->
+    <main>
+        <section id="home" class="hero-section">
+            <div class="container">
+                <h1>Добро пожаловать!</h1>
+                <p>Это пример современного навигационного меню для десктопа</p>
+            </div>
+        </section>
+
+        <section id="services" class="content-section">
+            <div class="container">
+                <h2>Наши услуги</h2>
+                <p>Прокрутите страницу, чтобы увидеть липкое меню в действии.</p>
+            </div>
+        </section>
+
+        <section id="products" class="content-section">
+            <div class="container">
+                <h2>Продукты</h2>
+                <p>Меню остаётся видимым при прокрутке.</p>
+            </div>
+        </section>
+
+        <section id="about" class="content-section">
+            <div class="container">
+                <h2>О нас</h2>
+                <p>Наведите курсор на "Услуги" или "Продукты" для выпадающего меню.</p>
+            </div>
+        </section>
+
+        <section id="portfolio" class="content-section">
+            <div class="container">
+                <h2>Портфолио</h2>
+                <p>Демонстрация наших работ.</p>
+            </div>
+        </section>
+
+        <section id="contact" class="content-section">
+            <div class="container">
+                <h2>Контакты</h2>
+                <p>Свяжитесь с нами.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 МойСайт. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

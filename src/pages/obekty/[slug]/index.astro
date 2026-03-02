@@ -1,0 +1,71 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import site from "../../../data/site.json";
+import projectsData from "../../../data/projects.json";
+
+const projects = projectsData.projects;
+type Project = (typeof projects)[number];
+
+export function getStaticPaths() {
+  return projectsData.projects.map((p) => ({
+    params: { slug: p.slug },
+  }));
+}
+
+const slug = Astro.params.slug;
+const project = projects.find((p) => p.slug === slug) as Project | undefined;
+---
+
+{project ? (
+<BaseLayout title={`${project.title} — объекты — ${site.company.name}`} description={project.summary}>
+  <div class="grid cols-2">
+    <section class="surface card">
+      <div class="kicker">Объект</div>
+      <h1 class="h1" style="margin-top: 8px">{project.title}</h1>
+      <p style="margin-top: 10px">
+        <span class="tag">{project.buildingType}</span>{" "}
+        <span class="tag">{project.system}</span>{" "}
+        <span class="tag">{project.year}</span>{" "}
+        <span class="tag">{project.city}</span>
+      </p>
+      <p class="muted" style="margin-top: 10px">{project.summary}</p>
+
+      <div style="margin-top: 12px; display:flex; gap:10px; flex-wrap:wrap">
+        <a class="btn ghost" href="/obekty/">Все объекты</a>
+        <a class="btn ghost" href="/zayavka/">Запросить аналогичное решение</a>
+      </div>
+    </section>
+
+    <section class="surface card">
+      <div class="h2">Галерея</div>
+      {project.images?.length ? (
+        <div class="grid" style="margin-top: 12px">
+          {project.images.map((src) => (
+            <img src={src} alt={project.title} style="border-radius: 10px; border: 1px solid var(--line)" />
+          ))}
+        </div>
+      ) : (
+        <p class="muted" style="margin-top: 10px">
+          Фото пока не добавлены. Загружайте изображения в <span class="mono">/public/uploads</span> и укажите пути в
+          <span class="mono"> src/data/projects.json</span>.
+        </p>
+      )}
+    </section>
+  </div>
+</BaseLayout>
+) : (
+<BaseLayout title={`Объект не найден — ${site.company.name}`} noindex>
+  <section class="surface card">
+    <div class="kicker">Объекты</div>
+    <h1 class="h1" style="margin-top: 8px">Объект не найден</h1>
+    <p class="muted" style="margin-top: 10px">
+      Проверьте ссылку или вернитесь к списку объектов.
+    </p>
+    <div style="margin-top: 14px; display:flex; gap:10px; flex-wrap:wrap">
+      <a class="btn primary" href="/obekty/">Все объекты</a>
+      <a class="btn ghost" href="/kontakty/">Контакты</a>
+    </div>
+  </section>
+</BaseLayout>
+)}
+

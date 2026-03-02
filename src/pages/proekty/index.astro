@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import site from "../../data/site.json";
+
+type MenuItem = { slug: string; title: string };
+const projects = (site.menus?.projects as MenuItem[]) ?? [];
+---
+
+<BaseLayout title={`Проекты — ${site.company.name}`} description="Направления проектов и галерея объектов.">
+  <section class="surface card">
+    <div class="kicker">Проекты</div>
+    <h1 class="h1" style="margin-top: 8px">Проекты</h1>
+    <p class="muted" style="margin-top: 10px">
+      Разделы по направлениям проектов + галерея реализованных объектов.
+    </p>
+    <div style="margin-top: 12px; display:flex; gap:10px; flex-wrap:wrap">
+      <a class="btn ghost" href="/obekty/">Галерея объектов</a>
+      <a class="btn ghost" href="/resheniya/">Решения по типам объектов</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="strip cols-3">
+      {projects.map((p) => (
+        <a class="tile" href={`/proekty/${p.slug}/`}>
+          <div class="body">
+            <div class="h3">{p.title}</div>
+            <p class="muted" style="margin-top: 8px">Перейти в раздел</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+

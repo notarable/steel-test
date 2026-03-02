@@ -1,0 +1,37 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import site from "../../data/site.json";
+---
+
+<BaseLayout title={`Технический раздел — ${site.company.name}`} description="Узлы крепления, конструктивные схемы, технические требования и сертификаты.">
+  <section class="surface card">
+    <div class="kicker">Технический раздел</div>
+    <h1 class="h1" style="margin-top: 8px">Документация и требования</h1>
+    <p class="muted" style="margin-top: 10px; max-width: 86ch">
+      Узлы, конструктивные схемы, технические требования и сертификаты. Часть материалов может выдаваться
+      по запросу в зависимости от стадии проекта и комплектации.
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="grid cols-2">
+      <a class="surface card" href="/tehnicheskij-razdel/uzly-krepleniya/">
+        <div class="h2">Узлы крепления</div>
+        <p>Примыкания, углы, типовые решения для проектирования и монтажа.</p>
+      </a>
+      <a class="surface card" href="/tehnicheskij-razdel/konstruktivnye-shemy/">
+        <div class="h2">Конструктивные схемы</div>
+        <p>Общие схемы подсистем, принцип крепления, рекомендации по раскладке.</p>
+      </a>
+      <a class="surface card" href="/tehnicheskij-razdel/trebovaniya/">
+        <div class="h2">Технические требования</div>
+        <p>Ветровые нагрузки, пожарные требования, ограничения и допуски.</p>
+      </a>
+      <a class="surface card" href="/tehnicheskij-razdel/sertifikaty/">
+        <div class="h2">Сертификаты</div>
+        <p>Сертификаты, протоколы, подтверждение соответствия (PDF).</p>
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+

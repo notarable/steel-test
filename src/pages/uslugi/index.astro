@@ -1,0 +1,31 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import site from "../../data/site.json";
+
+type MenuItem = { slug: string; title: string };
+const services = (site.menus?.services as MenuItem[]) ?? [];
+---
+
+<BaseLayout title={`Услуги — ${site.company.name}`} description="Услуги: проектирование, производство, монтаж (разделы-заготовки).">
+  <section class="surface card">
+    <div class="kicker">Услуги</div>
+    <h1 class="h1" style="margin-top: 8px">Услуги</h1>
+    <p class="muted" style="margin-top: 10px">
+      Разделы‑заготовки под структуру “как у корпоративного каталога”. Наполним вашим фактическим составом работ.
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="strip cols-3">
+      {services.map((s) => (
+        <a class="tile" href={`/uslugi/${s.slug}/`}>
+          <div class="body">
+            <div class="h3">{s.title}</div>
+            <p class="muted" style="margin-top: 8px">Подробнее</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+

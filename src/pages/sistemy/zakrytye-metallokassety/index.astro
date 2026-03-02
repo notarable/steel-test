@@ -1,0 +1,66 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import site from "../../../data/site.json";
+import LeadForm from "../../../components/LeadForm.astro";
+
+const system = site.systems.find((s) => s.slug === "zakrytye-metallokassety");
+---
+
+<BaseLayout
+  title={`${system?.title ?? "Металлокассеты закрытого типа"} — ${site.company.name}`}
+  description="Металлокассеты закрытого типа: принцип работы, области применения, особенности, параметры и запрос расчёта."
+>
+  <div class="grid cols-2">
+    <section class="surface card">
+      <div class="kicker">Система</div>
+      <h1 class="h1" style="margin-top: 8px">{system?.title ?? "Металлокассеты закрытого типа"}</h1>
+      <p class="muted" style="margin-top: 10px">
+        {system?.summary}
+      </p>
+
+      <hr class="hr" style="margin: 14px 0" />
+
+      <div class="h2">Принцип</div>
+      <div class="prose" style="margin-top: 10px">
+        <p>
+          Закрытый тип — система со скрытым креплением и минимизацией видимости соединений. На объекте
+          чаще применяют, когда критичен внешний вид шва и требуется более «цельная» плоскость фасада.
+        </p>
+      </div>
+
+      <div class="h2" style="margin-top: 14px">Где применяется</div>
+      <ul class="muted" style="margin-top: 10px">
+        <li>административные и общественные здания с повышенными требованиями к фасаду</li>
+        <li>жилые комплексы с заданной архитектурной раскладкой</li>
+        <li>объекты с акцентом на визуальную «глухую» плоскость</li>
+      </ul>
+
+      <div class="h2" style="margin-top: 14px">Технические особенности</div>
+      <ul class="muted" style="margin-top: 10px">
+        <li>скрытое крепление и повышенные требования к точности изготовления</li>
+        <li>контроль сопряжений и допусков на монтажной подсистеме</li>
+        <li>подбор решений по ветру/пожару и основаниям выполняется по расчёту</li>
+      </ul>
+
+      <div class="h2" style="margin-top: 14px">Материалы и параметры</div>
+      <ul class="muted" style="margin-top: 10px">
+        <li>металл: сталь / алюминий (по проекту)</li>
+        <li>толщина: по расчёту, требованию плоскости и формату кассет</li>
+        <li>покрытия: PVDF / полиэстер и др. (по спецификации)</li>
+        <li>форматы кассет: модуль/раскладка — по архитектуре и технологичности</li>
+      </ul>
+    </section>
+
+    <section class="surface card">
+      <div class="h2">Запрос расчёта</div>
+      <p class="muted" style="margin-top: 8px">
+        Чтобы корректно подобрать конструктив, приложите раскладку/эскиз и укажите требования по внешнему
+        виду шва и допускам.
+      </p>
+      <div style="margin-top: 12px">
+        <LeadForm type="Расчёт" context="Металлокассеты закрытого типа" />
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+

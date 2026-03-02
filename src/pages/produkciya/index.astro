@@ -1,0 +1,83 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import site from "../../data/site.json";
+
+type LinkItem = { href: string; label: string };
+type ProductGroup = { title: string; items: LinkItem[] };
+type SpecRow = { label: string; values: string[] };
+
+const groups = (site.menus?.productGroups as ProductGroup[]) ?? [];
+const catalogSpecs = (site as { catalogSpecs?: Record<string, SpecRow[]> }).catalogSpecs ?? {};
+const defaultSpecs = catalogSpecs.default ?? [{ label: "ОПИСАНИЕ", values: ["Уточняется по запросу"] }];
+
+function getSpecKey(href: string): string {
+  if (href.includes("sistemy") || href.includes("otkrytye") || href.includes("zakrytye")) return "metallokassety";
+  if (href.includes("reshetki")) return "reshetki";
+  if (href.includes("okonnye") || href.includes("parapet") || href.includes("profil") || href.includes("otlivy") || href.includes("otkosy") || href.includes("ugly") || href.includes("endova") || href.includes("vetrovaya") || href.includes("akvilony")) return "fasonnye";
+  return "default";
+}
+
+const firstGroup = groups[0];
+const firstItem = firstGroup?.items?.[0];
+const currentTitle = firstGroup?.title ?? "Продукция";
+const currentHref = firstItem?.href ?? "/produkciya/";
+const specs = catalogSpecs[getSpecKey(currentHref)] ?? defaultSpecs;
+
+const sidebarItems: { href: string; label: string; group: string }[] = [];
+groups.forEach((g) => {
+  g.items.forEach((i) => sidebarItems.push({ ...i, group: g.title }));
+});
+---
+
+<BaseLayout title={`Продукция — ${site.company.name}`} description="Каталог продукции: металлокассеты, фасонные изделия, решётки.">
+  <div class="catalog-layout">
+    <aside class="catalog-sidebar">
+      <nav class="catalog-nav" aria-label="Каталог продукции">
+        {groups.map((g, gi) => (
+          <div class="catalog-nav-group">
+            <div class="catalog-nav-group-title">{g.title}</div>
+            {g.items.map((i, ii) => (
+              <a class="catalog-nav-item" href={i.href} aria-current={gi === 0 && ii === 0 ? "page" : undefined}>{i.label}</a>
+            ))}
+          </div>
+        ))}
+        <div class="catalog-nav-group">
+          <a class="catalog-nav-item" href="/uslugi/">Услуги</a>
+          <a class="catalog-nav-item" href="/kompaniya/stati/">Статьи</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="catalog-main">
+      <h1 class="catalog-title">{currentTitle}</h1>
+
+      <div class="catalog-specs">
+        {specs.map((row) => (
+          <div class="spec-row">
+            <div class="spec-label">{row.label}</div>
+            <div class="spec-values">{row.values.join(", ")}</div>
+          </div>
+        ))}
+      </div>
+
+      <section class="catalog-cta" aria-label="Обратная связь">
+        <div class="catalog-cta-content">
+          <div class="catalog-cta-text">
+            <strong>Не нашли, что искали?</strong>
+            <span class="muted">Вам перезвонят в течение 5 минут</span>
+          </div>
+          <form class="catalog-cta-form" action="/api/lead" method="post">
+            <input type="hidden" name="type" value="Обратная связь" />
+            <input type="hidden" name="context" value="Каталог" />
+            <input type="hidden" name="page" value={Astro.url.pathname} />
+            <input type="hidden" name="variant" value="phoneOnly" />
+            <input type="tel" name="phone" placeholder="Телефон" required autocomplete="tel" class="catalog-cta-input" />
+            <button type="submit" class="btn primary catalog-cta-btn" aria-label="Отправить">
+              →
+            </button>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+</BaseLayout>

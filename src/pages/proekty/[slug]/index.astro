@@ -1,0 +1,64 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import site from "../../../data/site.json";
+
+type MenuItem = { slug: string; title: string };
+const projects = (site.menus?.projects as MenuItem[]) ?? [];
+
+export function getStaticPaths() {
+  const p = ((site.menus as any)?.projects as MenuItem[]) ?? [];
+  return p.map((item) => ({ params: { slug: item.slug } }));
+}
+
+const slug = Astro.params.slug;
+const item = projects.find((p) => p.slug === slug);
+---
+
+{item ? (
+<BaseLayout title={`${item.title} — проекты — ${site.company.name}`} description={`${item.title}: направление проектов.`}>
+  <section class="surface card">
+    <div class="kicker">Проекты</div>
+    <h1 class="h1" style="margin-top: 8px">{item.title}</h1>
+    <p class="muted" style="margin-top: 10px">
+      Раздел‑заготовка под проекты/кейсы/подбор решений. Можно связать с портфолио и “решениями по типам объектов”.
+    </p>
+    <div style="margin-top: 12px; display:flex; gap:10px; flex-wrap:wrap">
+      <a class="btn ghost" href="/proekty/">Все направления</a>
+      <a class="btn ghost" href="/obekty/">Галерея объектов</a>
+      <a class="btn primary" href="/zayavka/">Запросить консультацию</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="grid cols-2">
+      <div class="surface card">
+        <div class="h2">Типовые требования</div>
+        <ul class="muted" style="margin-top: 10px">
+          <li>ветровые нагрузки / высотность</li>
+          <li>пожарные требования</li>
+          <li>допуски по плоскости и виду шва</li>
+        </ul>
+      </div>
+      <div class="surface card">
+        <div class="h2">Рекомендованные разделы</div>
+        <div class="grid" style="margin-top: 10px">
+          <a class="btn ghost" href="/tehnicheskij-razdel/">Технический раздел</a>
+          <a class="btn ghost" href="/katalog/">Каталог / PDF</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+) : (
+<BaseLayout title={`Раздел не найден — ${site.company.name}`} noindex>
+  <section class="surface card">
+    <div class="kicker">Проекты</div>
+    <h1 class="h1" style="margin-top: 8px">Раздел не найден</h1>
+    <p class="muted" style="margin-top: 10px">Проверьте ссылку или вернитесь в список направлений.</p>
+    <div style="margin-top: 12px">
+      <a class="btn primary" href="/proekty/">Проекты</a>
+    </div>
+  </section>
+</BaseLayout>
+)}
+
