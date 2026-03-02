@@ -26,8 +26,8 @@ const productGroups = (site.menus?.productGroups as any[]) ?? [];
 					<div class="hp-slide" data-idx={idx}>
 						<img src={s.image} alt={s.title} loading={idx === 0 ? "eager" : "lazy"} />
 						<div class="hp-slide-overlay"></div>
-						<div class="container hp-slide-content">
-							<span class="hp-slide-kicker">{site.company.region.baseCity} · B2B · по всей РФ</span>
+						<div class="container"><div class="hp-slide-content">
+							<span class="hp-slide-kicker">Производство и поставка по всей России</span>
 							<h2 class="hp-slide-title">{s.title}</h2>
 							<p class="hp-slide-subtitle">{s.subtitle}</p>
 							<ul class="hp-slide-bullets">
@@ -35,11 +35,11 @@ const productGroups = (site.menus?.productGroups as any[]) ?? [];
 									<li>{b}</li>
 								))}
 							</ul>
-							<div class="hp-slide-actions">
-								<a class="hp-btn hp-btn-primary" href={s.href}>{s.cta}</a>
-								<a class="hp-btn hp-btn-outline" href="/kontakty/">Консультация</a>
-							</div>
+						<div class="hp-slide-actions">
+							<a class="hp-btn hp-btn-primary" href={s.href}>{s.cta}</a>
+							<a class="hp-btn hp-btn-outline" href="/kontakty/">Консультация</a>
 						</div>
+					</div></div>
 					</div>
 				))}
 			</div>
@@ -62,7 +62,7 @@ const productGroups = (site.menus?.productGroups as any[]) ?? [];
 	<!-- ABOUT -->
 	<section class="hp-section">
 		<div class="hp-section-header">
-			<h2>{site.company.name} — проектирование и производство фасадных решений</h2>
+			<h2>СтилФас — проектирование и производство фасадных решений</h2>
 			<p class="hp-muted">Собственное производство рядом с Екатеринбургом. Работаем с застройщиками, подрядчиками и архитекторами.</p>
 		</div>
 		<div class="hp-about-grid">
@@ -128,7 +128,7 @@ const productGroups = (site.menus?.productGroups as any[]) ?? [];
 	<section class="hp-section">
 		<div class="hp-section-header">
 			<h2>Почему выбирают нас</h2>
-			<p class="hp-muted">Преимущества работы с Steelfas</p>
+			<p class="hp-muted">Преимущества работы с СтилФас</p>
 		</div>
 		<div class="hp-adv-grid">
 			{home.advantages.map((a, idx) => (
@@ -427,38 +427,41 @@ const productGroups = (site.menus?.productGroups as any[]) ?? [];
 		background: linear-gradient(90deg, rgba(10,5,5,0.92) 0%, rgba(10,5,5,0.7) 50%, rgba(10,5,5,0.3) 100%);
 		z-index: 1;
 	}
-	.hp-slide-content {
+	.hp-slide > .container {
 		position: relative;
 		z-index: 2;
+		height: 100%;
+	}
+	.hp-slide-content {
 		color: #fff;
 		padding-top: 60px;
 		padding-bottom: 80px;
-		max-width: 640px;
+		max-width: 620px;
 	}
 	.hp-slide-kicker {
 		display: inline-block;
-		padding: 5px 14px;
+		padding: 6px 16px;
 		border-radius: 999px;
 		background: rgba(255,255,255,0.1);
 		border: 1px solid rgba(255,255,255,0.15);
-		font-size: 12px;
+		font-size: 13px;
 		font-weight: 600;
 		letter-spacing: 0.04em;
 		text-transform: uppercase;
-		margin-bottom: 20px;
+		margin-bottom: 22px;
 	}
 	.hp-slide-title {
-		font-size: 42px;
+		font-size: 48px;
 		font-weight: 800;
-		line-height: 1.1;
-		margin: 0 0 14px;
+		line-height: 1.08;
+		margin: 0 0 16px;
 		letter-spacing: -0.02em;
 	}
 	.hp-slide-subtitle {
-		font-size: 17px;
+		font-size: 18px;
 		line-height: 1.6;
 		color: rgba(255,255,255,0.75);
-		margin: 0 0 18px;
+		margin: 0 0 20px;
 	}
 	.hp-slide-bullets {
 		list-style: none;
@@ -468,8 +471,8 @@ const productGroups = (site.menus?.productGroups as any[]) ?? [];
 	.hp-slide-bullets li {
 		padding: 4px 0 4px 20px;
 		position: relative;
-		color: rgba(255,255,255,0.7);
-		font-size: 14px;
+		color: rgba(255,255,255,0.75);
+		font-size: 15px;
 	}
 	.hp-slide-bullets li::before {
 		content: "✓";

@@ -1,23 +1,107 @@
 ---
-import SectionLayout from "../../../layouts/SectionLayout.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
 
-const sideNav = [
-  { href: "/kompaniya/", label: "О компании" },
-  { href: "/kompaniya/novosti/", label: "Новости" },
-  { href: "/kompaniya/stati/", label: "Статьи" },
-  { href: "/kompaniya/vystavki/", label: "Выставки" },
-  { href: "/kompaniya/partnery/", label: "Партнёры" },
-  { href: "/kompaniya/sertifikaty/", label: "Сертификаты" },
-  { href: "/kompaniya/vakansii/", label: "Вакансии" }
+const events = [
+  {
+    date: "15–17 апреля 2026",
+    title: "Фасады России 2026",
+    location: "Екатеринбург, МВЦ «Екатеринбург-ЭКСПО»",
+    status: "upcoming",
+    text: "Международная выставка фасадных технологий и материалов. Представим новую линейку кассет с HDP-покрытием и образцы декоративных решёток."
+  },
+  {
+    date: "8–10 октября 2025",
+    title: "Build Ural 2025",
+    location: "Екатеринбург, КВЦ «Уральский»",
+    status: "past",
+    text: "Участие в региональной строительной выставке. Показали металлокассеты закрытого типа, вентрешётки и комплектующие подсистемы."
+  },
+  {
+    date: "20–22 мая 2025",
+    title: "MosBuild 2025",
+    location: "Москва, Крокус Экспо",
+    status: "past",
+    text: "Крупнейшая строительная выставка в России. Представили продукцию на стенде «Фасадные технологии Урала»."
+  },
+  {
+    date: "12–14 марта 2025",
+    title: "АрхЕкатеринбург",
+    location: "Екатеринбург",
+    status: "past",
+    text: "Архитектурный форум. Провели презентацию нестандартных решений для фасадов: перфорированные кассеты, кортеновская сталь."
+  }
 ];
 ---
 
-<SectionLayout title="Выставки" kicker="Компания" sideTitle="О компании" sideNav={sideNav}>
-  <section class="surface card">
-    <div class="h2">Выставки</div>
-    <p class="muted" style="margin-top: 10px">
-      Раздел-заготовка под участие в выставках и отраслевых мероприятиях.
-    </p>
-  </section>
-</SectionLayout>
+<BaseLayout title="Выставки — СтилФас" description="Участие СтилФас в профессиональных строительных выставках и мероприятиях.">
 
+  <nav class="ck-breadcrumbs">
+    <a href="/">Главная</a><span>/</span>
+    <a href="/kompaniya/">О компании</a><span>/</span>
+    <span class="ck-current">Выставки</span>
+  </nav>
+
+  <section class="ck-hero">
+    <span class="ck-badge">Компания</span>
+    <h1>Выставки и мероприятия</h1>
+    <p>Участие в профессиональных выставках и отраслевых событиях</p>
+  </section>
+
+  <section class="ck-content">
+    <div class="ck-events-list">
+      {events.map((ev) => (
+        <article class={`ck-event-card ${ev.status === 'upcoming' ? 'ck-event-upcoming' : ''}`}>
+          <div class="ck-event-side">
+            <span class="ck-event-date">{ev.date}</span>
+            {ev.status === 'upcoming' && <span class="ck-event-status">Предстоящая</span>}
+          </div>
+          <div class="ck-event-body">
+            <h2>{ev.title}</h2>
+            <div class="ck-event-location">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              {ev.location}
+            </div>
+            <p>{ev.text}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="ck-cta">
+    <p>Хотите встретиться на выставке? Свяжитесь с нами</p>
+    <a class="ck-btn" href="/kontakty/">Контакты</a>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .ck-breadcrumbs { display:flex; gap:8px; font-size:13px; color:#94a3b8; margin-bottom:24px; flex-wrap:wrap; }
+  .ck-breadcrumbs a { color:#64748b; text-decoration:none; } .ck-breadcrumbs a:hover { color:#b91c1c; }
+  .ck-current { color:#1e293b; font-weight:500; }
+
+  .ck-hero { background:linear-gradient(135deg,#1a0505,#7f1d1d); border-radius:20px; padding:48px 40px; color:#fff; margin-bottom:40px; }
+  .ck-badge { display:inline-block; padding:4px 12px; border-radius:6px; background:rgba(255,255,255,0.12); font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:16px; }
+  .ck-hero h1 { font-size:34px; font-weight:800; margin:0 0 10px; letter-spacing:-0.02em; }
+  .ck-hero p { font-size:16px; color:rgba(255,255,255,0.7); margin:0; line-height:1.6; }
+
+  .ck-content { margin-bottom:40px; }
+
+  .ck-events-list { display:flex; flex-direction:column; gap:16px; }
+  .ck-event-card { display:flex; gap:24px; padding:28px; border:1px solid rgba(0,0,0,0.06); border-radius:16px; background:#fff; transition:border-color 0.2s; }
+  .ck-event-card:hover { border-color:rgba(0,0,0,0.12); }
+  .ck-event-upcoming { border-left:4px solid #b91c1c; }
+  .ck-event-side { min-width:140px; display:flex; flex-direction:column; gap:8px; }
+  .ck-event-date { font-size:14px; font-weight:600; color:#1e293b; }
+  .ck-event-status { display:inline-block; font-size:11px; font-weight:600; padding:3px 10px; border-radius:999px; background:#fef2f2; color:#b91c1c; width:fit-content; }
+  .ck-event-body h2 { font-size:18px; font-weight:700; margin:0 0 6px; color:#1e293b; }
+  .ck-event-location { display:flex; align-items:center; gap:6px; font-size:13px; color:#94a3b8; margin-bottom:10px; }
+  .ck-event-body p { font-size:14px; color:#64748b; line-height:1.6; margin:0; }
+
+  .ck-cta { text-align:center; padding:40px; background:#f8fafc; border-radius:20px; margin-bottom:24px; }
+  .ck-cta p { font-size:16px; color:#475569; margin:0 0 16px; }
+  .ck-btn { display:inline-block; padding:12px 28px; background:#b91c1c; color:#fff; border-radius:10px; font-weight:600; font-size:14px; text-decoration:none; transition:background 0.15s; }
+  .ck-btn:hover { background:#991b1b; }
+
+  @media(max-width:600px) { .ck-hero { padding:28px 20px; border-radius:14px; } .ck-hero h1 { font-size:26px; } .ck-event-card { flex-direction:column; gap:12px; } .ck-event-side { min-width:auto; } }
+</style>

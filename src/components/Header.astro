@@ -75,7 +75,7 @@ const telHref = (phone: string) => `tel:${String(phone).replace(/[^+0-9]/g, "")}
   <div class="header_sub-panel" aria-label="Быстрые действия">
     <div class="container header_sub-panel-inner">
       <div class="sub-buttons">
-        <button type="button" class={`sub-btn mega-menu-trigger ${pathname.startsWith("/produkciya/") || pathname.startsWith("/sistemy/") ? "active" : ""}`} id="megaMenuBtn" aria-expanded="false">
+        <button type="button" class={`sub-btn mega-menu-trigger ${pathname.startsWith("/produkciya/") || pathname.startsWith("/sistemy/") || pathname.startsWith("/katalog/") ? "active" : ""}`} id="megaMenuBtn" aria-expanded="false">
           Продукция
           <span class="mega-icon">☰</span>
         </button>
@@ -157,11 +157,14 @@ const telHref = (phone: string) => `tel:${String(phone).replace(/[^+0-9]/g, "")}
   const megaMenuOverlay = document.getElementById('megaMenuOverlay');
   const body = document.body;
 
+  const btnIsPageActive = megaMenuBtn?.classList.contains('active') ?? false;
+
   function openMegaMenu() {
     if (megaMenuOverlay) megaMenuOverlay.style.top = '';
     megaMenuOverlay?.classList.add('active');
     body?.classList.add('mega-menu-open');
     megaMenuBtn?.setAttribute('aria-expanded', 'true');
+    megaMenuBtn?.classList.add('active');
   }
 
   function closeMegaMenu() {
@@ -169,6 +172,7 @@ const telHref = (phone: string) => `tel:${String(phone).replace(/[^+0-9]/g, "")}
     body?.classList.remove('mega-menu-open');
     megaMenuBtn?.setAttribute('aria-expanded', 'false');
     if (megaMenuOverlay) megaMenuOverlay.style.top = '';
+    if (!btnIsPageActive) megaMenuBtn?.classList.remove('active');
   }
 
   function toggleMegaMenu() {

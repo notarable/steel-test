@@ -1,23 +1,111 @@
 ---
-import SectionLayout from "../../../layouts/SectionLayout.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
 
-const sideNav = [
-  { href: "/kompaniya/", label: "О компании" },
-  { href: "/kompaniya/novosti/", label: "Новости" },
-  { href: "/kompaniya/stati/", label: "Статьи" },
-  { href: "/kompaniya/vystavki/", label: "Выставки" },
-  { href: "/kompaniya/partnery/", label: "Партнёры" },
-  { href: "/kompaniya/sertifikaty/", label: "Сертификаты" },
-  { href: "/kompaniya/vakansii/", label: "Вакансии" }
+const vacancies = [
+  {
+    title: "Оператор листогибочного станка",
+    department: "Производство",
+    type: "Полная занятость",
+    desc: "Работа на промышленном листогибочном прессе. Изготовление металлокассет и фасонных изделий по чертежам. Опыт работы на ЧПУ-станках приветствуется.",
+    requirements: ["Опыт работы с листовым металлом", "Умение читать чертежи", "Ответственность и внимание к деталям"]
+  },
+  {
+    title: "Менеджер по работе с B2B-клиентами",
+    department: "Отдел продаж",
+    type: "Полная занятость",
+    desc: "Ведение клиентской базы, подготовка коммерческих предложений, сопровождение сделок от заявки до отгрузки. Работа с застройщиками, подрядчиками и архитекторами.",
+    requirements: ["Опыт B2B-продаж от 1 года", "Знание строительной отрасли — преимущество", "Коммуникабельность"]
+  },
+  {
+    title: "Инженер-конструктор (фасады)",
+    department: "Проектный отдел",
+    type: "Полная занятость / удалённо",
+    desc: "Разработка конструктивных узлов крепления, расчёт ветровых нагрузок, подготовка альбомов технических решений для заказчиков.",
+    requirements: ["Знание AutoCAD / Компас-3D", "Опыт проектирования НФС", "Понимание нормативной базы (СП, ГОСТ)"]
+  }
 ];
 ---
 
-<SectionLayout title="Вакансии" kicker="Компания" sideTitle="О компании" sideNav={sideNav}>
-  <section class="surface card">
-    <div class="h2">Вакансии</div>
-    <p class="muted" style="margin-top: 10px">
-      Раздел-заготовка. Если нужно — добавим список вакансий и форму отклика с прикреплением резюме.
-    </p>
-  </section>
-</SectionLayout>
+<BaseLayout title="Вакансии — СтилФас" description="Вакансии в компании СтилФас. Открытые позиции на производстве, в продажах и проектном отделе.">
 
+  <nav class="ck-breadcrumbs">
+    <a href="/">Главная</a><span>/</span>
+    <a href="/kompaniya/">О компании</a><span>/</span>
+    <span class="ck-current">Вакансии</span>
+  </nav>
+
+  <section class="ck-hero">
+    <span class="ck-badge">Компания</span>
+    <h1>Вакансии</h1>
+    <p>Присоединяйтесь к команде СтилФас — мы растём и ищем специалистов</p>
+  </section>
+
+  <section class="ck-content">
+    <div class="ck-vac-list">
+      {vacancies.map((v) => (
+        <article class="ck-vac-card">
+          <div class="ck-vac-header">
+            <div>
+              <h2>{v.title}</h2>
+              <div class="ck-vac-meta">
+                <span class="ck-vac-dept">{v.department}</span>
+                <span class="ck-vac-type">{v.type}</span>
+              </div>
+            </div>
+          </div>
+          <p>{v.desc}</p>
+          <div class="ck-vac-req">
+            <strong>Требования:</strong>
+            <ul>
+              {v.requirements.map((r) => <li>{r}</li>)}
+            </ul>
+          </div>
+          <a class="ck-vac-btn" href="/kontakty/">Откликнуться</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="ck-cta">
+    <p>Не нашли подходящую вакансию? Отправьте резюме — мы рассмотрим</p>
+    <a class="ck-btn" href="/kontakty/">Написать нам</a>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .ck-breadcrumbs { display:flex; gap:8px; font-size:13px; color:#94a3b8; margin-bottom:24px; flex-wrap:wrap; }
+  .ck-breadcrumbs a { color:#64748b; text-decoration:none; } .ck-breadcrumbs a:hover { color:#b91c1c; }
+  .ck-current { color:#1e293b; font-weight:500; }
+
+  .ck-hero { background:linear-gradient(135deg,#1a0505,#7f1d1d); border-radius:20px; padding:48px 40px; color:#fff; margin-bottom:40px; }
+  .ck-badge { display:inline-block; padding:4px 12px; border-radius:6px; background:rgba(255,255,255,0.12); font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:16px; }
+  .ck-hero h1 { font-size:34px; font-weight:800; margin:0 0 10px; letter-spacing:-0.02em; }
+  .ck-hero p { font-size:16px; color:rgba(255,255,255,0.7); margin:0; line-height:1.6; }
+
+  .ck-content { margin-bottom:40px; }
+
+  .ck-vac-list { display:flex; flex-direction:column; gap:16px; }
+  .ck-vac-card { padding:28px; border:1px solid rgba(0,0,0,0.06); border-radius:16px; background:#fff; transition:border-color 0.2s; }
+  .ck-vac-card:hover { border-color:rgba(185,28,28,0.15); }
+  .ck-vac-header { margin-bottom:12px; }
+  .ck-vac-card h2 { font-size:19px; font-weight:700; margin:0 0 8px; color:#1e293b; }
+  .ck-vac-meta { display:flex; gap:8px; align-items:center; }
+  .ck-vac-dept { font-size:12px; font-weight:600; padding:3px 10px; border-radius:999px; background:#fef2f2; color:#b91c1c; }
+  .ck-vac-type { font-size:12px; color:#94a3b8; }
+  .ck-vac-card p { font-size:14px; color:#64748b; line-height:1.6; margin:0 0 16px; }
+  .ck-vac-req { margin-bottom:16px; }
+  .ck-vac-req strong { font-size:13px; color:#475569; display:block; margin-bottom:8px; }
+  .ck-vac-req ul { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:4px; }
+  .ck-vac-req li { font-size:13px; color:#64748b; padding-left:16px; position:relative; }
+  .ck-vac-req li::before { content:''; position:absolute; left:0; top:7px; width:6px; height:6px; border-radius:50%; background:#b91c1c; opacity:0.3; }
+  .ck-vac-btn { display:inline-block; padding:10px 24px; background:#b91c1c; color:#fff; border-radius:10px; font-weight:600; font-size:13px; text-decoration:none; transition:background 0.15s; }
+  .ck-vac-btn:hover { background:#991b1b; }
+
+  .ck-cta { text-align:center; padding:40px; background:#f8fafc; border-radius:20px; margin-bottom:24px; }
+  .ck-cta p { font-size:16px; color:#475569; margin:0 0 16px; }
+  .ck-btn { display:inline-block; padding:12px 28px; background:#b91c1c; color:#fff; border-radius:10px; font-weight:600; font-size:14px; text-decoration:none; transition:background 0.15s; }
+  .ck-btn:hover { background:#991b1b; }
+
+  @media(max-width:600px) { .ck-hero { padding:28px 20px; border-radius:14px; } .ck-hero h1 { font-size:26px; } .ck-vac-card { padding:20px; } }
+</style>

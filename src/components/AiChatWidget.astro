@@ -1,0 +1,443 @@
+<!-- Floating AI Chat Widget -->
+<div class="ai-widget-btn" id="aiWidgetBtn" aria-label="Открыть ИИ-консультант">
+  <svg class="ai-widget-icon-chat" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  <svg class="ai-widget-icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+</div>
+
+<div class="ai-widget-popup" id="aiWidgetPopup">
+  <div class="ai-widget-header">
+    <div class="ai-widget-header-left">
+      <div class="ai-widget-avatar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4v1a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z"/><path d="M18 14a6 6 0 0 0-12 0v4a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-4z"/></svg>
+      </div>
+      <div>
+        <strong>Steelfas AI</strong>
+        <span class="ai-widget-status">Онлайн</span>
+      </div>
+    </div>
+    <a href="/ai-konsultaciya/" class="ai-widget-expand" title="Открыть на полную страницу">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>
+    </a>
+  </div>
+
+  <div class="ai-widget-messages" id="aiWidgetMessages">
+    <div class="ai-msg ai-msg-bot">
+      <div class="ai-msg-avatar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4v1a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z"/><path d="M18 14a6 6 0 0 0-12 0v4a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-4z"/></svg>
+      </div>
+      <div class="ai-msg-bubble">
+        <p>Здравствуйте! Чем могу помочь?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="ai-widget-suggestions" id="aiWidgetSuggestions">
+    <button type="button" class="ai-suggestion" data-q="Какие цены на металлокассеты?">💰 Цены</button>
+    <button type="button" class="ai-suggestion" data-q="Какие сроки производства?">⏱ Сроки</button>
+    <button type="button" class="ai-suggestion" data-q="Чем отличается открытый тип от закрытого?">🔧 Типы</button>
+    <button type="button" class="ai-suggestion" data-q="Какие покрытия доступны?">🎨 Покрытия</button>
+  </div>
+
+  <form class="ai-widget-input" id="aiWidgetForm">
+    <input type="text" id="aiWidgetInput" placeholder="Ваш вопрос..." autocomplete="off" />
+    <button type="submit" class="ai-send-btn" aria-label="Отправить">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
+    </button>
+  </form>
+</div>
+
+<script>
+  // ===== CHAT ENGINE (shared between page and widget) =====
+  const AI_ENDPOINT = '/api/ai-chat';
+
+  interface ChatInstance {
+    messagesEl: HTMLElement;
+    formEl: HTMLFormElement;
+    inputEl: HTMLInputElement;
+    suggestionsEl: HTMLElement | null;
+    history: Array<{ role: string; content: string }>;
+  }
+
+  async function sendMessage(instance: ChatInstance, text: string) {
+    if (!text.trim()) return;
+
+    if (instance.suggestionsEl) instance.suggestionsEl.style.display = 'none';
+
+    appendMessage(instance.messagesEl, text, 'user');
+    instance.history.push({ role: 'user', content: text });
+    instance.inputEl.value = '';
+
+    const typingEl = appendTyping(instance.messagesEl);
+
+    try {
+      const response = await fetch(AI_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text, history: instance.history.slice(-10) })
+      });
+
+      if (!response.ok) throw new Error('API error');
+      const data = await response.json();
+      typingEl.remove();
+      appendMessage(instance.messagesEl, data.reply, 'bot');
+      instance.history.push({ role: 'assistant', content: data.reply });
+    } catch {
+      typingEl.remove();
+      const reply = getLocalReply(text);
+      appendMessage(instance.messagesEl, reply, 'bot');
+      instance.history.push({ role: 'assistant', content: reply });
+    }
+  }
+
+  const BOT_AVATAR = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4v1a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z"/><path d="M18 14a6 6 0 0 0-12 0v4a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-4z"/></svg>`;
+  const USER_AVATAR = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
+
+  function appendMessage(container: HTMLElement, text: string, role: 'user' | 'bot') {
+    const msg = document.createElement('div');
+    msg.className = `ai-msg ai-msg-${role}`;
+    msg.innerHTML = `
+      <div class="ai-msg-avatar">${role === 'bot' ? BOT_AVATAR : USER_AVATAR}</div>
+      <div class="ai-msg-bubble"><p>${escapeHtml(text)}</p></div>
+    `;
+    container.appendChild(msg);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function appendTyping(container: HTMLElement): HTMLElement {
+    const el = document.createElement('div');
+    el.className = 'ai-msg ai-msg-bot';
+    el.innerHTML = `
+      <div class="ai-msg-avatar">${BOT_AVATAR}</div>
+      <div class="ai-msg-bubble"><div class="ai-typing"><span></span><span></span><span></span></div></div>
+    `;
+    container.appendChild(el);
+    container.scrollTop = container.scrollHeight;
+    return el;
+  }
+
+  function escapeHtml(s: string) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  // Local fallback knowledge base
+  function getLocalReply(q: string): string {
+    const ql = q.toLowerCase();
+    if (ql.includes('цен') || ql.includes('стоим') || ql.includes('сколько'))
+      return 'Ориентировочные цены: от 790 ₽/м² (0.45 мм, полиэстер) до 2 490 ₽/м² (алюминий). Точная стоимость зависит от объёма, толщины и покрытия. Оставьте заявку — подготовим расчёт за 1–3 дня.';
+    if (ql.includes('толщин') || ql.includes('0.45') || ql.includes('0.7') || ql.includes('1.0') || ql.includes('1.2'))
+      return 'Доступные толщины: 0.45, 0.5, 0.7, 1.0, 1.2 и 1.5 мм. Самая популярная — 0.7 мм (оптимальный баланс цены и прочности). Для высотных зданий рекомендуем 1.0–1.5 мм.';
+    if (ql.includes('открыт') || ql.includes('закрыт') || ql.includes('тип'))
+      return 'Открытый тип — видимое крепление на заклёпки, дешевле на 15–25%. Закрытый тип — скрытый замковый крепёж, монолитная поверхность. Выбор зависит от эстетических требований и бюджета.';
+    if (ql.includes('срок') || ql.includes('быстр') || ql.includes('когда') || ql.includes('долго'))
+      return 'Стандартные кассеты — от 5 рабочих дней. Нестандартные форматы и PVDF/HDP — от 10 рабочих дней. Расчёт подготовим за 1–3 дня.';
+    if (ql.includes('достав') || ql.includes('регион') || ql.includes('росси'))
+      return 'Доставляем по всей РФ. Екатеринбург и УрФО — 1–2 дня. Другие регионы — 3–10 дней через транспортные компании. Упаковка на паллетах.';
+    if (ql.includes('покрыт') || ql.includes('pvdf') || ql.includes('полиэстер') || ql.includes('порошк'))
+      return 'Покрытия: Полиэстер (стандарт, 25 мкм), Порошковая окраска, PVDF (премиум, 35 мкм, стойкость 20+ лет), HDP (55 мкм, максимальная стойкость). Любой цвет RAL.';
+    if (ql.includes('серти') || ql.includes('документ') || ql.includes('пожар'))
+      return 'Предоставляем: сертификат соответствия, пожарный сертификат (класс НГ — негорючий), паспорт качества, протоколы испытаний. По запросу — альбом технических решений.';
+    if (ql.includes('размер') || ql.includes('нестандарт') || ql.includes('формат'))
+      return 'Стандартные размеры: от 400×400 до 2000×600 мм. Нестандартные — по чертежам заказчика, любой формат. Помогаем с раскладкой.';
+    if (ql.includes('подсистем') || ql.includes('кронштейн') || ql.includes('направляющ'))
+      return 'Поставляем подсистему: кронштейны, направляющие профили, крепёж. Комплексная поставка от одного производителя — гарантия совместимости. Расчёт под проект.';
+    if (ql.includes('привет') || ql.includes('здравс') || ql.includes('добрый'))
+      return 'Здравствуйте! Рад помочь. Спрашивайте о металлокассетах, ценах, сроках, покрытиях — отвечу на любой вопрос.';
+    return 'Спасибо за вопрос! Для точного ответа рекомендую связаться с нашими специалистами по телефону или оставить заявку на сайте — подготовим ответ и расчёт за 1–3 дня.';
+  }
+
+  // ===== INIT FULL PAGE CHAT =====
+  const fullMessages = document.getElementById('aiMessagesFull');
+  const fullForm = document.getElementById('aiFormFull') as HTMLFormElement | null;
+  const fullInput = document.getElementById('aiInputFull') as HTMLInputElement | null;
+  const fullSuggestions = document.getElementById('aiSuggestionsFull');
+
+  if (fullMessages && fullForm && fullInput) {
+    const fullChat: ChatInstance = {
+      messagesEl: fullMessages,
+      formEl: fullForm,
+      inputEl: fullInput,
+      suggestionsEl: fullSuggestions,
+      history: [],
+    };
+
+    fullForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      sendMessage(fullChat, fullInput.value);
+    });
+
+    fullSuggestions?.querySelectorAll('.ai-suggestion').forEach(btn => {
+      btn.addEventListener('click', () => {
+        sendMessage(fullChat, (btn as HTMLElement).dataset.q || '');
+      });
+    });
+  }
+
+  // ===== INIT WIDGET =====
+  const widgetBtn = document.getElementById('aiWidgetBtn');
+  const widgetPopup = document.getElementById('aiWidgetPopup');
+  const widgetMessages = document.getElementById('aiWidgetMessages');
+  const widgetForm = document.getElementById('aiWidgetForm') as HTMLFormElement | null;
+  const widgetInput = document.getElementById('aiWidgetInput') as HTMLInputElement | null;
+  const widgetSuggestions = document.getElementById('aiWidgetSuggestions');
+  const iconChat = widgetBtn?.querySelector('.ai-widget-icon-chat') as HTMLElement;
+  const iconClose = widgetBtn?.querySelector('.ai-widget-icon-close') as HTMLElement;
+
+  if (widgetBtn && widgetPopup && widgetMessages && widgetForm && widgetInput) {
+    const widgetChat: ChatInstance = {
+      messagesEl: widgetMessages,
+      formEl: widgetForm,
+      inputEl: widgetInput,
+      suggestionsEl: widgetSuggestions,
+      history: [],
+    };
+
+    widgetBtn.addEventListener('click', () => {
+      const isOpen = widgetPopup.classList.toggle('open');
+      if (iconChat) iconChat.style.display = isOpen ? 'none' : '';
+      if (iconClose) iconClose.style.display = isOpen ? '' : 'none';
+    });
+
+    widgetForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      sendMessage(widgetChat, widgetInput.value);
+    });
+
+    widgetSuggestions?.querySelectorAll('.ai-suggestion').forEach(btn => {
+      btn.addEventListener('click', () => {
+        sendMessage(widgetChat, (btn as HTMLElement).dataset.q || '');
+      });
+    });
+  }
+</script>
+
+<style is:global>
+  /* FLOATING BUTTON */
+  .ai-widget-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #b91c1c, #dc2626);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(185,28,28,0.4);
+    z-index: 9998;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .ai-widget-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 28px rgba(185,28,28,0.5);
+  }
+
+  /* POPUP */
+  .ai-widget-popup {
+    position: fixed;
+    bottom: 92px;
+    right: 24px;
+    width: 380px;
+    height: 520px;
+    border-radius: 20px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 12px 48px rgba(0,0,0,0.15);
+    z-index: 9997;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    animation: aiPopupIn 0.25s ease;
+  }
+  .ai-widget-popup.open {
+    display: flex;
+  }
+  @keyframes aiPopupIn {
+    from { opacity: 0; transform: translateY(12px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .ai-widget-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    background: #f8fafc;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .ai-widget-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ai-widget-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #b91c1c, #dc2626);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+  }
+  .ai-widget-header strong {
+    display: block;
+    font-size: 14px;
+    color: #1e293b;
+  }
+  .ai-widget-status {
+    font-size: 11px;
+    color: #22c55e;
+    font-weight: 500;
+  }
+  .ai-widget-expand {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    transition: color 0.15s, background 0.15s;
+  }
+  .ai-widget-expand:hover {
+    background: rgba(0,0,0,0.04);
+    color: #b91c1c;
+  }
+
+  .ai-widget-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* Message styles inside widget */
+  .ai-widget-popup .ai-msg {
+    display: flex;
+    gap: 10px;
+    max-width: 90%;
+    animation: aiMsgIn 0.3s ease;
+  }
+  @keyframes aiMsgIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .ai-widget-popup .ai-msg-bot { align-self: flex-start; }
+  .ai-widget-popup .ai-msg-user { align-self: flex-end; flex-direction: row-reverse; }
+
+  .ai-widget-popup .ai-msg-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .ai-widget-popup .ai-msg-bot .ai-msg-avatar {
+    background: linear-gradient(135deg, #b91c1c, #dc2626);
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(185,28,28,0.2);
+  }
+  .ai-widget-popup .ai-msg-user .ai-msg-avatar {
+    background: #1e293b;
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+
+  .ai-widget-popup .ai-msg-bubble {
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .ai-widget-popup .ai-msg-bubble p { margin: 0; }
+  .ai-widget-popup .ai-msg-bot .ai-msg-bubble {
+    background: #f1f5f9;
+    color: #1e293b;
+    border-bottom-left-radius: 4px;
+  }
+  .ai-widget-popup .ai-msg-user .ai-msg-bubble {
+    background: #b91c1c;
+    color: #fff;
+    border-bottom-right-radius: 4px;
+  }
+
+  .ai-widget-popup .ai-typing {
+    display: flex;
+    gap: 4px;
+    padding: 4px 0;
+  }
+  .ai-widget-popup .ai-typing span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #94a3b8;
+    animation: aiDot 1.4s infinite;
+  }
+  .ai-widget-popup .ai-typing span:nth-child(2) { animation-delay: 0.2s; }
+  .ai-widget-popup .ai-typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes aiDot {
+    0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+    40% { opacity: 1; transform: scale(1); }
+  }
+
+  .ai-widget-suggestions {
+    display: flex;
+    gap: 6px;
+    padding: 0 16px 8px;
+    flex-wrap: wrap;
+  }
+  .ai-widget-popup .ai-suggestion {
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: #fff;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .ai-widget-popup .ai-suggestion:hover {
+    border-color: #b91c1c;
+    color: #b91c1c;
+    background: #fef2f2;
+  }
+
+  .ai-widget-input {
+    display: flex;
+    gap: 8px;
+    padding: 12px 16px;
+    border-top: 1px solid rgba(0,0,0,0.06);
+    background: #f8fafc;
+  }
+  .ai-widget-input input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 10px;
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+    background: #fff;
+  }
+  .ai-widget-input input:focus {
+    border-color: #b91c1c;
+  }
+
+  @media (max-width: 480px) {
+    .ai-widget-popup {
+      width: calc(100vw - 32px);
+      right: 16px;
+      bottom: 84px;
+      height: 70vh;
+    }
+  }
+</style>

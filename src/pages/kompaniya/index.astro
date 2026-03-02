@@ -5,83 +5,24 @@ import site from "../../data/site.json";
 const companyLinks = site.menus?.company ?? [];
 ---
 
-<BaseLayout title={`О компании — ${site.company.name}`} description="Steelfas — производство фасадных металлокассет рядом с Екатеринбургом. Собственное производство, проектная поддержка, поставки по РФ.">
+<BaseLayout title={`О компании — СтилФас`} description="СтилФас — производство фасадных металлокассет рядом с Екатеринбургом. Собственное производство, проектная поддержка, поставки по РФ.">
 
   <!-- HERO -->
   <section class="co-hero">
     <div class="co-hero-bg">
-      <img src={site.media.technicalImage} alt="Производство Steelfas" loading="eager" />
+      <img src={site.media.technicalImage} alt="Производство СтилФас" loading="eager" />
       <div class="co-hero-overlay"></div>
     </div>
     <div class="co-hero-content">
       <span class="co-badge">О компании</span>
-      <h1 class="co-hero-title">Steelfas</h1>
+      <h1 class="co-hero-title"><span class="co-brand-s">Стил</span><span class="co-brand-f">Фас</span></h1>
       <p class="co-hero-subtitle">{site.company.tagline}</p>
       <p class="co-hero-desc">{site.company.about}</p>
     </div>
   </section>
 
-  <!-- MISSION + NUMBERS -->
+  <!-- SUB-SECTIONS: right after hero for immediate navigation -->
   <section class="co-section">
-    <div class="co-mission-grid">
-      <div class="co-mission">
-        <h2 class="co-h2">Наша миссия</h2>
-        <p class="co-mission-text">{site.home.mission}</p>
-      </div>
-      <div class="co-numbers">
-        <div class="co-num-item">
-          <div class="co-num-value">7+</div>
-          <div class="co-num-label">лет на рынке</div>
-        </div>
-        <div class="co-num-item">
-          <div class="co-num-value">50+</div>
-          <div class="co-num-label">объектов</div>
-        </div>
-        <div class="co-num-item">
-          <div class="co-num-value">15+</div>
-          <div class="co-num-label">городов РФ</div>
-        </div>
-        <div class="co-num-item">
-          <div class="co-num-value">100%</div>
-          <div class="co-num-label">своё производство</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ADVANTAGES -->
-  <section class="co-section co-adv-section">
-    <h2 class="co-h2">Почему выбирают Steelfas</h2>
-    <div class="co-adv-grid">
-      {site.advantages.map((adv) => (
-        <div class="co-adv-card">
-          <h3>{adv.title}</h3>
-          <p>{adv.text}</p>
-        </div>
-      ))}
-    </div>
-  </section>
-
-  <!-- PRODUCTION PHOTOS -->
-  <section class="co-section">
-    <h2 class="co-h2">Производство</h2>
-    <p class="co-section-desc">Собственная производственная площадка рядом с Екатеринбургом. Полный цикл — от раскроя и гибки до порошковой окраски и упаковки.</p>
-    <div class="co-photo-grid">
-      <div class="co-photo-placeholder co-photo-large">
-        <span>Фото: производственный цех<br/>(общий вид)</span>
-      </div>
-      <div class="co-photo-placeholder">
-        <span>Фото: станок<br/>гибки</span>
-      </div>
-      <div class="co-photo-placeholder">
-        <span>Фото: покрасочная<br/>линия</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- SUB-SECTIONS: News, Articles, Exhibitions, Partners, etc. -->
-  <section class="co-section">
-    <h2 class="co-h2">Разделы компании</h2>
     <div class="co-links-grid">
       <a href="/kompaniya/novosti/" class="co-link-card">
         <div class="co-link-icon">
@@ -144,10 +85,162 @@ const companyLinks = site.menus?.company ?? [];
         </div>
         <div>
           <h3>Вакансии</h3>
-          <p>Открытые позиции в команде Steelfas</p>
+          <p>Открытые позиции в команде СтилФас</p>
         </div>
         <span class="co-link-arrow">→</span>
       </a>
+
+      <a href="/obekty/" class="co-link-card">
+        <div class="co-link-icon">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+        </div>
+        <div>
+          <h3>Наши объекты</h3>
+          <p>Реализованные проекты и портфолио компании</p>
+        </div>
+        <span class="co-link-arrow">→</span>
+      </a>
+
+      <a href="/dostavka/" class="co-link-card">
+        <div class="co-link-icon">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg>
+        </div>
+        <div>
+          <h3>Доставка</h3>
+          <p>География поставок и условия доставки по России</p>
+        </div>
+        <span class="co-link-arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- MISSION + NUMBERS -->
+  <section class="co-section">
+    <div class="co-mission-grid">
+      <div class="co-mission">
+        <h2 class="co-h2">Наша миссия</h2>
+        <p class="co-mission-text">{site.home.mission}</p>
+      </div>
+      <div class="co-numbers">
+        <div class="co-num-item">
+          <div class="co-num-value">7+</div>
+          <div class="co-num-label">лет на рынке</div>
+        </div>
+        <div class="co-num-item">
+          <div class="co-num-value">50+</div>
+          <div class="co-num-label">объектов</div>
+        </div>
+        <div class="co-num-item">
+          <div class="co-num-value">15+</div>
+          <div class="co-num-label">городов РФ</div>
+        </div>
+        <div class="co-num-item">
+          <div class="co-num-value">100%</div>
+          <div class="co-num-label">своё производство</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GEOGRAPHY MAP -->
+  <section class="co-section">
+    <h2 class="co-h2">География поставок</h2>
+    <p class="co-section-desc">Производство в Екатеринбурге, доставка по всей России — от Калининграда до Владивостока.</p>
+    <div class="co-map-wrap">
+      <svg viewBox="0 0 1000 500" class="co-map" xmlns="http://www.w3.org/2000/svg">
+        <!-- Russia outline simplified -->
+        <path class="co-map-land" d="M80,180 L120,160 L160,150 L200,145 L240,135 L280,130 L320,120 L360,115 L400,110 L440,108 L480,105 L520,100 L560,95 L600,90 L640,88 L680,90 L720,95 L760,100 L800,110 L840,120 L880,130 L920,145 L940,160 L950,180 L940,200 L920,220 L900,240 L880,255 L860,265 L840,270 L820,275 L800,280 L780,285 L760,290 L740,295 L720,300 L700,305 L680,310 L660,312 L640,315 L620,318 L600,320 L580,322 L560,325 L540,322 L520,320 L500,318 L480,315 L460,312 L440,310 L420,305 L400,300 L380,295 L360,290 L340,285 L320,280 L300,270 L280,260 L260,250 L240,240 L220,230 L200,220 L180,215 L160,210 L140,205 L120,200 L100,195 Z" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.5"/>
+
+        <!-- City dots -->
+        <!-- Ekaterinburg (center) -->
+        <circle cx="520" cy="200" r="8" fill="#b91c1c" class="co-map-center"/>
+        <circle cx="520" cy="200" r="14" fill="none" stroke="#b91c1c" stroke-width="2" opacity="0.3" class="co-map-pulse"/>
+        <text x="520" y="230" text-anchor="middle" class="co-map-label co-map-label-main">Екатеринбург</text>
+        <text x="520" y="244" text-anchor="middle" class="co-map-label co-map-label-sub">производство</text>
+
+        <!-- Moscow -->
+        <circle cx="280" cy="195" r="5" fill="#475569"/>
+        <text x="280" y="185" text-anchor="middle" class="co-map-label">Москва</text>
+
+        <!-- St. Petersburg -->
+        <circle cx="240" cy="160" r="5" fill="#475569"/>
+        <text x="240" y="150" text-anchor="middle" class="co-map-label">Санкт-Петербург</text>
+
+        <!-- Novosibirsk -->
+        <circle cx="640" cy="210" r="4" fill="#475569"/>
+        <text x="640" y="200" text-anchor="middle" class="co-map-label">Новосибирск</text>
+
+        <!-- Krasnoyarsk -->
+        <circle cx="720" cy="195" r="4" fill="#475569"/>
+        <text x="720" y="185" text-anchor="middle" class="co-map-label">Красноярск</text>
+
+        <!-- Vladivostok -->
+        <circle cx="910" cy="220" r="5" fill="#475569"/>
+        <text x="910" y="210" text-anchor="middle" class="co-map-label">Владивосток</text>
+
+        <!-- Kazan -->
+        <circle cx="430" cy="195" r="4" fill="#475569"/>
+        <text x="430" y="185" text-anchor="middle" class="co-map-label">Казань</text>
+
+        <!-- Chelyabinsk -->
+        <circle cx="490" cy="215" r="4" fill="#475569"/>
+        <text x="490" y="235" text-anchor="middle" class="co-map-label">Челябинск</text>
+
+        <!-- Tyumen -->
+        <circle cx="560" cy="195" r="4" fill="#475569"/>
+        <text x="560" y="185" text-anchor="middle" class="co-map-label">Тюмень</text>
+
+        <!-- Kaliningrad -->
+        <circle cx="155" cy="175" r="4" fill="#475569"/>
+        <text x="155" y="165" text-anchor="middle" class="co-map-label">Калининград</text>
+
+        <!-- Delivery lines from Ekaterinburg -->
+        <line x1="520" y1="200" x2="280" y2="195" class="co-map-line"/>
+        <line x1="520" y1="200" x2="240" y2="160" class="co-map-line"/>
+        <line x1="520" y1="200" x2="640" y2="210" class="co-map-line"/>
+        <line x1="520" y1="200" x2="720" y2="195" class="co-map-line"/>
+        <line x1="520" y1="200" x2="910" y2="220" class="co-map-line"/>
+        <line x1="520" y1="200" x2="430" y2="195" class="co-map-line"/>
+        <line x1="520" y1="200" x2="490" y2="215" class="co-map-line"/>
+        <line x1="520" y1="200" x2="560" y2="195" class="co-map-line"/>
+        <line x1="520" y1="200" x2="155" y2="175" class="co-map-line"/>
+
+        <!-- Legend -->
+        <circle cx="80" cy="400" r="6" fill="#b91c1c"/>
+        <text x="94" y="404" class="co-map-legend">Производство</text>
+        <line x1="70" y1="425" x2="90" y2="425" stroke="#b91c1c" stroke-width="2" stroke-dasharray="6,3"/>
+        <text x="94" y="429" class="co-map-legend">Маршруты доставки</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ADVANTAGES -->
+  <section class="co-section co-adv-section">
+    <h2 class="co-h2">Почему выбирают СтилФас</h2>
+    <div class="co-adv-grid">
+      {site.advantages.map((adv) => (
+        <div class="co-adv-card">
+          <h3>{adv.title}</h3>
+          <p>{adv.text}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- PRODUCTION PHOTOS -->
+  <section class="co-section">
+    <h2 class="co-h2">Производство</h2>
+    <p class="co-section-desc">Собственная производственная площадка рядом с Екатеринбургом. Полный цикл — от раскроя и гибки до порошковой окраски и упаковки.</p>
+    <div class="co-photo-grid">
+      <div class="co-photo-placeholder co-photo-large">
+        <span>Фото: производственный цех<br/>(общий вид)</span>
+      </div>
+      <div class="co-photo-placeholder">
+        <span>Фото: станок<br/>гибки</span>
+      </div>
+      <div class="co-photo-placeholder">
+        <span>Фото: покрасочная<br/>линия</span>
+      </div>
     </div>
   </section>
 
@@ -423,6 +516,66 @@ const companyLinks = site.menus?.company ?? [];
     font-size: 15px !important;
   }
 
+  /* BRAND NAME */
+  .co-brand-s { color: #fff; }
+  .co-brand-f { color: #fff; }
+
+  /* MAP */
+  .co-map-wrap {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 20px;
+    padding: 32px;
+    overflow: hidden;
+  }
+  .co-map {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .co-map-land {
+    transition: fill 0.3s;
+  }
+  .co-map-line {
+    stroke: #b91c1c;
+    stroke-width: 1.5;
+    stroke-dasharray: 8, 4;
+    opacity: 0.5;
+  }
+  .co-map-label {
+    font-size: 11px;
+    fill: #475569;
+    font-weight: 500;
+    font-family: 'Manrope', sans-serif;
+  }
+  .co-map-label-main {
+    font-size: 13px;
+    fill: #b91c1c;
+    font-weight: 700;
+  }
+  .co-map-label-sub {
+    font-size: 10px;
+    fill: #b91c1c;
+    font-weight: 500;
+    opacity: 0.7;
+  }
+  .co-map-legend {
+    font-size: 11px;
+    fill: #64748b;
+    font-family: 'Manrope', sans-serif;
+  }
+  .co-map-center {
+    filter: drop-shadow(0 0 6px rgba(185,28,28,0.4));
+  }
+  .co-map-pulse {
+    animation: mapPulse 2s infinite;
+  }
+  @keyframes mapPulse {
+    0% { r: 14; opacity: 0.3; }
+    50% { r: 20; opacity: 0; }
+    100% { r: 14; opacity: 0.3; }
+  }
+
   /* MOBILE */
   @media (max-width: 900px) {
     .co-hero-title { font-size: 36px; }
@@ -439,5 +592,6 @@ const companyLinks = site.menus?.company ?? [];
     .co-numbers { grid-template-columns: 1fr 1fr; }
     .co-cta { padding: 32px 20px; }
     .co-adv-section { margin-left: -16px; margin-right: -16px; padding: 32px 16px; }
+    .co-map-wrap { padding: 16px; }
   }
 </style>

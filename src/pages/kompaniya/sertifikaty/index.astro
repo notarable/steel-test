@@ -1,27 +1,108 @@
 ---
-import SectionLayout from "../../../layouts/SectionLayout.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
 
-const sideNav = [
-  { href: "/kompaniya/", label: "О компании" },
-  { href: "/kompaniya/novosti/", label: "Новости" },
-  { href: "/kompaniya/stati/", label: "Статьи" },
-  { href: "/kompaniya/vystavki/", label: "Выставки" },
-  { href: "/kompaniya/partnery/", label: "Партнёры" },
-  { href: "/kompaniya/sertifikaty/", label: "Сертификаты" },
-  { href: "/kompaniya/vakansii/", label: "Вакансии" }
+const certs = [
+  {
+    title: "Сертификат соответствия",
+    desc: "Подтверждает соответствие металлокассет требованиям ГОСТ и технических регламентов Таможенного союза.",
+    details: "ГОСТ 24045-2016, ТР ТС 014/2011"
+  },
+  {
+    title: "Пожарный сертификат",
+    desc: "Металлокассеты — класс НГ (негорючий материал). Допускаются к применению на зданиях любой категории пожарной опасности.",
+    details: "Класс НГ, ФЗ-123"
+  },
+  {
+    title: "Паспорт качества",
+    desc: "Выдаётся на каждую партию. Содержит данные о толщине, покрытии, партии металла и результатах контроля геометрии.",
+    details: "Выдаётся на каждую партию"
+  },
+  {
+    title: "Протоколы испытаний",
+    desc: "Результаты испытаний на ветровую нагрузку, прочность замкового соединения и адгезию покрытия.",
+    details: "Аккредитованная лаборатория"
+  },
+  {
+    title: "Санитарно-эпидемиологическое заключение",
+    desc: "Подтверждение безопасности материалов для применения в жилом и гражданском строительстве.",
+    details: "Роспотребнадзор"
+  },
+  {
+    title: "Альбом технических решений",
+    desc: "Комплект чертежей типовых узлов крепления для проектировщиков. Предоставляется по запросу.",
+    details: "По запросу"
+  }
 ];
 ---
 
-<SectionLayout title="Сертификаты" kicker="Компания" sideTitle="О компании" sideNav={sideNav}>
-  <section class="surface card">
-    <div class="h2">Сертификаты</div>
-    <p class="muted" style="margin-top: 10px">
-      Сертификаты размещены в техническом разделе.
-    </p>
-    <div style="margin-top: 12px; display:flex; gap:10px; flex-wrap:wrap">
-      <a class="btn primary" href="/tehnicheskij-razdel/sertifikaty/">Перейти к сертификатам</a>
-      <a class="btn ghost" href="/proektirovshchikam/">Запросить комплект документов</a>
+<BaseLayout title="Сертификаты — СтилФас" description="Сертификаты и документация СтилФас: сертификат соответствия, пожарный сертификат, паспорт качества, протоколы испытаний.">
+
+  <nav class="ck-breadcrumbs">
+    <a href="/">Главная</a><span>/</span>
+    <a href="/kompaniya/">О компании</a><span>/</span>
+    <span class="ck-current">Сертификаты</span>
+  </nav>
+
+  <section class="ck-hero">
+    <span class="ck-badge">Компания</span>
+    <h1>Сертификаты и документация</h1>
+    <p>Полный комплект документов для согласования и прохождения экспертизы</p>
+  </section>
+
+  <section class="ck-content">
+    <div class="ck-certs-grid">
+      {certs.map((c) => (
+        <div class="ck-cert-card">
+          <div class="ck-cert-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138c.015.694.27 1.362.806 1.946a3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+          </div>
+          <div>
+            <h3>{c.title}</h3>
+            <p>{c.desc}</p>
+            <span class="ck-cert-detail">{c.details}</span>
+          </div>
+        </div>
+      ))}
     </div>
   </section>
-</SectionLayout>
 
+  <section class="ck-cta">
+    <p>Нужен комплект документов для экспертизы? Запросите бесплатно</p>
+    <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+      <a class="ck-btn" href="/zayavka/">Запросить документы</a>
+      <a class="ck-btn ck-btn-outline" href="/tehnicheskij-razdel/sertifikaty/">Технический раздел</a>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .ck-breadcrumbs { display:flex; gap:8px; font-size:13px; color:#94a3b8; margin-bottom:24px; flex-wrap:wrap; }
+  .ck-breadcrumbs a { color:#64748b; text-decoration:none; } .ck-breadcrumbs a:hover { color:#b91c1c; }
+  .ck-current { color:#1e293b; font-weight:500; }
+
+  .ck-hero { background:linear-gradient(135deg,#1a0505,#7f1d1d); border-radius:20px; padding:48px 40px; color:#fff; margin-bottom:40px; }
+  .ck-badge { display:inline-block; padding:4px 12px; border-radius:6px; background:rgba(255,255,255,0.12); font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:16px; }
+  .ck-hero h1 { font-size:34px; font-weight:800; margin:0 0 10px; letter-spacing:-0.02em; }
+  .ck-hero p { font-size:16px; color:rgba(255,255,255,0.7); margin:0; line-height:1.6; }
+
+  .ck-content { margin-bottom:40px; }
+
+  .ck-certs-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+  .ck-cert-card { display:flex; gap:16px; padding:24px; border:1px solid rgba(0,0,0,0.06); border-radius:16px; background:#fff; transition:border-color 0.2s; }
+  .ck-cert-card:hover { border-color:rgba(185,28,28,0.15); }
+  .ck-cert-icon { flex-shrink:0; width:48px; height:48px; border-radius:12px; background:#fef2f2; display:flex; align-items:center; justify-content:center; color:#b91c1c; }
+  .ck-cert-card h3 { font-size:16px; font-weight:700; margin:0 0 6px; color:#1e293b; }
+  .ck-cert-card p { font-size:13px; color:#64748b; line-height:1.6; margin:0 0 8px; }
+  .ck-cert-detail { font-size:12px; font-weight:600; color:#b91c1c; background:#fef2f2; padding:3px 10px; border-radius:999px; }
+
+  .ck-cta { text-align:center; padding:40px; background:#f8fafc; border-radius:20px; margin-bottom:24px; }
+  .ck-cta p { font-size:16px; color:#475569; margin:0 0 16px; }
+  .ck-btn { display:inline-block; padding:12px 28px; background:#b91c1c; color:#fff; border-radius:10px; font-weight:600; font-size:14px; text-decoration:none; transition:background 0.15s; }
+  .ck-btn:hover { background:#991b1b; }
+  .ck-btn-outline { background:transparent; color:#b91c1c; border:1px solid rgba(185,28,28,0.2); }
+  .ck-btn-outline:hover { background:#fef2f2; }
+
+  @media(max-width:768px) { .ck-certs-grid { grid-template-columns:1fr; } }
+  @media(max-width:600px) { .ck-hero { padding:28px 20px; border-radius:14px; } .ck-hero h1 { font-size:26px; } .ck-cert-card { flex-direction:column; } }
+</style>

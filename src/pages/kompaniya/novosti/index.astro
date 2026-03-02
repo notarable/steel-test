@@ -1,23 +1,108 @@
 ---
-import SectionLayout from "../../../layouts/SectionLayout.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import site from "../../../data/site.json";
 
-const sideNav = [
-  { href: "/kompaniya/", label: "О компании" },
-  { href: "/kompaniya/novosti/", label: "Новости" },
-  { href: "/kompaniya/stati/", label: "Статьи" },
-  { href: "/kompaniya/vystavki/", label: "Выставки" },
-  { href: "/kompaniya/partnery/", label: "Партнёры" },
-  { href: "/kompaniya/sertifikaty/", label: "Сертификаты" },
-  { href: "/kompaniya/vakansii/", label: "Вакансии" }
+const news = [
+  {
+    date: "Февраль 2026",
+    title: "Расширение производственной линии",
+    text: "Установлено новое оборудование для гибки листового металла, что позволяет увеличить производительность на 40% и сократить сроки изготовления нестандартных кассет.",
+    tag: "Производство"
+  },
+  {
+    date: "Январь 2026",
+    title: "Запуск ИИ-консультанта на сайте",
+    text: "Теперь на сайте СтилФас работает ИИ-консультант, который поможет с подбором металлокассет, расчётом стоимости и ответит на вопросы о продукции 24/7.",
+    tag: "Технологии"
+  },
+  {
+    date: "Декабрь 2025",
+    title: "Сертификация PVDF-покрытий",
+    text: "Получен расширенный сертификат соответствия на металлокассеты с PVDF-покрытием, подтверждающий срок службы покрытия более 25 лет.",
+    tag: "Сертификация"
+  },
+  {
+    date: "Ноябрь 2025",
+    title: "Поставка на объект в Тюмени",
+    text: "Выполнена поставка 3 200 м² фасадных металлокассет закрытого типа для жилого комплекса. Толщина 0.7 мм, покрытие — PVDF, цвет RAL 7024.",
+    tag: "Объекты"
+  },
+  {
+    date: "Октябрь 2025",
+    title: "Новые форматы фасонных изделий",
+    text: "В каталог добавлены нестандартные парапетные крышки шириной до 700 мм и оконные откосы с усиленным профилем для северных регионов.",
+    tag: "Продукция"
+  },
+  {
+    date: "Сентябрь 2025",
+    title: "Участие в выставке «Фасады России»",
+    text: "Команда СтилФас представила продукцию на международной выставке фасадных технологий в Екатеринбурге. Показаны образцы кассет с HDP-покрытием.",
+    tag: "Выставки"
+  }
 ];
 ---
 
-<SectionLayout title="Новости" kicker="Компания" sideTitle="О компании" sideNav={sideNav}>
-  <section class="surface card">
-    <div class="h2">Новости</div>
-    <p class="muted" style="margin-top: 10px">
-      Раздел-заготовка. Здесь будут новости производства, обновления документации, новые объекты и материалы.
-    </p>
-  </section>
-</SectionLayout>
+<BaseLayout title={`Новости — СтилФас`} description="Новости компании СтилФас: обновления производства, новые объекты, сертификация, события.">
 
+  <nav class="ck-breadcrumbs">
+    <a href="/">Главная</a><span>/</span>
+    <a href="/kompaniya/">О компании</a><span>/</span>
+    <span class="ck-current">Новости</span>
+  </nav>
+
+  <section class="ck-hero">
+    <span class="ck-badge">Компания</span>
+    <h1>Новости</h1>
+    <p>Обновления производства, новые объекты, события компании</p>
+  </section>
+
+  <section class="ck-content">
+    <div class="ck-news-list">
+      {news.map((item) => (
+        <article class="ck-news-card">
+          <div class="ck-news-meta">
+            <span class="ck-news-date">{item.date}</span>
+            <span class="ck-news-tag">{item.tag}</span>
+          </div>
+          <h2>{item.title}</h2>
+          <p>{item.text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="ck-cta">
+    <p>Хотите узнавать о новостях первыми?</p>
+    <a class="ck-btn" href="/kontakty/">Связаться с нами</a>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .ck-breadcrumbs { display:flex; gap:8px; font-size:13px; color:#94a3b8; margin-bottom:24px; flex-wrap:wrap; }
+  .ck-breadcrumbs a { color:#64748b; text-decoration:none; } .ck-breadcrumbs a:hover { color:#b91c1c; }
+  .ck-current { color:#1e293b; font-weight:500; }
+
+  .ck-hero { background:linear-gradient(135deg,#1a0505,#7f1d1d); border-radius:20px; padding:48px 40px; color:#fff; margin-bottom:40px; }
+  .ck-badge { display:inline-block; padding:4px 12px; border-radius:6px; background:rgba(255,255,255,0.12); font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:16px; }
+  .ck-hero h1 { font-size:34px; font-weight:800; margin:0 0 10px; letter-spacing:-0.02em; }
+  .ck-hero p { font-size:16px; color:rgba(255,255,255,0.7); margin:0; line-height:1.6; }
+
+  .ck-content { margin-bottom:40px; }
+
+  .ck-news-list { display:flex; flex-direction:column; gap:16px; }
+  .ck-news-card { padding:28px; border:1px solid rgba(0,0,0,0.06); border-radius:16px; background:#fff; transition:border-color 0.2s,box-shadow 0.2s; }
+  .ck-news-card:hover { border-color:rgba(185,28,28,0.15); box-shadow:0 4px 16px rgba(0,0,0,0.04); }
+  .ck-news-meta { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .ck-news-date { font-size:13px; color:#94a3b8; font-weight:500; }
+  .ck-news-tag { font-size:11px; font-weight:600; padding:3px 10px; border-radius:999px; background:#fef2f2; color:#b91c1c; }
+  .ck-news-card h2 { font-size:18px; font-weight:700; margin:0 0 8px; color:#1e293b; }
+  .ck-news-card p { font-size:14px; color:#64748b; line-height:1.7; margin:0; }
+
+  .ck-cta { text-align:center; padding:40px; background:#f8fafc; border-radius:20px; margin-bottom:24px; }
+  .ck-cta p { font-size:16px; color:#475569; margin:0 0 16px; }
+  .ck-btn { display:inline-block; padding:12px 28px; background:#b91c1c; color:#fff; border-radius:10px; font-weight:600; font-size:14px; text-decoration:none; transition:background 0.15s; }
+  .ck-btn:hover { background:#991b1b; }
+
+  @media(max-width:600px) { .ck-hero { padding:28px 20px; border-radius:14px; } .ck-hero h1 { font-size:26px; } .ck-news-card { padding:20px; } }
+</style>

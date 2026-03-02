@@ -1,23 +1,79 @@
 ---
-import SectionLayout from "../../../layouts/SectionLayout.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
 
-const sideNav = [
-  { href: "/kompaniya/", label: "О компании" },
-  { href: "/kompaniya/novosti/", label: "Новости" },
-  { href: "/kompaniya/stati/", label: "Статьи" },
-  { href: "/kompaniya/vystavki/", label: "Выставки" },
-  { href: "/kompaniya/partnery/", label: "Партнёры" },
-  { href: "/kompaniya/sertifikaty/", label: "Сертификаты" },
-  { href: "/kompaniya/vakansii/", label: "Вакансии" }
+const partners = [
+  { name: "Производители металла", items: ["ММК (Магнитогорский металлургический комбинат)", "НЛМК", "Северсталь"], desc: "Поставщики оцинкованной стали, алюминиевого листа и нержавейки." },
+  { name: "Покрытия и краски", items: ["AkzoNobel", "Beckers", "SSAB (Corten)"], desc: "Премиальные полимерные покрытия: PVDF, HDP, полиэстер." },
+  { name: "Подсистемы и крепёж", items: ["Hilti", "Fischer", "U-Kon"], desc: "Системы крепления, кронштейны, направляющие профили для НФС." },
+  { name: "Проектные организации", items: ["Архитектурные бюро", "Проектные институты", "BIM-студии"], desc: "Совместная работа над техническими решениями и узлами." },
+  { name: "Строительные компании", items: ["Генподрядчики", "Фасадные бригады", "Монтажные организации"], desc: "Комплексная поставка кассет и подсистемы на объект." },
+  { name: "Логистические партнёры", items: ["Деловые Линии", "ПЭК", "СДЭК"], desc: "Доставка по всей России в кратчайшие сроки." }
 ];
 ---
 
-<SectionLayout title="Партнёры" kicker="Компания" sideTitle="О компании" sideNav={sideNav}>
-  <section class="surface card">
-    <div class="h2">Партнёры</div>
-    <p class="muted" style="margin-top: 10px">
-      Раздел-заготовка. Сюда можно добавить производителей металла/покрытий, поставщиков подсистем и т.п.
-    </p>
-  </section>
-</SectionLayout>
+<BaseLayout title="Партнёры — СтилФас" description="Партнёры СтилФас: производители металла, поставщики покрытий, проектные организации и строительные компании.">
 
+  <nav class="ck-breadcrumbs">
+    <a href="/">Главная</a><span>/</span>
+    <a href="/kompaniya/">О компании</a><span>/</span>
+    <span class="ck-current">Партнёры</span>
+  </nav>
+
+  <section class="ck-hero">
+    <span class="ck-badge">Компания</span>
+    <h1>Наши партнёры</h1>
+    <p>Компании, с которыми мы работаем и развиваемся</p>
+  </section>
+
+  <section class="ck-content">
+    <div class="ck-partners-grid">
+      {partners.map((p) => (
+        <div class="ck-partner-card">
+          <h3>{p.name}</h3>
+          <p class="ck-partner-desc">{p.desc}</p>
+          <ul class="ck-partner-items">
+            {p.items.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="ck-cta">
+    <p>Хотите стать партнёром? Напишите нам</p>
+    <a class="ck-btn" href="/kontakty/">Связаться</a>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .ck-breadcrumbs { display:flex; gap:8px; font-size:13px; color:#94a3b8; margin-bottom:24px; flex-wrap:wrap; }
+  .ck-breadcrumbs a { color:#64748b; text-decoration:none; } .ck-breadcrumbs a:hover { color:#b91c1c; }
+  .ck-current { color:#1e293b; font-weight:500; }
+
+  .ck-hero { background:linear-gradient(135deg,#1a0505,#7f1d1d); border-radius:20px; padding:48px 40px; color:#fff; margin-bottom:40px; }
+  .ck-badge { display:inline-block; padding:4px 12px; border-radius:6px; background:rgba(255,255,255,0.12); font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:16px; }
+  .ck-hero h1 { font-size:34px; font-weight:800; margin:0 0 10px; letter-spacing:-0.02em; }
+  .ck-hero p { font-size:16px; color:rgba(255,255,255,0.7); margin:0; line-height:1.6; }
+
+  .ck-content { margin-bottom:40px; }
+
+  .ck-partners-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+  .ck-partner-card { padding:28px; border:1px solid rgba(0,0,0,0.06); border-radius:16px; background:#fff; transition:border-color 0.2s; }
+  .ck-partner-card:hover { border-color:rgba(185,28,28,0.15); }
+  .ck-partner-card h3 { font-size:17px; font-weight:700; margin:0 0 6px; color:#1e293b; }
+  .ck-partner-desc { font-size:13px; color:#94a3b8; line-height:1.5; margin:0 0 14px; }
+  .ck-partner-items { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:6px; }
+  .ck-partner-items li { font-size:14px; color:#475569; padding-left:16px; position:relative; }
+  .ck-partner-items li::before { content:''; position:absolute; left:0; top:8px; width:6px; height:6px; border-radius:50%; background:#b91c1c; opacity:0.4; }
+
+  .ck-cta { text-align:center; padding:40px; background:#f8fafc; border-radius:20px; margin-bottom:24px; }
+  .ck-cta p { font-size:16px; color:#475569; margin:0 0 16px; }
+  .ck-btn { display:inline-block; padding:12px 28px; background:#b91c1c; color:#fff; border-radius:10px; font-weight:600; font-size:14px; text-decoration:none; transition:background 0.15s; }
+  .ck-btn:hover { background:#991b1b; }
+
+  @media(max-width:768px) { .ck-partners-grid { grid-template-columns:1fr; } }
+  @media(max-width:600px) { .ck-hero { padding:28px 20px; border-radius:14px; } .ck-hero h1 { font-size:26px; } }
+</style>

@@ -2,111 +2,471 @@
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import site from "../../../data/site.json";
 
-type LinkItem = { href: string; label: string };
-type ProductGroup = { title: string; items: LinkItem[] };
-type SpecRow = { label: string; values: string[] };
+type ProductPage = {
+  title: string;
+  category: string;
+  categoryHref: string;
+  h1: string;
+  metaTitle: string;
+  metaDescription: string;
+  heroText: string;
+  isCategoryPage?: boolean;
+  specs: Record<string, string>;
+  subProducts?: string[];
+  advantages: Array<{ title: string; text: string }>;
+  useCases: string;
+  priceFrom: string;
+};
 
-const groups = (site.menus?.productGroups as ProductGroup[]) ?? [];
-const catalogSpecs = (site as { catalogSpecs?: Record<string, SpecRow[]> }).catalogSpecs ?? {};
-const defaultSpecs = catalogSpecs.default ?? [{ label: "ОПИСАНИЕ", values: ["Уточняется по запросу"] }];
-
-function getSpecKey(href: string): string {
-  if (href.includes("sistemy") || href.includes("otkrytye") || href.includes("zakrytye")) return "metallokassety";
-  if (href.includes("reshetki")) return "reshetki";
-  if (href.includes("okonnye") || href.includes("parapet") || href.includes("profil") || href.includes("otlivy") || href.includes("otkosy") || href.includes("ugly") || href.includes("endova") || href.includes("vetrovaya") || href.includes("akvilony")) return "fasonnye";
-  if (href.includes("poddony")) return "default";
-  if (href.includes("koroba") || href.includes("kondicioner")) return "default";
-  if (href.includes("krovelnye")) return "default";
-  if (href.includes("kolpaki")) return "default";
-  if (href.includes("ekrany")) return "default";
-  return "default";
-}
+const productPages = (site as any).productPages as Record<string, ProductPage>;
+const allSlugs = Object.keys(productPages);
 
 export function getStaticPaths() {
-  const g = (site.menus?.productGroups as ProductGroup[]) ?? [];
-  const allItems = g.flatMap((gr) => gr.items);
-  return allItems
-    .map((i) => {
-      const match = i.href.match(/^\/produkciya\/([^/]+)\//);
-      return match ? { params: { slug: match[1] } } : null;
-    })
-    .filter(Boolean);
+  const pp = (site as any).productPages as Record<string, any>;
+  return Object.keys(pp).map((slug) => ({ params: { slug } }));
 }
 
-const slug = Astro.params.slug;
-const allItems = groups.flatMap((g) => g.items);
-const item = allItems.find((i) => i.href === `/produkciya/${slug}/`);
-const currentPath = `/produkciya/${slug}/`;
+const { slug } = Astro.params;
+const page = productPages[slug!];
+
+const specLabels: Record<string, string> = {
+  material: "Материал",
+  coating: "Покрытие",
+  width: "Ширина",
+  length: "Длина",
+  sizes: "Размеры",
+  colors: "Цвета",
+  fireClass: "Пожарный класс",
+  types: "Типы",
+  type: "Тип",
+  cellSize: "Размер ячейки",
+  ventilation: "Вентиляция",
+  perforation: "Перфорация",
+  mounting: "Крепление",
+  reuses: "Ресурс",
+  production: "Производство",
+};
+
+const subPages = page?.subProducts?.map((s: string) => ({
+  slug: s,
+  ...productPages[s],
+})) ?? [];
 ---
 
-{item ? (
-<BaseLayout title={`${item.label} — ${site.company.name}`} description={`${item.label}: раздел продукции.`}>
-  <div class="catalog-layout">
-    <aside class="catalog-sidebar">
-      <nav class="catalog-nav" aria-label="Каталог продукции">
-        {groups.map((g) => (
-          <div class="catalog-nav-group">
-            <div class="catalog-nav-group-title">{g.title}</div>
-            {g.items.map((i) => (
-              <a class="catalog-nav-item" href={i.href} aria-current={i.href === currentPath ? "page" : undefined}>{i.label}</a>
-            ))}
-          </div>
-        ))}
-        <div class="catalog-nav-group">
-          <a class="catalog-nav-item" href="/uslugi/">Услуги</a>
-          <a class="catalog-nav-item" href="/kompaniya/stati/">Статьи</a>
-        </div>
-      </nav>
-    </aside>
+{page ? (
+<BaseLayout title={page.metaTitle} description={page.metaDescription}>
 
-    <main class="catalog-main">
-      <h1 class="catalog-title">{item.label}</h1>
+  <!-- BREADCRUMBS -->
+  <nav class="pp-breadcrumbs" aria-label="Навигация">
+    <a href="/">Главная</a>
+    <span>/</span>
+    <a href="/produkciya/">Продукция</a>
+    <span>/</span>
+    {page.categoryHref !== `/produkciya/${slug}/` && (
+      <>
+        <a href={page.categoryHref}>{page.category}</a>
+        <span>/</span>
+      </>
+    )}
+    <span class="pp-breadcrumb-current">{page.title}</span>
+  </nav>
 
-      <div class="catalog-specs">
-        {(catalogSpecs[getSpecKey(item.href)] ?? defaultSpecs).map((row) => (
-          <div class="spec-row">
-            <div class="spec-label">{row.label}</div>
-            <div class="spec-values">{row.values.join(", ")}</div>
-          </div>
+  <!-- HERO -->
+  <section class="pp-hero">
+    <div class="pp-hero-inner">
+      <span class="pp-badge">{page.category}</span>
+      <h1>{page.h1}</h1>
+      <p>{page.heroText}</p>
+      {page.priceFrom && page.priceFrom !== "по запросу" && (
+        <div class="pp-price">{page.priceFrom}<sup>*</sup></div>
+      )}
+      <div class="pp-hero-actions">
+        <a class="pp-btn pp-btn-primary" href="/zayavka/">Запросить расчёт</a>
+        <a class="pp-btn pp-btn-outline" href="/kalkulyator/">Калькулятор</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUB-PRODUCTS (for category pages) -->
+  {subPages.length > 0 && (
+    <section class="pp-section">
+      <h2 class="pp-section-title">Виды продукции</h2>
+      <div class="pp-sub-grid">
+        {subPages.map((sp: any) => (
+          <a href={`/produkciya/${sp.slug}/`} class="pp-sub-card">
+            <div class="pp-sub-card-top">
+              <h3>{sp.title}</h3>
+              {sp.priceFrom && <span class="pp-sub-price">{sp.priceFrom}</span>}
+            </div>
+            <p>{sp.heroText?.slice(0, 100)}...</p>
+            <span class="pp-sub-arrow">Подробнее →</span>
+          </a>
         ))}
       </div>
+    </section>
+  )}
 
-      <div style="margin-bottom: 28px; display: flex; gap: 10px; flex-wrap: wrap">
-        <a class="btn primary" href="/zayavka/">Запросить расчёт</a>
-        <a class="btn ghost" href="/produkciya/">Вся продукция</a>
-        <a class="btn ghost" href="/katalog/">Скачать каталог</a>
-      </div>
-
-      <section class="catalog-cta" aria-label="Обратная связь">
-        <div class="catalog-cta-content">
-          <div class="catalog-cta-text">
-            <strong>Не нашли, что искали?</strong>
-            <span class="muted">Вам перезвонят в течение 5 минут</span>
-          </div>
-          <form class="catalog-cta-form" action="/api/lead" method="post">
-            <input type="hidden" name="type" value="Обратная связь" />
-            <input type="hidden" name="context" value="Каталог" />
-            <input type="hidden" name="page" value={Astro.url.pathname} />
-            <input type="hidden" name="variant" value="phoneOnly" />
-            <input type="tel" name="phone" placeholder="Телефон" required autocomplete="tel" class="catalog-cta-input" />
-            <button type="submit" class="btn primary catalog-cta-btn" aria-label="Отправить">
-              →
-            </button>
-          </form>
+  <!-- SPECS -->
+  <section class="pp-section">
+    <h2 class="pp-section-title">Характеристики</h2>
+    <div class="pp-specs-table">
+      {Object.entries(page.specs).map(([key, value]) => (
+        <div class="pp-spec-row">
+          <div class="pp-spec-label">{specLabels[key] || key}</div>
+          <div class="pp-spec-value">{value}</div>
         </div>
-      </section>
-    </main>
-  </div>
+      ))}
+      {page.priceFrom && (
+        <div class="pp-spec-row pp-spec-price-row">
+          <div class="pp-spec-label">Стоимость</div>
+          <div class="pp-spec-value pp-spec-price">{page.priceFrom}{page.priceFrom !== "по запросу" && <sup>*</sup>}</div>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- ADVANTAGES -->
+  <section class="pp-section">
+    <h2 class="pp-section-title">Преимущества</h2>
+    <div class="pp-adv-grid">
+      {page.advantages.map((adv, idx) => (
+        <div class="pp-adv-card">
+          <span class="pp-adv-num">{String(idx + 1).padStart(2, "0")}</span>
+          <h3>{adv.title}</h3>
+          <p>{adv.text}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- USE CASES -->
+  <section class="pp-section">
+    <h2 class="pp-section-title">Область применения</h2>
+    <p class="pp-use-text">{page.useCases}</p>
+  </section>
+
+  <!-- PRICE DISCLAIMER -->
+  {page.priceFrom && page.priceFrom !== "по запросу" && (
+    <div class="pp-disclaimer">
+      <p>* Указанные цены носят информационный характер и не являются публичной офертой. Точная стоимость зависит от объёма заказа, спецификации и условий поставки. Для получения точного расчёта оставьте заявку или свяжитесь с нами.</p>
+    </div>
+  )}
+
+  <!-- CTA -->
+  <section class="pp-cta">
+    <div class="pp-cta-inner">
+      <h2>Нужен расчёт?</h2>
+      <p>Оставьте заявку — подготовим коммерческое предложение за 1–3 рабочих дня</p>
+      <div class="pp-cta-actions">
+        <a class="pp-btn pp-btn-primary" href="/zayavka/">Оставить заявку</a>
+        <a class="pp-btn pp-btn-ghost" href="/kontakty/">Контакты</a>
+      </div>
+    </div>
+  </section>
+
 </BaseLayout>
 ) : (
 <BaseLayout title={`Раздел не найден — ${site.company.name}`} noindex>
-  <section class="surface card">
-    <div class="kicker">Продукция</div>
-    <h1 class="h1" style="margin-top: 8px">Раздел не найден</h1>
-    <p class="muted" style="margin-top: 10px">Проверьте ссылку или вернитесь в каталог продукции.</p>
-    <div style="margin-top: 12px">
-      <a class="btn primary" href="/produkciya/">Каталог продукции</a>
-    </div>
+  <section style="padding: 80px 0; text-align: center;">
+    <h1 style="font-size: 28px; margin-bottom: 12px;">Страница не найдена</h1>
+    <p style="color: #64748b; margin-bottom: 24px;">Проверьте ссылку или вернитесь в каталог.</p>
+    <a class="pp-btn pp-btn-primary" href="/produkciya/">Каталог продукции</a>
   </section>
 </BaseLayout>
 )}
+
+<style>
+  .pp-breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #94a3b8;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .pp-breadcrumbs a {
+    color: #64748b;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .pp-breadcrumbs a:hover { color: #b91c1c; }
+  .pp-breadcrumb-current { color: #1e293b; font-weight: 500; }
+
+  .pp-hero {
+    background: linear-gradient(135deg, #1a0505 0%, #7f1d1d 100%);
+    border-radius: 20px;
+    padding: 48px 40px;
+    margin-bottom: 40px;
+    color: #fff;
+  }
+  .pp-hero-inner { max-width: 640px; }
+  .pp-badge {
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .pp-hero h1 {
+    font-size: 34px;
+    font-weight: 800;
+    margin: 0 0 14px;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+  .pp-hero p {
+    font-size: 16px;
+    color: rgba(255,255,255,0.75);
+    margin: 0 0 20px;
+    line-height: 1.6;
+  }
+  .pp-price {
+    font-size: 28px;
+    font-weight: 800;
+    color: #fbbf24;
+    margin-bottom: 20px;
+  }
+  .pp-price sup { font-size: 14px; }
+  .pp-hero-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .pp-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.15s;
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+  }
+  .pp-btn-primary {
+    background: #b91c1c;
+    color: #fff;
+  }
+  .pp-btn-primary:hover { background: #991b1b; }
+  .pp-btn-outline {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+  .pp-btn-outline:hover { background: rgba(255,255,255,0.1); }
+  .pp-btn-ghost {
+    background: transparent;
+    color: #b91c1c;
+    border: 1px solid rgba(185,28,28,0.2);
+  }
+  .pp-btn-ghost:hover { background: #fef2f2; }
+
+  .pp-section {
+    margin-bottom: 40px;
+  }
+  .pp-section-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 20px;
+    color: #1e293b;
+  }
+
+  /* SUB-PRODUCTS GRID */
+  .pp-sub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .pp-sub-card {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 14px;
+    background: #fff;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .pp-sub-card:hover {
+    border-color: rgba(185,28,28,0.2);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .pp-sub-card-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .pp-sub-card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0;
+    color: #1e293b;
+  }
+  .pp-sub-price {
+    font-size: 13px;
+    font-weight: 600;
+    color: #b91c1c;
+    white-space: nowrap;
+  }
+  .pp-sub-card p {
+    font-size: 13px;
+    color: #64748b;
+    line-height: 1.5;
+    margin: 0 0 12px;
+    flex: 1;
+  }
+  .pp-sub-arrow {
+    font-size: 13px;
+    font-weight: 600;
+    color: #b91c1c;
+  }
+
+  /* SPECS */
+  .pp-specs-table {
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .pp-spec-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+  }
+  .pp-spec-row:last-child { border-bottom: none; }
+  .pp-spec-label {
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748b;
+    background: #f8fafc;
+  }
+  .pp-spec-value {
+    padding: 14px 20px;
+    font-size: 14px;
+    color: #1e293b;
+  }
+  .pp-spec-price-row { background: #fef2f2; }
+  .pp-spec-price {
+    font-weight: 700;
+    color: #b91c1c;
+  }
+
+  /* ADVANTAGES */
+  .pp-adv-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  .pp-adv-card {
+    padding: 24px;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 14px;
+    background: #fff;
+  }
+  .pp-adv-num {
+    display: inline-block;
+    font-size: 28px;
+    font-weight: 800;
+    color: rgba(185,28,28,0.15);
+    margin-bottom: 8px;
+  }
+  .pp-adv-card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 6px;
+  }
+  .pp-adv-card p {
+    font-size: 13px;
+    color: #64748b;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* USE CASES */
+  .pp-use-text {
+    font-size: 15px;
+    color: #475569;
+    line-height: 1.7;
+    padding: 20px 24px;
+    background: #f8fafc;
+    border-radius: 14px;
+    border-left: 4px solid #b91c1c;
+    margin: 0;
+  }
+
+  /* DISCLAIMER */
+  .pp-disclaimer {
+    margin-bottom: 32px;
+    padding: 16px 20px;
+    background: #fffbeb;
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 10px;
+  }
+  .pp-disclaimer p {
+    margin: 0;
+    font-size: 12px;
+    color: #92400e;
+    line-height: 1.6;
+  }
+
+  /* CTA */
+  .pp-cta {
+    margin-bottom: 24px;
+  }
+  .pp-cta-inner {
+    background: linear-gradient(135deg, #1e293b, #334155);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    color: #fff;
+  }
+  .pp-cta h2 {
+    font-size: 24px;
+    font-weight: 800;
+    margin: 0 0 8px;
+  }
+  .pp-cta p {
+    color: rgba(255,255,255,0.7);
+    margin: 0 0 20px;
+    font-size: 15px;
+  }
+  .pp-cta-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .pp-cta .pp-btn-ghost {
+    color: rgba(255,255,255,0.8);
+    border-color: rgba(255,255,255,0.2);
+  }
+  .pp-cta .pp-btn-ghost:hover {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+  }
+
+  @media (max-width: 768px) {
+    .pp-hero { padding: 32px 20px; border-radius: 14px; }
+    .pp-hero h1 { font-size: 26px; }
+    .pp-price { font-size: 22px; }
+    .pp-spec-row { grid-template-columns: 1fr; }
+    .pp-spec-label { background: transparent; padding-bottom: 0; }
+    .pp-spec-value { padding-top: 4px; }
+    .pp-cta-inner { padding: 28px 20px; }
+    .pp-adv-grid { grid-template-columns: 1fr; }
+    .pp-sub-grid { grid-template-columns: 1fr; }
+  }
+</style>

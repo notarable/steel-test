@@ -4,6 +4,7 @@ import site from "../data/site.json";
 import Seo from "../components/Seo.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import AiChatWidget from "../components/AiChatWidget.astro";
 
 type Props = {
   title?: string;
@@ -38,6 +39,7 @@ const noindex = Astro.props.noindex;
       </div>
     </main>
     <Footer />
+    <AiChatWidget />
   </body>
 </html>
 

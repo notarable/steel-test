@@ -1,23 +1,110 @@
 ---
-import SectionLayout from "../../../layouts/SectionLayout.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
 
-const sideNav = [
-  { href: "/kompaniya/", label: "О компании" },
-  { href: "/kompaniya/novosti/", label: "Новости" },
-  { href: "/kompaniya/stati/", label: "Статьи" },
-  { href: "/kompaniya/vystavki/", label: "Выставки" },
-  { href: "/kompaniya/partnery/", label: "Наши партнёры" },
-  { href: "/kompaniya/sertifikaty/", label: "Сертификаты" },
-  { href: "/kompaniya/vakansii/", label: "Вакансии" }
+const articles = [
+  {
+    title: "Открытый vs закрытый тип крепления: что выбрать?",
+    excerpt: "Разбираем отличия открытого и закрытого типов крепления металлокассет: стоимость, эстетика, скорость монтажа, ремонтопригодность. Какой тип подходит для вашего объекта.",
+    tag: "Технологии",
+    readTime: "5 мин"
+  },
+  {
+    title: "Как выбрать толщину металлокассеты для фасада",
+    excerpt: "От чего зависит выбор толщины: ветровая нагрузка, этажность здания, размер кассеты. Таблица рекомендаций по толщинам от 0.45 до 1.5 мм.",
+    tag: "Подбор",
+    readTime: "7 мин"
+  },
+  {
+    title: "PVDF, HDP или полиэстер: сравнение покрытий",
+    excerpt: "Детальное сравнение полимерных покрытий для металлокассет. Стойкость к УФ, срок службы, стоимость. Когда стоит переплачивать за PVDF.",
+    tag: "Материалы",
+    readTime: "6 мин"
+  },
+  {
+    title: "5 ошибок при проектировании вентфасада",
+    excerpt: "Типичные ошибки проектировщиков при работе с НФС: неправильный расчёт зазора, игнорирование температурных деформаций, ошибки раскладки.",
+    tag: "Проектирование",
+    readTime: "8 мин"
+  },
+  {
+    title: "Пожарная безопасность навесных фасадов: нормы и требования",
+    excerpt: "Обзор актуальных требований к пожарной безопасности НФС: класс горючести материалов, рассечки, сертификация. Как пройти экспертизу.",
+    tag: "Нормативы",
+    readTime: "10 мин"
+  },
+  {
+    title: "Как рассчитать стоимость фасада из металлокассет",
+    excerpt: "Из чего складывается цена за м²: материал, толщина, покрытие, подсистема, монтаж. Пример расчёта для типового объекта 1000 м².",
+    tag: "Расчёты",
+    readTime: "6 мин"
+  }
 ];
 ---
 
-<SectionLayout title="Статьи" kicker="Компания" sideTitle="О компании" sideNav={sideNav}>
-  <section class="surface card">
-    <div class="h2">Статьи</div>
-    <p class="muted" style="margin-top: 10px">
-      Раздел‑заготовка под статьи: разбор узлов, требования по ветру/пожару, ошибки монтажа, примеры решений.
-    </p>
-  </section>
-</SectionLayout>
+<BaseLayout title="Статьи — СтилФас" description="Полезные статьи о фасадных металлокассетах: выбор толщины, покрытия, типов крепления, расчёт стоимости, нормативы.">
 
+  <nav class="ck-breadcrumbs">
+    <a href="/">Главная</a><span>/</span>
+    <a href="/kompaniya/">О компании</a><span>/</span>
+    <span class="ck-current">Статьи</span>
+  </nav>
+
+  <section class="ck-hero">
+    <span class="ck-badge">Компания</span>
+    <h1>Статьи</h1>
+    <p>Полезные материалы о фасадах, металлокассетах, монтаже и нормативах</p>
+  </section>
+
+  <section class="ck-content">
+    <div class="ck-articles-grid">
+      {articles.map((a) => (
+        <article class="ck-article-card">
+          <div class="ck-article-top">
+            <span class="ck-article-tag">{a.tag}</span>
+            <span class="ck-article-time">{a.readTime}</span>
+          </div>
+          <h2>{a.title}</h2>
+          <p>{a.excerpt}</p>
+          <span class="ck-article-link">Читать →</span>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="ck-cta">
+    <p>Не нашли ответ? Спросите у ИИ-консультанта</p>
+    <a class="ck-btn" href="/ai-konsultaciya/">Задать вопрос</a>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .ck-breadcrumbs { display:flex; gap:8px; font-size:13px; color:#94a3b8; margin-bottom:24px; flex-wrap:wrap; }
+  .ck-breadcrumbs a { color:#64748b; text-decoration:none; } .ck-breadcrumbs a:hover { color:#b91c1c; }
+  .ck-current { color:#1e293b; font-weight:500; }
+
+  .ck-hero { background:linear-gradient(135deg,#1a0505,#7f1d1d); border-radius:20px; padding:48px 40px; color:#fff; margin-bottom:40px; }
+  .ck-badge { display:inline-block; padding:4px 12px; border-radius:6px; background:rgba(255,255,255,0.12); font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:16px; }
+  .ck-hero h1 { font-size:34px; font-weight:800; margin:0 0 10px; letter-spacing:-0.02em; }
+  .ck-hero p { font-size:16px; color:rgba(255,255,255,0.7); margin:0; line-height:1.6; }
+
+  .ck-content { margin-bottom:40px; }
+
+  .ck-articles-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+  .ck-article-card { padding:28px; border:1px solid rgba(0,0,0,0.06); border-radius:16px; background:#fff; display:flex; flex-direction:column; transition:border-color 0.2s,box-shadow 0.2s; cursor:pointer; }
+  .ck-article-card:hover { border-color:rgba(185,28,28,0.15); box-shadow:0 4px 16px rgba(0,0,0,0.04); }
+  .ck-article-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+  .ck-article-tag { font-size:11px; font-weight:600; padding:3px 10px; border-radius:999px; background:#fef2f2; color:#b91c1c; }
+  .ck-article-time { font-size:12px; color:#94a3b8; }
+  .ck-article-card h2 { font-size:17px; font-weight:700; margin:0 0 8px; color:#1e293b; line-height:1.35; }
+  .ck-article-card p { font-size:14px; color:#64748b; line-height:1.6; margin:0 0 16px; flex:1; }
+  .ck-article-link { font-size:13px; font-weight:600; color:#b91c1c; }
+
+  .ck-cta { text-align:center; padding:40px; background:#f8fafc; border-radius:20px; margin-bottom:24px; }
+  .ck-cta p { font-size:16px; color:#475569; margin:0 0 16px; }
+  .ck-btn { display:inline-block; padding:12px 28px; background:#b91c1c; color:#fff; border-radius:10px; font-weight:600; font-size:14px; text-decoration:none; transition:background 0.15s; }
+  .ck-btn:hover { background:#991b1b; }
+
+  @media(max-width:768px) { .ck-articles-grid { grid-template-columns:1fr; } }
+  @media(max-width:600px) { .ck-hero { padding:28px 20px; border-radius:14px; } .ck-hero h1 { font-size:26px; } }
+</style>
