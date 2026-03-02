@@ -1,13 +1,13 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
-import node from '@astrojs/node';
+import netlify from '@astrojs/netlify';
 
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://steelfasad.example',
 	output: 'static',
-	adapter: node({ mode: 'standalone' }),
+	adapter: netlify(),
 	integrations: [sitemap()],
 	vite: {
 		server: {
