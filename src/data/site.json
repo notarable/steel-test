@@ -340,12 +340,10 @@
       { "href": "/kompaniya/vakansii/", "label": "Вакансии" }
     ],
     "services": [
-      { "slug": "proektirovanie", "title": "Проектирование" },
-      { "slug": "bim-modelirovanie", "title": "BIM‑моделирование" },
-      { "slug": "proizvodstvo-ekstruziya", "title": "Производство: экструзия" },
-      { "slug": "proizvodstvo-metalloobrabotka", "title": "Производство: металлообработка" },
-      { "slug": "dekorirovanie", "title": "Декорирование" },
-      { "slug": "montazh", "title": "Монтаж" }
+      { "slug": "proizvodstvo-metallokasset", "title": "Производство металлокассет" },
+      { "slug": "proektirovanie-fasadov", "title": "Проектирование фасадов" },
+      { "slug": "proektnaya-podderzhka", "title": "Проектная поддержка" },
+      { "slug": "postavka-i-komplektaciya", "title": "Поставка и комплектация" }
     ],
     "projects": [
       { "slug": "mnogokvartirnye-i-chastnye-doma", "title": "Многоквартирные и частные дома" },

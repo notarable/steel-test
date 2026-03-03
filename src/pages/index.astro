@@ -1151,24 +1151,77 @@ const productGroups = (site.menus?.productGroups as any[]) ?? [];
 	}
 
 	@media (max-width: 600px) {
+		.hp-slider {
+			border-radius: 0 0 16px 16px;
+		}
 		.hp-slide {
-			min-height: 400px;
+			min-height: 360px;
 		}
 		.hp-slide-content {
-			padding-top: 40px;
-			padding-bottom: 70px;
+			padding-top: 32px;
+			padding-bottom: 56px;
 		}
 		.hp-slide-title {
-			font-size: 26px;
+			font-size: 24px;
+			margin-bottom: 12px;
+		}
+		.hp-slide-subtitle {
+			font-size: 15px;
+			margin-bottom: 16px;
+		}
+		.hp-slide-bullets li {
+			font-size: 14px;
+			padding: 3px 0 3px 18px;
+		}
+		.hp-slide-actions {
+			flex-direction: column;
+			gap: 10px;
+		}
+		.hp-btn {
+			width: 100%;
+			justify-content: center;
+			padding: 14px 20px;
+			min-height: 48px;
+		}
+		.hp-slider-nav {
+			bottom: 16px;
+			padding: 6px 12px;
+			gap: 8px;
+		}
+		.hp-arrow {
+			width: 36px;
+			height: 36px;
+		}
+		.hp-dot {
+			width: 8px;
+			height: 8px;
+		}
+		.hp-dot.active {
+			width: 20px;
+		}
+		.hp-section {
+			padding: 40px 0;
+		}
+		.hp-section-header {
+			margin-bottom: 24px;
 		}
 		.hp-section-header h2 {
-			font-size: 24px;
+			font-size: 22px;
 		}
 		.hp-products-grid {
 			grid-template-columns: 1fr;
+			gap: 16px;
 		}
 		.hp-about-stats {
 			grid-template-columns: 1fr 1fr;
+			gap: 12px;
+		}
+		.hp-gallery-grid {
+			grid-template-columns: 1fr;
+			gap: 12px;
+		}
+		.hp-gallery-large .hp-gallery-img {
+			min-height: 200px;
 		}
 	}
 </style>

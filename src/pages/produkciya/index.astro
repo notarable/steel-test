@@ -3,81 +3,271 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import site from "../../data/site.json";
 
 type LinkItem = { href: string; label: string };
-type ProductGroup = { title: string; items: LinkItem[] };
-type SpecRow = { label: string; values: string[] };
+type ProductGroup = { title: string; href: string; items?: LinkItem[]; specs?: { items: LinkItem[] }[] };
 
 const groups = (site.menus?.productGroups as ProductGroup[]) ?? [];
-const catalogSpecs = (site as { catalogSpecs?: Record<string, SpecRow[]> }).catalogSpecs ?? {};
-const defaultSpecs = catalogSpecs.default ?? [{ label: "ОПИСАНИЕ", values: ["Уточняется по запросу"] }];
 
-function getSpecKey(href: string): string {
-  if (href.includes("sistemy") || href.includes("otkrytye") || href.includes("zakrytye")) return "metallokassety";
-  if (href.includes("reshetki")) return "reshetki";
-  if (href.includes("okonnye") || href.includes("parapet") || href.includes("profil") || href.includes("otlivy") || href.includes("otkosy") || href.includes("ugly") || href.includes("endova") || href.includes("vetrovaya") || href.includes("akvilony")) return "fasonnye";
-  return "default";
+function getItemCount(g: ProductGroup): number {
+  const fromItems = g.items?.length ?? 0;
+  const fromSpecs = g.specs?.reduce((a, s) => a + (s.items?.length ?? 0), 0) ?? 0;
+  return Math.max(fromItems, fromSpecs) || (fromItems + fromSpecs) || 1;
 }
 
-const firstGroup = groups[0];
-const firstItem = firstGroup?.items?.[0];
-const currentTitle = firstGroup?.title ?? "Продукция";
-const currentHref = firstItem?.href ?? "/produkciya/";
-const specs = catalogSpecs[getSpecKey(currentHref)] ?? defaultSpecs;
-
-const sidebarItems: { href: string; label: string; group: string }[] = [];
-groups.forEach((g) => {
-  g.items.forEach((i) => sidebarItems.push({ ...i, group: g.title }));
-});
+const icons: Record<string, string> = {
+  "Металлокассеты": "◼",
+  "Фасонные изделия": "◢",
+  "Решётки": "▦",
+  "Поддоны для бетонных дорожек": "▬",
+  "Короба для кондиционеров": "▣",
+  "Кровельные элементы": "△",
+  "Колпаки": "▲",
+  "Экраны для радиаторов": "▤",
+};
 ---
 
-<BaseLayout title={`Продукция — ${site.company.name}`} description="Каталог продукции: металлокассеты, фасонные изделия, решётки.">
-  <div class="catalog-layout">
-    <aside class="catalog-sidebar">
-      <nav class="catalog-nav" aria-label="Каталог продукции">
-        {groups.map((g, gi) => (
-          <div class="catalog-nav-group">
-            <div class="catalog-nav-group-title">{g.title}</div>
-            {g.items.map((i, ii) => (
-              <a class="catalog-nav-item" href={i.href} aria-current={gi === 0 && ii === 0 ? "page" : undefined}>{i.label}</a>
-            ))}
-          </div>
-        ))}
-        <div class="catalog-nav-group">
-          <a class="catalog-nav-item" href="/uslugi/">Услуги</a>
-          <a class="catalog-nav-item" href="/kompaniya/stati/">Статьи</a>
-        </div>
-      </nav>
-    </aside>
+<BaseLayout title="Продукция — СтилФас" description="Каталог продукции: металлокассеты, фасонные изделия, решётки, короба, колпаки и другое.">
 
-    <main class="catalog-main">
-      <h1 class="catalog-title">{currentTitle}</h1>
+  <nav class="pr-breadcrumbs">
+    <a href="/">Главная</a><span>/</span>
+    <span class="pr-current">Продукция</span>
+  </nav>
 
-      <div class="catalog-specs">
-        {specs.map((row) => (
-          <div class="spec-row">
-            <div class="spec-label">{row.label}</div>
-            <div class="spec-values">{row.values.join(", ")}</div>
+  <section class="pr-hero">
+    <span class="pr-badge">Каталог</span>
+    <h1>Продукция</h1>
+    <p>Полный спектр фасадных металлокассет, фасонных изделий и металлических конструкций</p>
+    <div class="pr-hero-actions">
+      <a class="pr-btn pr-btn-primary" href="/kalkulyator/">Рассчитать стоимость</a>
+      <a class="pr-btn pr-btn-outline" href="/katalog/">Скачать каталог</a>
+    </div>
+  </section>
+
+  <section class="pr-section">
+    <div class="pr-grid">
+      {groups.map((group) => {
+        const count = getItemCount(group);
+        const icon = icons[group.title] ?? "▢";
+        return (
+          <div class="pr-card">
+            <a href={group.href} class="pr-card-top">
+              <div class="pr-card-icon">{icon}</div>
+              <h2 class="pr-card-title">{group.title}</h2>
+              <span class="pr-card-count">{count} {count === 1 ? "позиция" : count < 5 ? "позиции" : "позиций"}</span>
+              <span class="pr-card-arrow">Перейти →</span>
+            </a>
+            {group.items && group.items.length > 0 && (
+              <ul class="pr-card-links">
+                {group.items.slice(0, 4).map((i) => (
+                  <li><a href={i.href}>{i.label}</a></li>
+                ))}
+                {group.items.length > 4 && <li class="pr-card-more">+{group.items.length - 4}</li>}
+              </ul>
+            )}
           </div>
-        ))}
+        );
+      })}
+    </div>
+  </section>
+
+  <section class="pr-cta">
+    <div class="pr-cta-inner">
+      <h2>Нужна консультация?</h2>
+      <p>Поможем подобрать решение под ваш объект — оставьте заявку или напишите в ИИ-консультант</p>
+      <div class="pr-cta-actions">
+        <a class="pr-btn pr-btn-primary" href="/zayavka/">Оставить заявку</a>
+        <a class="pr-btn pr-btn-outline" href="/ai-konsultaciya/">ИИ‑консультант</a>
       </div>
+    </div>
+  </section>
 
-      <section class="catalog-cta" aria-label="Обратная связь">
-        <div class="catalog-cta-content">
-          <div class="catalog-cta-text">
-            <strong>Не нашли, что искали?</strong>
-            <span class="muted">Вам перезвонят в течение 5 минут</span>
-          </div>
-          <form class="catalog-cta-form" action="/api/lead" method="post">
-            <input type="hidden" name="type" value="Обратная связь" />
-            <input type="hidden" name="context" value="Каталог" />
-            <input type="hidden" name="page" value={Astro.url.pathname} />
-            <input type="hidden" name="variant" value="phoneOnly" />
-            <input type="tel" name="phone" placeholder="Телефон" required autocomplete="tel" class="catalog-cta-input" />
-            <button type="submit" class="btn primary catalog-cta-btn" aria-label="Отправить">
-              →
-            </button>
-          </form>
-        </div>
-      </section>
-    </main>
-  </div>
 </BaseLayout>
+
+<style>
+  .pr-breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #94a3b8;
+    margin-bottom: 24px;
+  }
+  .pr-breadcrumbs a {
+    color: #64748b;
+    text-decoration: none;
+  }
+  .pr-breadcrumbs a:hover { color: #b91c1c; }
+  .pr-current { color: #1e293b; font-weight: 500; }
+
+  .pr-hero {
+    background: linear-gradient(135deg, #1a0505 0%, #7f1d1d 100%);
+    border-radius: 20px;
+    padding: 48px 40px;
+    margin-bottom: 40px;
+    color: #fff;
+  }
+  .pr-badge {
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 16px;
+  }
+  .pr-hero h1 {
+    font-size: 38px;
+    font-weight: 800;
+    margin: 0 0 12px;
+    letter-spacing: -0.02em;
+  }
+  .pr-hero p {
+    font-size: 16px;
+    color: rgba(255,255,255,0.75);
+    margin: 0 0 24px;
+    line-height: 1.6;
+  }
+  .pr-hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .pr-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .pr-btn-primary {
+    background: #b91c1c;
+    color: #fff;
+  }
+  .pr-btn-primary:hover { background: #991b1b; }
+  .pr-btn-outline {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+  .pr-btn-outline:hover { background: rgba(255,255,255,0.1); }
+
+  .pr-section { margin-bottom: 40px; }
+
+  .pr-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .pr-card {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 16px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .pr-card:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    border-color: rgba(185,28,28,0.2);
+  }
+  .pr-card-top {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    margin-bottom: 12px;
+  }
+  .pr-card-top:hover .pr-card-title { color: #b91c1c; }
+  .pr-card-icon {
+    font-size: 32px;
+    margin-bottom: 14px;
+    color: #b91c1c;
+    opacity: 0.8;
+  }
+  .pr-card-title {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 0 0 6px;
+    color: #1e293b;
+  }
+  .pr-card-count {
+    font-size: 13px;
+    color: #94a3b8;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .pr-card-links {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px;
+    flex: 1;
+  }
+  .pr-card-links li { margin-bottom: 4px; }
+  .pr-card-links a {
+    font-size: 13px;
+    color: #64748b;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .pr-card-links a:hover { color: #b91c1c; }
+  .pr-card-more { font-size: 12px; color: #94a3b8; }
+  .pr-card-arrow {
+    font-size: 13px;
+    font-weight: 600;
+    color: #b91c1c;
+  }
+
+  .pr-cta {
+    margin-bottom: 24px;
+  }
+  .pr-cta-inner {
+    background: linear-gradient(135deg, #1e293b, #334155);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    color: #fff;
+  }
+  .pr-cta h2 {
+    font-size: 24px;
+    font-weight: 800;
+    margin: 0 0 8px;
+  }
+  .pr-cta p {
+    color: rgba(255,255,255,0.7);
+    margin: 0 0 20px;
+    font-size: 15px;
+  }
+  .pr-cta-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .pr-cta .pr-btn-outline {
+    color: rgba(255,255,255,0.9);
+    border-color: rgba(255,255,255,0.25);
+  }
+  .pr-cta .pr-btn-outline:hover {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+  }
+
+  @media (max-width: 1024px) {
+    .pr-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .pr-hero { padding: 28px var(--pad, 16px); border-radius: 14px; }
+    .pr-hero h1 { font-size: 24px; }
+    .pr-hero p { font-size: 15px; }
+    .pr-hero-actions { flex-direction: column; gap: 10px; }
+    .pr-hero-actions .pr-btn { width: 100%; justify-content: center; min-height: 48px; }
+    .pr-grid { grid-template-columns: 1fr; gap: 16px; }
+    .pr-cta-inner { padding: 24px var(--pad, 16px); }
+    .pr-cta h2 { font-size: 20px; }
+    .pr-cta-actions { flex-direction: column; }
+    .pr-cta-actions .pr-btn { width: 100%; justify-content: center; min-height: 48px; }
+  }
+</style>

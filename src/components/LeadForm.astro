@@ -1,4 +1,6 @@
 ---
+import site from '../data/site.json';
+
 type Props = {
   type: "Расчёт" | "Консультация" | "Обратная связь" | "Запрос документации";
   context?: string;
@@ -6,10 +8,12 @@ type Props = {
 };
 
 const { type, context, variant = "full" } = Astro.props;
-const action = "/api/lead";
+const isDemo = import.meta.env.PUBLIC_DEMO === 'true';
+const contactMsg = `Демо-версия: заявка не отправляется. Для связи: ${site.contacts.phone} или ${site.contacts.email}`;
+const action = isDemo ? '#' : '/api/lead';
 ---
 
-<form class="form" action={action} method="post" enctype="multipart/form-data">
+<form class="form" action={action} method="post" enctype="multipart/form-data" data-demo={isDemo || undefined} data-demo-msg={isDemo ? contactMsg : undefined}>
   <input type="hidden" name="type" value={type} />
   <input type="hidden" name="context" value={context ?? ""} />
   <input type="hidden" name="page" value={Astro.url.pathname} />
@@ -84,4 +88,15 @@ const action = "/api/lead";
     </>
   )}
 </form>
+
+{isDemo && (
+  <script>
+    document.querySelectorAll('form[data-demo]').forEach(form => {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert(form.dataset.demoMsg ?? 'Демо: заявка не отправляется');
+      });
+    });
+  </script>
+)}
 

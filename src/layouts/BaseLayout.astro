@@ -17,6 +17,8 @@ const title = Astro.props.title ?? site.seo.defaultTitle;
 const description = Astro.props.description ?? site.seo.defaultDescription;
 const canonical = Astro.props.canonical;
 const noindex = Astro.props.noindex;
+const isDemo = import.meta.env.PUBLIC_DEMO === 'true';
+const demoMsg = isDemo ? `Демо-версия: заявка не отправляется. Для связи: ${site.contacts.phone} или ${site.contacts.email}` : '';
 ---
 
 <!doctype html>
@@ -31,7 +33,7 @@ const noindex = Astro.props.noindex;
     <meta name="generator" content={Astro.generator} />
     <Seo title={title} description={description} canonical={canonical} noindex={noindex} />
   </head>
-  <body>
+  <body data-demo={isDemo || undefined} data-demo-msg={demoMsg}>
     <Header />
     <main class="main">
       <div class="container">
@@ -40,6 +42,18 @@ const noindex = Astro.props.noindex;
     </main>
     <Footer />
     <AiChatWidget />
+    {isDemo && (
+      <script>
+        document.querySelectorAll('form[action*="/api/lead"]').forEach(form => {
+          form.setAttribute('action', '#');
+          form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const msg = document.body.dataset.demoMsg ?? 'Демо: заявка не отправляется';
+            alert(msg);
+          });
+        });
+      </script>
+    )}
   </body>
 </html>
 

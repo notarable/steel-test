@@ -19,7 +19,7 @@ const policies = (site.menus?.policies as LinkItem[]) ?? [];
     <hr class="hr" />
     <div style="padding-top: 18px" class="footer-grid">
       <div>
-        <div class="h3">{site.company.name}</div>
+        <div class="h3">СтилФас</div>
         <p class="muted" style="margin: 8px 0 0">{site.company.legalHint}</p>
         <p class="muted" style="margin: 8px 0 0">{site.company.about}</p>
         <p class="muted" style="margin: 10px 0 0">
@@ -40,19 +40,19 @@ const policies = (site.menus?.policies as LinkItem[]) ?? [];
       <div>
         <div class="h3">Услуги</div>
         <div class="grid" style="margin-top: 10px; gap: 6px">
-          {services.slice(0, 6).map((s) => (
+          {services.map((s) => (
             <a href={`/uslugi/${s.slug}/`}>{s.title}</a>
           ))}
         </div>
       </div>
 
       <div>
-        <div class="h3">Продукция</div>
+        <div class="h3">Полезное</div>
         <div class="grid" style="margin-top: 10px; gap: 6px">
-          {productGroups.flatMap((g) => g.items).slice(0, 8).map((i) => (
-            <a href={i.href}>{i.label}</a>
-          ))}
-          <a href="/produkciya/">Вся продукция</a>
+          <a href="/kalkulyator/">Калькулятор стоимости</a>
+          <a href="/ai-konsultaciya/">ИИ‑консультант</a>
+          <a href="/produkciya/">Продукция</a>
+          <a href="/obekty/">Наши объекты</a>
         </div>
       </div>
 
@@ -73,7 +73,7 @@ const policies = (site.menus?.policies as LinkItem[]) ?? [];
       <hr class="hr" />
       <div style="display:flex; gap:14px; flex-wrap:wrap; align-items:center; justify-content:space-between">
         <p class="muted" style="margin: 0">
-          © {year} {site.company.name}. {site.company.region.baseCity} / РФ.
+          © {year} СтилФас. {site.company.region.baseCity} / РФ.
         </p>
         <div style="display:flex; gap:12px; flex-wrap:wrap">
           {policies.map((p) => (
