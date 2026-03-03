@@ -11,8 +11,9 @@ const REPO_NAME = process.env.REPO_NAME ?? 'Steel';
 // https://astro.build/config
 export default defineConfig({
 	site: `https://${GITHUB_USER}.github.io`,
-	base: `/${REPO_NAME}`,
+	base: `/${REPO_NAME}/`,
 	output: 'static',
+	trailingSlash: 'always',
 	integrations: [sitemap()],
 	vite: {
 		define: {

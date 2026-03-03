@@ -45,7 +45,7 @@ const telHref = (phone: string) => `tel:${String(phone).replace(/[^+0-9]/g, "")}
       <a class="brand" href="/" aria-label={site.company.name}>
         <img
           class="brand-logo"
-          src="/logo-steelfas.png"
+          src={`${import.meta.env.BASE_URL}logo-steelfas.png`.replace(/\/\//g, '/')}
           alt="Steelfas"
           loading="eager"
           decoding="async"
