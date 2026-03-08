@@ -14,6 +14,13 @@ type Slide = {
 const slides = (site.media.heroSlides as Slide[]) ?? [];
 const home = site.home;
 const productGroups = (site.menus?.productGroups as any[]) ?? [];
+
+const web3Key = site.form?.web3formsAccessKey;
+const useWeb3Forms = web3Key && String(web3Key).trim().length > 0;
+const formEmail = site.form?.email || site.contacts.salesEmail;
+const useFormSubmit = !useWeb3Forms && site.form?.useFormSubmit && formEmail;
+const formAction = useWeb3Forms ? 'https://api.web3forms.com/submit' : (useFormSubmit && formEmail ? `https://formsubmit.co/${encodeURIComponent(formEmail)}` : "/api/lead");
+const siteUrl = site.siteUrl || "https://steelfasad.example";
 ---
 
 <BaseLayout title={site.seo.defaultTitle} description={site.seo.defaultDescription}>
@@ -329,10 +336,28 @@ const productGroups = (site.menus?.productGroups as any[]) ?? [];
 				</div>
 				<div class="hp-cta-form">
 					<h3>Быстрая заявка</h3>
-					<form>
+					<form action={formAction} method="post" enctype="multipart/form-data">
+						{useWeb3Forms && (
+							<>
+								<input type="hidden" name="access_key" value={web3Key} />
+								<input type="hidden" name="subject" value="[Расчёт] Steelfas — заявка с главной" />
+								<input type="hidden" name="redirect" value="" />
+							</>
+						)}
+						{useFormSubmit && (
+							<>
+								<input type="hidden" name="_next" value={`${siteUrl}/spasibo/?type=${encodeURIComponent("Расчёт")}`} />
+								<input type="hidden" name="_subject" value="[Расчёт] Steelfas — заявка с главной" />
+								<input type="hidden" name="_captcha" value="false" />
+							</>
+						)}
+						<input type="hidden" name="type" value="Расчёт" />
+						<input type="hidden" name="context" value="Главная" />
+						<input type="hidden" name="page" value="/" />
 						<input type="text" name="name" placeholder="Ваше имя" class="hp-input" autocomplete="name" />
 						<input type="tel" name="phone" placeholder="Телефон" class="hp-input" required autocomplete="tel" />
 						<input type="text" name="city" placeholder="Город / Объект" class="hp-input" />
+						<p class="form-pdp-consent">Нажимая кнопку «Отправить», вы даёте своё согласие на обработку персональных данных в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ «О персональных данных» на условиях и для целей, определённых в Согласии на обработку персональных данных.</p>
 						<button type="submit" class="hp-btn hp-btn-primary hp-btn-full">Отправить заявку</button>
 					</form>
 					<p class="hp-form-hint">Или позвоните: <a href={`tel:${site.contacts.phone.replace(/[\s()-]/g, '')}`}>{site.contacts.phone}</a></p>

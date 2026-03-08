@@ -1,0 +1,37 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import site from "../../data/site.json";
+
+const formEmail = site.form?.email || site.contacts.salesEmail;
+const siteUrl = site.siteUrl || "http://localhost:4321";
+---
+<BaseLayout title="Тест формы" description="Проверка FormSubmit" noindex>
+  <section class="surface card" style="max-width: 500px; margin: 2rem auto">
+    <h1>Тест формы заявки</h1>
+    <p class="muted" style="margin: 10px 0">
+      Минимальная форма для проверки FormSubmit. Email: <strong>{formEmail}</strong>
+    </p>
+    <form action={`https://formsubmit.co/${encodeURIComponent(formEmail)}`} method="post" style="margin-top: 20px">
+      <input type="hidden" name="_next" value={`${siteUrl}/spasibo/?type=Тест`} />
+      <input type="hidden" name="_subject" value="[Тест] Steelfas — проверка формы" />
+      <input type="hidden" name="_captcha" value="false" />
+      <div style="margin-bottom: 12px">
+        <label>Телефон *</label>
+        <input type="tel" name="phone" required placeholder="+7 999 123-45-67" style="width: 100%; padding: 8px; margin-top: 4px" />
+      </div>
+      <div style="margin-bottom: 12px">
+        <label>Имя</label>
+        <input type="text" name="name" placeholder="Как к вам обращаться" style="width: 100%; padding: 8px; margin-top: 4px" />
+      </div>
+      <p class="form-pdp-consent" style="margin-top: 10px">Нажимая кнопку «Отправить», вы даёте своё согласие на обработку персональных данных в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ «О персональных данных» на условиях и для целей, определённых в Согласии на обработку персональных данных.</p>
+      <button type="submit" class="btn primary">Отправить тест</button>
+    </form>
+    <hr style="margin: 24px 0; border: none; border-top: 1px solid #e2e8f0" />
+    <p class="muted" style="font-size: 14px">
+      <strong>Если не работает:</strong><br/>
+      1. Проверьте папку «Спам» — FormSubmit при первом использовании присылает письмо с активацией.<br/>
+      2. Перейдите по ссылке в письме — после этого форма начнёт работать.<br/>
+      3. Mail.ru часто кладёт такие письма в спам.
+    </p>
+  </section>
+</BaseLayout>

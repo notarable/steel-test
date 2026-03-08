@@ -1,17 +1,20 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
-import netlify from '@astrojs/netlify';
+import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://steelfasad.example',
 	output: 'static',
-	adapter: netlify(),
+	adapter: vercel(),
 	integrations: [sitemap()],
 	vite: {
 		server: {
 			allowedHosts: true,
+		},
+		define: {
+			'import.meta.env.PUBLIC_DEMO': JSON.stringify('false'),
 		},
 	},
 });

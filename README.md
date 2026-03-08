@@ -35,7 +35,7 @@ npm run dev
 
 Путь: `/admin` (файлы в `public/admin`).
 
-Примечание: Decap CMS требует настроенного Git-backend (обычно Netlify Identity + Git Gateway) или локального сервера.
+Примечание: Decap CMS требует настроенного Git-backend (например Git Gateway) или локального сервера.
 Для локальной проверки UI можно использовать:
 
 ```bash

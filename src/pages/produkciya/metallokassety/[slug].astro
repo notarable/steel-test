@@ -42,6 +42,13 @@ const specLabels: Record<string, string> = {
 
 const specEntries = Object.entries(variant.specs) as [string, string][];
 
+const web3Key = site.form?.web3formsAccessKey;
+const useWeb3Forms = web3Key && String(web3Key).trim().length > 0;
+const formEmail = site.form?.email || site.contacts.salesEmail;
+const useFormSubmit = !useWeb3Forms && site.form?.useFormSubmit && formEmail;
+const formAction = useWeb3Forms ? 'https://api.web3forms.com/submit' : (useFormSubmit && formEmail ? `https://formsubmit.co/${encodeURIComponent(formEmail)}` : "/api/lead");
+const siteUrl = site.siteUrl || "https://steelfasad.example";
+
 type VariantItem = typeof allVariants[number];
 const otherGrouped: Record<string, VariantItem[]> = {};
 for (const v of otherCategories) {
@@ -192,13 +199,28 @@ const otherGroupedEntries = Object.entries(otherGrouped);
       </div>
       <div class="vp-cta-form">
         <h3>Быстрая заявка</h3>
-        <form action="/api/lead" method="post">
+        <form action={formAction} method="post" enctype="multipart/form-data">
+          {useWeb3Forms && (
+            <>
+              <input type="hidden" name="access_key" value={web3Key} />
+              <input type="hidden" name="subject" value="[Расчёт] Steelfas — заявка с сайта" />
+              <input type="hidden" name="redirect" value="" />
+            </>
+          )}
+          {useFormSubmit && (
+            <>
+              <input type="hidden" name="_next" value={`${siteUrl}/spasibo/?type=${encodeURIComponent("Расчёт")}`} />
+              <input type="hidden" name="_subject" value="[Расчёт] Steelfas — заявка с сайта" />
+              <input type="hidden" name="_captcha" value="false" />
+            </>
+          )}
           <input type="hidden" name="type" value="Расчёт" />
           <input type="hidden" name="context" value={variant.title} />
           <input type="hidden" name="page" value={Astro.url.pathname} />
           <input type="text" name="name" placeholder="Ваше имя" class="vp-input" autocomplete="name" />
           <input type="tel" name="phone" placeholder="Телефон" class="vp-input" required autocomplete="tel" />
           <input type="text" name="city" placeholder="Город / Объект" class="vp-input" />
+          <p class="form-pdp-consent">Нажимая кнопку «Отправить», вы даёте своё согласие на обработку персональных данных в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ «О персональных данных» на условиях и для целей, определённых в Согласии на обработку персональных данных.</p>
           <button type="submit" class="btn primary vp-btn vp-btn-full">Отправить заявку</button>
         </form>
         <p class="vp-form-hint">Или позвоните: <a href={`tel:${site.contacts.phone.replace(/[\s()-]/g, '')}`}>{site.contacts.phone}</a></p>

@@ -10,10 +10,37 @@ type Props = {
 const { type, context, variant = "full" } = Astro.props;
 const isDemo = import.meta.env.PUBLIC_DEMO === 'true';
 const contactMsg = `Демо-версия: заявка не отправляется. Для связи: ${site.contacts.phone} или ${site.contacts.email}`;
-const action = isDemo ? '#' : '/api/lead';
+
+// Web3Forms — надёжнее FormSubmit, нужен access key с web3forms.com
+// FormSubmit.co — бесплатно без регистрации
+const web3Key = site.form?.web3formsAccessKey;
+const useWeb3Forms = web3Key && String(web3Key).trim().length > 0;
+const formEmail = site.form?.email || site.contacts.salesEmail;
+const useFormSubmit = !useWeb3Forms && site.form?.useFormSubmit && formEmail;
+const formSubmitUrl = useFormSubmit && formEmail
+  ? `https://formsubmit.co/${encodeURIComponent(formEmail)}`
+  : null;
+const web3FormsUrl = useWeb3Forms ? 'https://api.web3forms.com/submit' : null;
+
+const action = isDemo ? '#' : (web3FormsUrl || formSubmitUrl || '/api/lead');
+const siteUrl = site.siteUrl || Astro.url.origin || '';
 ---
 
 <form class="form" action={action} method="post" enctype="multipart/form-data" data-demo={isDemo || undefined} data-demo-msg={isDemo ? contactMsg : undefined}>
+  {useWeb3Forms && (
+    <>
+      <input type="hidden" name="access_key" value={web3Key} />
+      <input type="hidden" name="subject" value={`[${type}] Steelfas — заявка с сайта`} />
+      <input type="hidden" name="redirect" value="" />
+    </>
+  )}
+  {formSubmitUrl && (
+    <>
+      <input type="hidden" name="_next" value={`${siteUrl}/spasibo/?type=${encodeURIComponent(type)}`} />
+      <input type="hidden" name="_subject" value={`[${type}] Steelfas — заявка с сайта`} />
+      <input type="hidden" name="_captcha" value="false" />
+    </>
+  )}
   <input type="hidden" name="type" value={type} />
   <input type="hidden" name="context" value={context ?? ""} />
   <input type="hidden" name="page" value={Astro.url.pathname} />
@@ -31,6 +58,7 @@ const action = isDemo ? '#' : '/api/lead';
         <input id="name" name="name" autocomplete="name" />
       </div>
       <input type="hidden" name="message" value="Просьба связаться/перезвонить. Параметры уточнить по телефону." />
+      <p class="form-pdp-consent">{site.form?.pdpConsent ?? "Нажимая кнопку «Отправить», вы даёте своё согласие на обработку персональных данных в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ «О персональных данных» на условиях и для целей, определённых в Согласии на обработку персональных данных."}</p>
       <button class="btn primary" type="submit">Оставить номер</button>
     </>
   ) : (
@@ -84,6 +112,7 @@ const action = isDemo ? '#' : '/api/lead';
         <div class="hint">PDF/DWG/DXF/изображения. Ограничение обычно задаётся на сервере.</div>
       </div>
 
+      <p class="form-pdp-consent">{site.form?.pdpConsent ?? "Нажимая кнопку «Отправить», вы даёте своё согласие на обработку персональных данных в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ «О персональных данных» на условиях и для целей, определённых в Согласии на обработку персональных данных."}</p>
       <button class="btn primary" type="submit">Отправить</button>
     </>
   )}
@@ -94,7 +123,10 @@ const action = isDemo ? '#' : '/api/lead';
     document.querySelectorAll('form[data-demo]').forEach(form => {
       form.addEventListener('submit', (e) => {
         e.preventDefault();
-        alert(form.dataset.demoMsg ?? 'Демо: заявка не отправляется');
+        const msg = form.dataset.demoMsg ?? 'Демо: заявка не отправляется';
+        if (typeof window.showThankModal === 'function') {
+          window.showThankModal({ icon: '!', title: 'Демо-режим', text: msg, isError: true });
+        }
       });
     });
   </script>

@@ -10,18 +10,27 @@
       "country": "Россия"
     }
   },
+  "form": {
+    "service": "web3forms",
+    "web3formsAccessKey": "",
+    "useFormSubmit": true,
+    "email": "2512017@mail.ru",
+    "pdpConsent": "Нажимая кнопку «Отправить», вы даёте своё согласие на обработку персональных данных в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ «О персональных данных» на условиях и для целей, определённых в Согласии на обработку персональных данных."
+  },
   "contacts": {
-    "phone": "+7 (343) 000-00-00",
-    "email": "info@steelfasad.example",
-    "salesEmail": "sales@steelfasad.example",
+    "phone": "+7 (912) 297-39-09",
+    "telegram": "https://t.me/steelfas",
+    "max": "https://max.vk.com/steelfas",
+    "email": "2512017@mail.ru",
+    "salesEmail": "2512017@mail.ru",
     "phones": [
       {
-        "phone": "+7 (922) 000-00-00",
+        "phone": "+7 (912) 297-39-09",
         "hint": "Написать нам в чате",
         "action": "/ai-konsultaciya/"
       },
       {
-        "phone": "+7 (800) 000-00-00",
+        "phone": "+7 (912) 297-39-09",
         "hint": "Заказать обратный звонок",
         "action": "/#callback"
       }
@@ -42,6 +51,10 @@
       { "href": "/kalkulyator/", "label": "Расчёт стоимости" },
       { "href": "/ai-konsultaciya/", "label": "ИИ‑консультант" }
     ]
+  },
+  "siteUrl": "http://localhost:4321",
+  "yandexMetrika": {
+    "counterId": ""
   },
   "seo": {
     "defaultTitle": "Steelfas — фасадные металлокассеты",

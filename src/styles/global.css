@@ -363,11 +363,18 @@ textarea {
   border-bottom: 1px solid var(--line);
 }
 
-.header-top-inner,
-.header_main-inner {
+.header-top-inner {
   display: grid;
   grid-template-columns: auto 1fr auto;
   gap: 16px;
+  align-items: center;
+  padding: 14px 0;
+}
+
+.header_main-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 24px;
   align-items: center;
   padding: 14px 0;
 }
@@ -391,7 +398,7 @@ textarea {
 .top-links {
   display: flex;
   gap: 14px;
-  justify-content: flex-end;
+  margin-left: auto;
   flex-wrap: nowrap;
   white-space: nowrap;
 }
@@ -437,8 +444,47 @@ textarea {
   display: none;
 }
 
+.header-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  border-radius: 12px;
+  background: #b91c1c;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 2px 8px rgba(185, 28, 28, 0.35);
+}
+.header-cta:hover {
+  background: #991b1b;
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(185, 28, 28, 0.4);
+}
+
 .small {
   font-size: 12px;
+}
+
+.form-pdp-consent {
+  font-size: 11px;
+  line-height: 1.4;
+  color: #64748b;
+  margin-top: 10px;
+  max-width: 520px;
+}
+.form-pdp-consent a {
+  color: #64748b;
+  text-decoration: underline;
+}
+.form-pdp-consent a:hover {
+  color: #475569;
 }
 
 .header-sub,
@@ -519,7 +565,7 @@ textarea {
   text-decoration: none;
 }
 
-.tg-link {
+.contact-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -533,18 +579,31 @@ textarea {
   text-decoration: none;
   transition: all 0.15s;
 }
-.tg-link:hover {
+.contact-btn:hover {
   background: #b91c1c;
   color: #fff;
   border-color: #b91c1c;
 }
 
+
 @media (max-width: 900px) {
-  .header-top-inner,
-  .header_main-inner {
+  .header-top-inner {
     grid-template-columns: 1fr;
     gap: 10px;
     align-items: start;
+  }
+  .header_main-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .header_main-inner .top-links {
+    margin-left: 0;
+    order: 2;
+  }
+  .header_main-inner .header-cta {
+    order: 3;
+    text-align: center;
   }
   .brand-note {
     border-left: none;
@@ -1196,6 +1255,11 @@ button:hover, .btn:hover, .sub-btn:hover, a:hover {
     display: none;
   }
 
+  .header-cta {
+    padding: 16px 24px;
+    font-size: 15px;
+  }
+
   .top-links {
     gap: 8px;
     font-size: 14px;
@@ -1235,7 +1299,7 @@ button:hover, .btn:hover, .sub-btn:hover, a:hover {
     font-size: 15px;
   }
 
-  .tg-link {
+  .contact-btn {
     padding: 10px 14px;
     font-size: 14px;
   }

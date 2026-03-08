@@ -2,6 +2,13 @@
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import site from "../../../data/site.json";
 
+const web3Key = site.form?.web3formsAccessKey;
+const useWeb3Forms = web3Key && String(web3Key).trim().length > 0;
+const formEmail = site.form?.email || site.contacts.salesEmail;
+const useFormSubmit = !useWeb3Forms && site.form?.useFormSubmit && formEmail;
+const formAction = useWeb3Forms ? 'https://api.web3forms.com/submit' : (useFormSubmit && formEmail ? `https://formsubmit.co/${encodeURIComponent(formEmail)}` : "/api/lead");
+const siteUrl = site.siteUrl || "https://steelfasad.example";
+
 const seo = {
   title: "Фасадные металлокассеты — производство и монтаж | Steelfas",
   description: "Производство фасадных металлокассет открытого и закрытого типа в Екатеринбурге. Собственное производство, сертификаты, проектная поддержка. Расчёт за 1 день.",
@@ -360,10 +367,28 @@ const seo = {
         </div>
         <div class="mk-cta-form">
           <h3>Быстрая заявка</h3>
-          <form>
-            <input type="text" placeholder="Ваше имя" class="mk-input" />
-            <input type="tel" placeholder="Телефон" class="mk-input" />
-            <input type="text" placeholder="Город / Объект" class="mk-input" />
+          <form action={formAction} method="post" enctype="multipart/form-data">
+            {useWeb3Forms && (
+              <>
+                <input type="hidden" name="access_key" value={web3Key} />
+                <input type="hidden" name="subject" value="[Расчёт] Steelfas — заявка (металлокассеты)" />
+                <input type="hidden" name="redirect" value="" />
+              </>
+            )}
+            {useFormSubmit && (
+              <>
+                <input type="hidden" name="_next" value={`${siteUrl}/spasibo/?type=${encodeURIComponent("Расчёт")}`} />
+                <input type="hidden" name="_subject" value="[Расчёт] Steelfas — заявка (металлокассеты)" />
+                <input type="hidden" name="_captcha" value="false" />
+              </>
+            )}
+            <input type="hidden" name="type" value="Расчёт" />
+            <input type="hidden" name="context" value="Металлокассеты" />
+            <input type="hidden" name="page" value="/produkciya/metallokassety/" />
+            <input type="text" name="name" placeholder="Ваше имя" class="mk-input" autocomplete="name" />
+            <input type="tel" name="phone" placeholder="Телефон" class="mk-input" required autocomplete="tel" />
+            <input type="text" name="city" placeholder="Город / Объект" class="mk-input" />
+            <p class="form-pdp-consent">Нажимая кнопку «Отправить», вы даёте своё согласие на обработку персональных данных в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ «О персональных данных» на условиях и для целей, определённых в Согласии на обработку персональных данных.</p>
             <button type="submit" class="btn primary mk-btn-lg mk-btn-full">Отправить заявку</button>
           </form>
           <p class="mk-form-hint">Или позвоните: <a href="tel:+73430000000">{site.contacts.phone}</a></p>

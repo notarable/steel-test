@@ -1,0 +1,119 @@
+---
+---
+<div id="thankYouModal" class="thank-modal" role="dialog" aria-modal="true" aria-labelledby="thankModalTitle" hidden>
+  <div class="thank-modal-backdrop"></div>
+  <div class="thank-modal-content">
+    <div class="thank-modal-icon" id="thankModalIcon">✓</div>
+    <h2 id="thankModalTitle" class="thank-modal-title">Заявка принята</h2>
+    <p class="thank-modal-text" id="thankModalText">Спасибо! Мы свяжемся с вами в ближайшее время.</p>
+    <button type="button" class="btn primary thank-modal-btn" id="thankModalClose">Закрыть</button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const modal = document.getElementById('thankYouModal');
+    const closeBtn = document.getElementById('thankModalClose');
+    const iconEl = document.getElementById('thankModalIcon');
+    const titleEl = document.getElementById('thankModalTitle');
+    const textEl = document.getElementById('thankModalText');
+
+    window.showThankModal = function(opts) {
+      if (!modal) return;
+      if (opts) {
+        if (opts.icon !== undefined) iconEl.textContent = opts.icon;
+        if (opts.title) titleEl.textContent = opts.title;
+        if (opts.text) textEl.textContent = opts.text;
+        if (opts.isError) {
+          modal.classList.add('thank-modal-error');
+        } else {
+          modal.classList.remove('thank-modal-error');
+        }
+      } else {
+        iconEl.textContent = '✓';
+        titleEl.textContent = 'Заявка принята';
+        textEl.textContent = 'Спасибо! Мы свяжемся с вами в ближайшее время.';
+        modal.classList.remove('thank-modal-error');
+      }
+      modal.removeAttribute('hidden');
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    };
+
+    function hideModal() {
+      if (modal) {
+        modal.setAttribute('hidden', '');
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
+    }
+
+    closeBtn?.addEventListener('click', hideModal);
+    modal?.querySelector('.thank-modal-backdrop')?.addEventListener('click', hideModal);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hideModal(); });
+
+    if (window.location.hash === '#thankyou') window.showThankModal();
+  })();
+</script>
+
+<style>
+  .thank-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .thank-modal[hidden] {
+    display: none !important;
+    pointer-events: none;
+  }
+  .thank-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+  }
+  .thank-modal-content {
+    position: relative;
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+  .thank-modal-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 16px;
+    background: var(--accent);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 700;
+  }
+  .thank-modal-title {
+    margin: 0 0 8px;
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .thank-modal-text {
+    margin: 0 0 20px;
+    color: var(--muted);
+    font-size: 15px;
+  }
+  .thank-modal-btn {
+    min-width: 140px;
+  }
+  .thank-modal-error .thank-modal-icon {
+    background: var(--muted);
+  }
+</style>

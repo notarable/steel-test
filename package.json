@@ -6,14 +6,15 @@
     "dev": "astro dev",
     "build": "astro build",
     "build:gh": "node scripts/gh-build.js",
+    "build:sourcecraft": "node scripts/sourcecraft-build.js",
     "preview": "astro preview",
     "start": "node ./dist/server/entry.mjs",
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/netlify": "^6.6.4",
     "@astrojs/node": "^9.4.4",
     "@astrojs/sitemap": "^3.5.0",
+    "@astrojs/vercel": "^9.0.4",
     "astro": "^5.16.9",
     "nodemailer": "^6.9.16",
     "openai": "^6.25.0"

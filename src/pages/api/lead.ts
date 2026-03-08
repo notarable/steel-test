@@ -41,7 +41,15 @@ export async function POST({ request }: { request: Request }) {
 
   const redirectBack = getRedirectTarget(request, "/zayavka/?error=1");
 
+  const isAjax = request.headers.get("X-Requested-With") === "XMLHttpRequest";
+
   if (!phone && !email) {
+    if (isAjax) {
+      return new Response(JSON.stringify({ success: false, error: "Укажите телефон или email" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" }
+      });
+    }
     const url = new URL(redirectBack, request.url);
     url.searchParams.set("error", "1");
     return Response.redirect(url.toString(), 303);
@@ -116,11 +124,22 @@ export async function POST({ request }: { request: Request }) {
       attachments: attachments.length ? attachments : undefined
     });
 
-    return Response.redirect(`/spasibo/?type=${encodeURIComponent(type)}`, 303);
+    if (isAjax) {
+      return new Response(JSON.stringify({ success: true }), {
+        headers: { "Content-Type": "application/json" }
+      });
+    }
+    const redirectUrl = (redirectBack.split('#')[0] || '/') + '#thankyou';
+    return Response.redirect(redirectUrl, 303);
   }
 
   // Dev fallback: accept the lead but don't send email.
   console.warn("[lead] SMTP is not configured. Lead accepted in mock mode.");
-  return Response.redirect(`/spasibo/?type=${encodeURIComponent(type)}&mock=1`, 303);
+  if (isAjax) {
+    return new Response(JSON.stringify({ success: true }), {
+      headers: { "Content-Type": "application/json" }
+    });
+  }
+  const redirectUrl = (redirectBack.split('#')[0] || '/') + '#thankyou';
+  return Response.redirect(redirectUrl, 303);
 }
-

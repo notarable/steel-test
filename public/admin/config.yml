@@ -1,7 +1,7 @@
 local_backend: true
 
 backend:
-  # Для деплоя (например Netlify) обычно используется git-gateway.
+  # Для деплоя обычно используется git-gateway.
   # Для локальной разработки используйте: npx decap-server
   name: git-gateway
   branch: main

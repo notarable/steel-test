@@ -3,6 +3,12 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import site from "../../data/site.json";
 
 const phoneClean = site.contacts.phone.replace(/[\s()\-]/g, "");
+const web3Key = site.form?.web3formsAccessKey;
+const useWeb3Forms = web3Key && String(web3Key).trim().length > 0;
+const formEmail = site.form?.email || site.contacts.salesEmail;
+const useFormSubmit = !useWeb3Forms && site.form?.useFormSubmit && formEmail;
+const formAction = useWeb3Forms ? 'https://api.web3forms.com/submit' : (useFormSubmit && formEmail ? `https://formsubmit.co/${encodeURIComponent(formEmail)}` : "/api/lead");
+const siteUrl = site.siteUrl || "https://steelfasad.example";
 ---
 
 <BaseLayout title={`Контакты — ${site.company.name}`} description="Контакты производителя фасадных металлокассет Steelfas. Телефон, email, адрес производства. Екатеринбург / РФ.">
@@ -79,7 +85,21 @@ const phoneClean = site.contacts.phone.replace(/[\s()\-]/g, "");
         <p class="ct-form-desc">Опишите задачу — мы свяжемся и обсудим детали</p>
       </div>
 
-      <form class="ct-form" action="/api/lead" method="post">
+      <form class="ct-form" action={formAction} method="post" enctype="multipart/form-data">
+        {useWeb3Forms && (
+          <>
+            <input type="hidden" name="access_key" value={web3Key} />
+            <input type="hidden" name="subject" value="[Обратная связь] Steelfas — заявка с сайта" />
+            <input type="hidden" name="redirect" value="" />
+          </>
+        )}
+        {useFormSubmit && (
+          <>
+            <input type="hidden" name="_next" value={`${siteUrl}/spasibo/?type=${encodeURIComponent("Обратная связь")}`} />
+            <input type="hidden" name="_subject" value="[Обратная связь] Steelfas — заявка с сайта" />
+            <input type="hidden" name="_captcha" value="false" />
+          </>
+        )}
         <input type="hidden" name="type" value="Обратная связь" />
         <input type="hidden" name="context" value="Контакты" />
         <input type="hidden" name="page" value="/kontakty/" />
@@ -111,9 +131,8 @@ const phoneClean = site.contacts.phone.replace(/[\s()\-]/g, "");
           <textarea id="ct-message" name="message" rows="4" placeholder="Расскажите о вашем проекте: тип объекта, площадь фасада, материал, сроки..."></textarea>
         </div>
 
+        <p class="form-pdp-consent ct-privacy">Нажимая кнопку «Отправить», вы даёте своё согласие на обработку персональных данных в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ «О персональных данных» на условиях и для целей, определённых в Согласии на обработку персональных данных.</p>
         <button type="submit" class="ct-submit">Отправить заявку</button>
-
-        <p class="ct-privacy">Нажимая кнопку, вы соглашаетесь с <a href="/politika-konfidencialnosti/">политикой конфиденциальности</a></p>
       </form>
     </div>
 
